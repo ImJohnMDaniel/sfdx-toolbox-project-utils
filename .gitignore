@@ -1,8 +1,17 @@
 *-debug.log
 *-error.log
+.DS_Store
+/.history
 /.nyc_output
+/.vscode/settings.json
 /dist
 /lib
 /package-lock.json
+/referencedxproject/.sfdx
+/stuff
+/temp
 /tmp
 node_modules
+npm-shrinkwrap.json
+oclif.manifest.json
+yarn.lock
