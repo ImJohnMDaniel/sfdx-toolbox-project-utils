@@ -7,7 +7,7 @@
 /dist
 /lib
 /package-lock.json
-/referencedxproject/.sfdx
+
 /stuff
 /temp
 /tmp
@@ -15,3 +15,12 @@ node_modules
 npm-shrinkwrap.json
 oclif.manifest.json
 yarn.lock
+
+# reference DX project related
+/referencedxproject/.sfdx
+# ....SFDX SFDMU Plugin Related
+/referencedxproject/data/**/logs/
+/referencedxproject/data/**/source/
+/referencedxproject/data/**/target/
+/referencedxproject/data/**/MissingParentRecordsReport.csv
+/referencedxproject/data/**/CSVIssuesReport.csv
