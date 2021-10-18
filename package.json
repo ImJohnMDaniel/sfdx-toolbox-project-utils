@@ -42,16 +42,22 @@
   ],
   "license": "MIT",
   "oclif": {
-    "commands": "./lib/commands",
     "bin": "sfdx",
-    "topics": {
-      "hello": {
-        "description": "Commands to say hello."
-      }
-    },
+    "commands": "./lib/commands",
     "devPlugins": [
       "@oclif/plugin-help"
-    ]
+    ],
+    "topics": {
+      "toolbox": {
+        "description": "Commands focused on management of SalesforceDX projects"
+      },
+      "toolbox:project": {
+        "description": "Commands focused on building of SalesforceDX projects"
+      },
+      "toolbox:project:stage": {
+        "description": "Commands focused on building of SalesforceDX projects by specific stage"
+      }
+    }
   },
   "repository": "ImJohnMDaniel/sfdx-toolbox-project-utils",
   "scripts": {
