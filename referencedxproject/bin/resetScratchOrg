@@ -1,0 +1,14 @@
+#!/bin/bash
+sfdx force:org:delete -p 
+rm -R $TMPDIR/shape
+sfdx force:org:create -a foobar -d 1 -f config/foobar-project-scratch-def.json -n -s 
+sfdx force:data:record:update -s Organization -w "Name='FOOBAR Company'" -v "TimeZoneSidKey='America/New_York'" 
+sfdx force:data:record:update -s User -w "Name='User User'" -v "TimeZoneSidKey='America/New_York'" 
+sfdx force:data:record:update -s User -w "Name='Jon Amos'" -v "IsActive=false" 
+sfdx force:apex:execute -f scripts/scrubDataFromDXScratchOrg.apex
+sfdx toolbox:package:dependencies:install 
+sfdx force:source:push 
+sfdx force:apex:execute -f scripts/configureForceDIBindingCache.apex
+sfdx force:source:deploy --sourcepath sfdx-source/unpackaged-post-deployment
+sfdx force:user:permset:assign -n FooBarAccess 
+sfdx sfdmu:run -s csvfile -u foobar -p data/Accounts

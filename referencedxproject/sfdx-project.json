@@ -1,0 +1,108 @@
+{
+  "packageDirectories": [
+    {
+      "path": "sfdx-source/unpackaged",
+      "default": true,
+      "definitionFile": "config/foobar-project-scratch-def.json",
+      "dependencies": [
+        {
+          "package": "steampunk-fflib-apex-mocks@1.0.0-10"
+        },
+        {
+          "package": "steampunk-fflib-apex-common@1.0.0-16"
+        },
+        {
+          "package": "steampunk-force-di@1.0.0-8"
+        },
+        {
+          "package": "steampunk-at4dx@1.0.0-15"
+        }
+      ]
+    }
+  ],
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "53.0",
+  "plugins": {
+    "toolbox": {
+      "coverageRequirement": {
+        "classes": "90",
+        "org": "75",
+        "ignoreClassCoverage": false,
+        "ignoreOrgCoverage": false,
+        "throwErrorOnInsufficientOrgCoverage": false,
+        "throwErrorOnInsufficientClassCoverage": false
+      },
+      "project": {
+        "builder": {
+          "stages": {
+            "initialize": [
+              {
+                "buildStepType": "ForceDataRecordUpdate",
+                "params": "-s Organization -w \"Name='FOOBAR Company'\" -v \"TimeZoneSidKey='America/New_York'\""
+              },
+              {
+                "buildStepType": "ForceDataRecordUpdate",
+                "params": "-s User -w \"Name='User User'\" -v \"TimeZoneSidKey='America/New_York'\""
+              },
+              {
+                "buildStepType": "ForceDataRecordUpdate",
+                "params": "-s User -w \"Name='Jon Amos'\" -v \"IsActive=false\""
+              },
+              {
+                "buildStepType": "ForceApexExecute",
+                "apexcodefile": "scripts/scrubDataFromDXScratchOrg.apex"
+              }
+            ],
+            "processResources": [],
+            "compile": [
+              {
+                "buildStepType": "ForceApexExecute",
+                "apexcodefile": "scripts/configureForceDIBindingCache.apex"
+              },
+              {
+                "buildStepType": "ForceMdapiDeploy",
+                "deploydir": "sfdx-source/unpackaged-post-deployment",
+                "postDeployAndSetup": true
+              }
+            ],
+            "test": [
+              {
+                "buildStepType": "ForceUserPermsetAssign",
+                "scope": "CI",
+                "permsetname": "FooBarAccess"
+              },
+              {
+                "buildStepType": "thread",
+                "buildSteps": [
+                  {
+                    "buildStepType": "SfdmuRun",
+                    "path": "data/Accounts"
+                  }
+                ]
+              },
+              {
+                "buildStepType": "thread",
+                "buildSteps": [
+                  {
+                    "buildStepType": "ForceApexTestRun"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "packageAliases": {
+    "steampunk-fflib-apex-mocks": "0Ho5A000000PB2ISAW",
+    "steampunk-fflib-apex-common": "0Ho5A000000PB2NSAW",
+    "steampunk-force-di": "0Ho5A000000PB2SSAW",
+    "steampunk-at4dx": "0Ho5A000000PB2hSAG",
+    "steampunk-fflib-apex-mocks@1.0.0-10": "04t5A000001xzMjQAI",
+    "steampunk-fflib-apex-common@1.0.0-16": "04t5A000001xzN3QAI",
+    "steampunk-force-di@1.0.0-8": "04t5A000001xzMpQAI",
+    "steampunk-at4dx@1.0.0-15": "04t5A000001xzN8QAI"
+  }
+}
