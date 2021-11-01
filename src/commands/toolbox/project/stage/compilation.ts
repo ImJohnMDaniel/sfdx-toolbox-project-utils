@@ -36,6 +36,8 @@ export default class Compilation extends SfdxCommand {
     public async run(): Promise<AnyJson> {
         this.ux.log('TODO Need to implement toolbox:project:stage:compilation command');
 
+        // TODO: Figure out how to check for a build marker and advance to that point in the process
+
         // Return an object to be displayed with --json
         // return { orgId: this.org.getOrgId(), outputString };
         return;

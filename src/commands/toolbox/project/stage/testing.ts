@@ -36,8 +36,13 @@ export default class Testing extends SfdxCommand {
     public async run(): Promise<AnyJson> {
         this.ux.log('TODO Need to implement toolbox:project:stage:testing command');
 
-        // Return an object to be displayed with --json
-        // return { orgId: this.org.getOrgId(), outputString };
+        // TODO: Figure out how to check for a build marker and advance to that point in the process
+
+        // TODO: implement a BuildStep of unit test execution
+        // TODO: implement a BuildStep of a data load execution (if required)
+        // TODO: implement a BuildStep of a Apex PMD execution (if required)
+        // TODO: implement a way to execute the BuildSteps in parallel as required.
+
         return;
     }
 }

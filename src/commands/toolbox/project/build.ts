@@ -1,6 +1,11 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
+import Initialization from '../project/stage/initialization';
+import Processresources from './stage/processresources';
+import Compilation from './stage/compilation';
+import Testing from './stage/testing';
+import Validation from './stage/validation';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -36,8 +41,28 @@ export default class Build extends SfdxCommand {
     public async run(): Promise<AnyJson> {
         this.ux.log('TODO Need to implement toolbox:project:build command');
 
-        // Return an object to be displayed with --json
-        // return { orgId: this.org.getOrgId(), outputString };
+        // TODO: Figure out how to check for a build marker and advance to that point in the process
+
+        // call the validation stage
+        const validationStageArgs = [];
+        await Validation.run(validationStageArgs);
+
+        // call the initialization stage
+        const initializationStageArgs = [];
+        await Initialization.run(initializationStageArgs);
+
+        // call the Processresources stage
+        const processresourcesStageArgs = [];
+        await Processresources.run(processresourcesStageArgs);
+
+        // call the Compilation stage
+        const compilationArgs = [];
+        await Compilation.run(compilationArgs);
+
+        // call the Testing stage
+        const testingStageArgs = [];
+        await Testing.run(testingStageArgs);
+
         return;
     }
 }
