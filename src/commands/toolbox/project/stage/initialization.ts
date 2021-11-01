@@ -1,6 +1,8 @@
 import { flags, SfdxCommand } from '@salesforce/command';
-import { Messages } from '@salesforce/core';
+import { Messages, SfdxProjectJson } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
+import * as _ from 'lodash';
+import InitizalizationStage from '../../../../shared/buildstages/initialization';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -36,10 +38,12 @@ export default class Initialization extends SfdxCommand {
     public async run(): Promise<AnyJson> {
         this.ux.log('TODO Need to implement toolbox:project:stage:initialization command');
 
-        // TODO: Figure out how to check for a build marker and advance to that point in the process
+        const projectJson = await this.project.retrieveSfdxProjectJson() as SfdxProjectJson
 
-        // Return an object to be displayed with --json
-        // return { orgId: this.org.getOrgId(), outputString };
+        const stage = await InitizalizationStage.getInstance(await this.project.retrieveSfdxProjectJson() as SfdxProjectJson, this.ux);
+
+        await stage.run();
+
         return;
     }
 }

@@ -7,9 +7,9 @@ Messages.importMessagesDirectory(__dirname);
 
 // Load the specific messages for this file. Messages from @salesforce/command, @salesforce/core,
 // or any library that is using the messages framework can also be loaded this way.
-const messages = Messages.loadMessages('@dx-cli-toolbox/sfdx-toolbox-project-utils', 'toolbox-project-stage-dataload');
+const messages = Messages.loadMessages('@dx-cli-toolbox/sfdx-toolbox-project-utils', 'toolbox-project-build-configure');
 
-export default class Dataload extends SfdxCommand {
+export default class Configure extends SfdxCommand {
 
     public static description = messages.getMessage('commandDescription');
 
@@ -22,7 +22,7 @@ export default class Dataload extends SfdxCommand {
     };
 
     // Comment this out if your command does not require an org username
-    protected static requiresUsername = true;
+    protected static requiresUsername = false;
 
     // Comment this out if your command does not require a hub org username
     protected static requiresDevhubUsername = false;
@@ -34,10 +34,8 @@ export default class Dataload extends SfdxCommand {
     protected static requiresProject = true;
 
     public async run(): Promise<AnyJson> {
-        this.ux.log('TODO Need to implement toolbox:project:stage:dataload command');
+        this.ux.log('TODO Need to implement toolbox:project:build:configure command');
 
-        // Return an object to be displayed with --json
-        // return { orgId: this.org.getOrgId(), outputString };
         return;
     }
 }

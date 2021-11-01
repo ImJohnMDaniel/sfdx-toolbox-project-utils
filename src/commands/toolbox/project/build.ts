@@ -59,6 +59,8 @@ export default class Build extends SfdxCommand {
         const compilationArgs = [];
         await Compilation.run(compilationArgs);
 
+        // TODO: Would the "testing" stage get called during a regular "project build"?  It would get called directly in a CI context, but what about a developer context?
+
         // call the Testing stage
         const testingStageArgs = [];
         await Testing.run(testingStageArgs);
