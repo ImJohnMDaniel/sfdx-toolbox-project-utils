@@ -4,6 +4,7 @@ import { BuildStep } from "../../types/build_step";
 import { SfdxProjectJson } from "@salesforce/core";
 import { UX } from "@salesforce/command";
 import * as _ from 'lodash';
+import BuildStepsFactory from "../build_steps_factory";
 
 // TODO: Figure out how to check for a build marker and advance to that point in the process
 export default class InitizalizationStage implements BuildStage {
@@ -26,15 +27,35 @@ export default class InitizalizationStage implements BuildStage {
     }
 
     public async run(): Promise<AnyJson> {
-        const stageInitializeBuildSteps = _.get(this.projectJson['contents'], 'plugins.toolbox.project.builder.stages.initialize', false);
+        const buildStepsConfigurations = [];
 
-        this.ux.logJson(stageInitializeBuildSteps);
+        buildStepsConfigurations.push({
+            "buildStepType": "ForceOrgCreate",
+            "setalias": "foobar"
+        });
+
+        const buildStepsConfigurationsFromSFDXProjectJson = _.get(this.projectJson['contents'], 'plugins.toolbox.project.builder.stages.initialize', false);
+
+        buildStepsConfigurationsFromSFDXProjectJson.forEach(buildStep => {
+            buildStepsConfigurations.push(buildStep);
+        });
+
+        this.ux.logJson(buildStepsConfigurations);
+
+        const bsf: BuildStepsFactory = await BuildStepsFactory.getInstance();
+
+        buildStepsConfigurations.forEach(buildStep => {
+            this.ux.log(buildStep.buildStepType);
+            const step: BuildStep = bsf.create(buildStep.buildStepType);
+            this.ux.log(step.getBuildStepTypeToken());
+            step.setParams(buildStep);
+        });
 
         return;
     }
-    
+
     public getBuildSteps(): BuildStep[] {
         throw new Error("Method not implemented.");
     }
-    
+
 }

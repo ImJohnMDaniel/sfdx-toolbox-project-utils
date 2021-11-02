@@ -38,8 +38,6 @@ export default class Initialization extends SfdxCommand {
     public async run(): Promise<AnyJson> {
         this.ux.log('TODO Need to implement toolbox:project:stage:initialization command');
 
-        const projectJson = await this.project.retrieveSfdxProjectJson() as SfdxProjectJson
-
         const stage = await InitizalizationStage.getInstance(await this.project.retrieveSfdxProjectJson() as SfdxProjectJson, this.ux);
 
         await stage.run();

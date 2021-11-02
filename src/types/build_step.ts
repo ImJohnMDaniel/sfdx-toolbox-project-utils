@@ -2,8 +2,8 @@ import { AnyJson } from '@salesforce/ts-types';
 export interface BuildStep {
     run(): Promise<AnyJson>;
     // setLogger({}): void;
-    getBuildStepTypeToken(): String;
+    getBuildStepTypeToken(): string;
     setParams(params: any): any; 
-    getSFDXProjectConfigureExample(): String;
-    validateParams(): boolean;
+    getSFDXProjectConfigureExample(): string;
+    // validateParams(): boolean;
 }
