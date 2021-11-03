@@ -1,7 +1,8 @@
-import { BuildStep } from "../../types/build_step";
+import { AbstractBuildStep, BuildStep } from "../../types/build_step";
 import { AnyJson } from '@salesforce/ts-types';
 import { OrgCreateCommand } from 'salesforce-alm/dist/commands/force/org/create';
 import { FlagsConfig } from "@salesforce/command";
+import * as _ from 'lodash';
 
 /*
     create a scratch or sandbox org
@@ -36,15 +37,15 @@ import { FlagsConfig } from "@salesforce/command";
         $ sfdx force:org:create -t sandbox -f config/dev-sandbox-def.json -a MyDevSandbox -u prodOrg
  */
 
-export default class ForceOrgCreate implements BuildStep {
+export default class ForceOrgCreate extends AbstractBuildStep {
 
     protected static flagsConfig: FlagsConfig = OrgCreateCommand.flagsConfig;
-
-    private params: any;
 
     public async run(): Promise<AnyJson> {
 
         const args = [];
+
+        this.ux.log(this.params);
 
         // ORG ALIAS
         if (this.params.setalias) {
@@ -56,6 +57,16 @@ export default class ForceOrgCreate implements BuildStep {
         if (this.params.definitionfile) {
             args.push('--definitionfile');
             args.push(`${this.params.definitionfile}`);
+        } else {
+            this.ux.log('hello');
+            // const definitionfile = _.get(this.projectJson['contents'], 'packageDirectories.definitionFile', false);
+            // const definitionfile = _.find(this.projectJson['contents.packageDirectories'], function(o) { return o.age < 40; });
+            this.ux.log(this.projectJson['contents']['packageDirectories']);
+            const definitionfile = _.find(this.projectJson['contents']['packageDirectories'], function(o) { return o.definitionFile != null; });
+            this.ux.log('hello');
+            this.ux.log(definitionfile['definitionFile']);
+            args.push('--definitionfile');
+            args.push(`${definitionfile['definitionFile']}`);
         }
 
         // JSON
@@ -72,15 +83,7 @@ export default class ForceOrgCreate implements BuildStep {
         return 'ForceOrgCreate';
     }
 
-    public setParams(params: any) {
-        this.params = params;
-    }
-
     public getSFDXProjectConfigureExample(): string {
         return ''
     }
-
-    // validateParams(): boolean {
-    //     throw new Error("Method not implemented.");
-    // }
 }

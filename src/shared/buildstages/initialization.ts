@@ -32,9 +32,11 @@ export default class InitizalizationStage implements BuildStage {
 
         const buildStepsConfigurationsFromSFDXProjectJson = _.get(this.projectJson['contents'], 'plugins.toolbox.project.builder.stages.initialize', false);
 
-        buildStepsConfigurationsFromSFDXProjectJson.forEach(buildStep => {
-            buildStepsConfigurations.push(buildStep);
-        });
+        if ( buildStepsConfigurationsFromSFDXProjectJson ) {
+            buildStepsConfigurationsFromSFDXProjectJson.forEach(buildStep => {
+                buildStepsConfigurations.push(buildStep);
+            });
+        }
 
         this.ux.logJson(buildStepsConfigurations);
 
@@ -43,8 +45,10 @@ export default class InitizalizationStage implements BuildStage {
         buildStepsConfigurations.forEach(async buildStep => {
             this.ux.log(buildStep.buildStepType);
             const step: BuildStep = bsf.create(buildStep.buildStepType);
-            this.ux.log(step.getBuildStepTypeToken());
+            // this.ux.log(step.getBuildStepTypeToken());
             step.setParams(buildStep);
+            step.setProjectJson(this.projectJson);
+            step.setUx(this.ux);
             await step.run();
         });
 
