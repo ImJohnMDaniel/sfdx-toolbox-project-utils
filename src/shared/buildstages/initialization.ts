@@ -21,14 +21,10 @@ export default class InitizalizationStage implements BuildStage {
         this.ux = thisUx;
     }
 
-    public async setSfdxProjectJson(projectJson: SfdxProjectJson): Promise<BuildStage> {
-        this.projectJson = projectJson;
-        return this;
-    }
-
     public async run(): Promise<AnyJson> {
         const buildStepsConfigurations = [];
 
+        // Add the mandatory build step of the actual org create 
         buildStepsConfigurations.push({
             "buildStepType": "ForceOrgCreate",
             "setalias": "foobar"
@@ -44,11 +40,12 @@ export default class InitizalizationStage implements BuildStage {
 
         const bsf: BuildStepsFactory = await BuildStepsFactory.getInstance();
 
-        buildStepsConfigurations.forEach(buildStep => {
+        buildStepsConfigurations.forEach(async buildStep => {
             this.ux.log(buildStep.buildStepType);
             const step: BuildStep = bsf.create(buildStep.buildStepType);
             this.ux.log(step.getBuildStepTypeToken());
             step.setParams(buildStep);
+            await step.run();
         });
 
         return;

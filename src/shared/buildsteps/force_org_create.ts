@@ -1,6 +1,7 @@
 import { BuildStep } from "../../types/build_step";
 import { AnyJson } from '@salesforce/ts-types';
 import { OrgCreateCommand } from 'salesforce-alm/dist/commands/force/org/create';
+import { FlagsConfig } from "@salesforce/command";
 
 /*
     create a scratch or sandbox org
@@ -37,46 +38,49 @@ import { OrgCreateCommand } from 'salesforce-alm/dist/commands/force/org/create'
 
 export default class ForceOrgCreate implements BuildStep {
 
+    protected static flagsConfig: FlagsConfig = OrgCreateCommand.flagsConfig;
+
     private params: any;
 
     public async run(): Promise<AnyJson> {
 
         const args = [];
 
-        // USERNAME
-        args.push('--setalias');
-        // args.push(`${this.org.getUsername()}`);
-        args.push()
-                
+        // ORG ALIAS
+        if (this.params.setalias) {
+            args.push('--setalias');
+            args.push(`${this.params.setalias}`);
+        }
         
         // DEFINITIONFILE
-        if (!this.params.definitionfile) {
-          args.push('--definitionfile');
+        if (this.params.definitionfile) {
+            args.push('--definitionfile');
+            args.push(`${this.params.definitionfile}`);
         }
 
         // JSON
         if (this.params.json) {
-          args.push('--json');
+            args.push('--json');
         }
 
         const orgCreationResultJson = await OrgCreateCommand.run(args);
 
         return;
     }
-    
+
     public getBuildStepTypeToken(): string {
         return 'ForceOrgCreate';
     }
 
-    setParams(params: any) {
+    public setParams(params: any) {
         this.params = params;
     }
 
-    getSFDXProjectConfigureExample(): string {
+    public getSFDXProjectConfigureExample(): string {
         return ''
     }
 
-    validateParams(): boolean {
-        throw new Error("Method not implemented.");
-    }
+    // validateParams(): boolean {
+    //     throw new Error("Method not implemented.");
+    // }
 }

@@ -9,10 +9,3 @@ export default [
     ForceOrgDelete,
     ForceOrgCreate
 ];
-
-/*
-{
-    token: new buildstep().getBuildStepTypeToken(),
-    stepType: () => new buildstep()
-  }
-*/
