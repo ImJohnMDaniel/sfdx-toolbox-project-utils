@@ -38,9 +38,7 @@ export default class Initialization extends SfdxCommand {
 
     public async run(): Promise<AnyJson> {
 
-        const stage = await InitizalizationStage.getInstance(await this.project.retrieveSfdxProjectJson() as SfdxProjectJson, this.flags.targetusername, this.ux);
-
-        await stage.run();
+        await new InitizalizationStage(await this.project.retrieveSfdxProjectJson(), this.flags.targetusername, this.ux).run();
 
         return;
     }

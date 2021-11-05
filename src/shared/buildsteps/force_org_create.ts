@@ -62,7 +62,7 @@ export default class ForceOrgCreate extends AbstractBuildStep {
         // this.ux.log(this.params);
 
         // ORG ALIAS
-        if (this.params.setalias) {
+        if (this.orgAlias) {
             args.push('--setalias');
             args.push(`${this.orgAlias}`);
         }
