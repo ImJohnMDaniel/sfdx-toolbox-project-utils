@@ -38,15 +38,13 @@
           "stages": {
             "initialize": [
               {
-                "buildStepType": "ForceOrgDelete",
-                "targetusername": "foobar"
+                "buildStepType": "ForceOrgDelete"
               },
               {
                 "buildStepType": "RemoveTempShapeDirectory"
               },
               {
                 "buildStepType": "ForceOrgCreate",
-                "setalias": "foobar",
                 "durationdays": "2"
               }
             ],

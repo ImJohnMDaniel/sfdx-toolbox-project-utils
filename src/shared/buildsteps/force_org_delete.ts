@@ -30,6 +30,8 @@ export default class ForceOrgDelete extends AbstractBuildStep {
 
     public async run(): Promise<AnyJson> {
 
+        this.ux.log('Deleting existing scratch org ' + this.orgAlias);
+
         const args = [];
 
         args.push('--noprompt');
@@ -40,7 +42,7 @@ export default class ForceOrgDelete extends AbstractBuildStep {
         }
 
         args.push('--targetusername');
-        args.push(`${this.params.targetusername}`);
+        args.push(`${this.orgAlias}`);
         
         try {
             const orgCreationResultJson = await OrgDeleteCommand.run(args);

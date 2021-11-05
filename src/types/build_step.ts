@@ -10,6 +10,8 @@ export interface BuildStep {
     setProjectJson(projectJson: SfdxProjectJson): void;
     getSFDXProjectConfigureExample(): string;
     // validateParams(): boolean;
+    setJsonOutputActive(): void;
+    setOrgAlias(orgAlias: string): void;
 }
 
 export abstract class AbstractBuildStep implements BuildStep {
@@ -20,6 +22,8 @@ export abstract class AbstractBuildStep implements BuildStep {
     protected projectJson: SfdxProjectJson;
     protected ux: UX;
     protected params: any;
+    protected orgAlias: string;
+    protected jsonOutput: boolean;
     setProjectJson(projectJson: SfdxProjectJson): void {
         this.projectJson = projectJson;
     }
@@ -30,6 +34,14 @@ export abstract class AbstractBuildStep implements BuildStep {
 
     setParams(params: any): void {
         this.params = params;
+    }
+
+    setJsonOutputActive(): void {
+        this.jsonOutput = true;
+    }
+
+    setOrgAlias(orgAlias: string): void {
+        this.orgAlias = orgAlias;
     }
 
 }

@@ -43,6 +43,7 @@ export default class ForceOrgCreate extends AbstractBuildStep {
 
     public async run(): Promise<AnyJson> {
 
+        this.ux.log('Creating new scratch org ' + this.orgAlias);
         const args = [];
 
         // this.ux.log(this.params);
@@ -50,7 +51,7 @@ export default class ForceOrgCreate extends AbstractBuildStep {
         // ORG ALIAS
         if (this.params.setalias) {
             args.push('--setalias');
-            args.push(`${this.params.setalias}`);
+            args.push(`${this.orgAlias}`);
         }
         
         if (this.params.durationdays) {

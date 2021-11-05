@@ -20,10 +20,12 @@ export default class Initialization extends SfdxCommand {
 
     protected static flagsConfig = {
         // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
+        // targetusername: flags.string({ char: 'u', required: true, description: 'username or alias for the target org; overrides default target org'})
     };
 
     // Comment this out if your command does not require an org username
-    protected static requiresUsername = false;
+    // protected static requiresUsername = true;
+    protected static supportsUsername = true;
 
     // Comment this out if your command does not require a hub org username
     protected static requiresDevhubUsername = true;
@@ -35,8 +37,8 @@ export default class Initialization extends SfdxCommand {
     protected static requiresProject = true;
 
     public async run(): Promise<AnyJson> {
-        
-        const stage = await InitizalizationStage.getInstance(await this.project.retrieveSfdxProjectJson() as SfdxProjectJson, this.ux);
+
+        const stage = await InitizalizationStage.getInstance(await this.project.retrieveSfdxProjectJson() as SfdxProjectJson, this.flags.targetusername, this.ux);
 
         await stage.run();
 
