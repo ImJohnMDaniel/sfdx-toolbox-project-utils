@@ -41,6 +41,9 @@
                 "buildStepType": "ForceOrgDelete"
               },
               {
+                "buildStepType": "bluefish"
+              },
+              {
                 "buildStepType": "ForceOrgCreate",
                 "durationdays": "2"
               },

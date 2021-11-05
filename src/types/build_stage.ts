@@ -5,6 +5,7 @@ import { UX } from "@salesforce/command";
 import * as _ from 'lodash';
 import BuildStepsFactory from "../shared/build_steps_factory";
 import Utils from "../shared/utils";
+import BuildStepMarker from "../shared/build_step_marker";
 
 export interface BuildStage {
     run(): Promise<AnyJson>;
@@ -34,16 +35,17 @@ export abstract class AbstractBuildStage implements BuildStage {
 
         if ( buildStepsConfigurations ) {
             
-            const stepCreateAndRun = async (buildStep) => {
-                let step;
-
+            const stepCreateAndRun = async (buildStep, index: number) => {
                 try {
-                    step = await bsf.create(buildStep.buildStepType);
+                    const step = await bsf.create(buildStep.buildStepType);
                     step?.setParams(buildStep);
                     step?.setProjectJson(this.projectJson);
                     step?.setUx(this.ux);
                     step?.setJsonOutputActive();
                     step?.setOrgAlias(this.orgAlias);
+
+                    await (await BuildStepMarker.getInstance()).mark(this, index, step, this.orgAlias);
+
                     await step?.run();
                 }
                 catch (e){
@@ -52,6 +54,8 @@ export abstract class AbstractBuildStage implements BuildStage {
             };
             
             await Utils.asyncForEach( buildStepsConfigurations, stepCreateAndRun );
+
+            await (await BuildStepMarker.getInstance()).removeMarking(this.orgAlias);
         }
 
         return;
