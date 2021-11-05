@@ -43,21 +43,27 @@
               {
                 "buildStepType": "ForceOrgCreate",
                 "durationdays": "2"
+              },
+              {
+                "buildStepType": "ForceDataRecordUpdate",
+                "sobjecttype": "Organization",
+                "where": "Name='FOOBAR Company'",
+                "values": "TimeZoneSidKey='America/New_York'"
+              },
+              {
+                "buildStepType": "ForceDataRecordUpdate",
+                "sobjecttype": "User",
+                "where": "Name='User User'",
+                "values": "TimeZoneSidKey='America/New_York'"
+              },
+              {
+                "buildStepType": "ForceDataRecordUpdate",
+                "sobjecttype": "User",
+                "where": "Name='Jon Amos'",
+                "values": "IsActive=false"
               }
             ],
             "initializeHold": [
-              {
-                "buildStepType": "ForceDataRecordUpdate",
-                "params": "-s Organization -w \"Name='FOOBAR Company'\" -v \"TimeZoneSidKey='America/New_York'\""
-              },
-              {
-                "buildStepType": "ForceDataRecordUpdate",
-                "params": "-s User -w \"Name='User User'\" -v \"TimeZoneSidKey='America/New_York'\""
-              },
-              {
-                "buildStepType": "ForceDataRecordUpdate",
-                "params": "-s User -w \"Name='Jon Amos'\" -v \"IsActive=false\""
-              },
               {
                 "buildStepType": "ForceApexExecute",
                 "apexcodefile": "scripts/scrubDataFromDXScratchOrg.apex"

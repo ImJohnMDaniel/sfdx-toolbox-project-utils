@@ -38,6 +38,10 @@ export default class Initialization extends SfdxCommand {
 
     public async run(): Promise<AnyJson> {
 
+        if ( ! this.flags.targetusername ) {
+            throw Error('Flag targetusername is required.');
+        }
+
         await new InitizalizationStage(await this.project.retrieveSfdxProjectJson(), this.flags.targetusername, this.ux).run();
 
         return;

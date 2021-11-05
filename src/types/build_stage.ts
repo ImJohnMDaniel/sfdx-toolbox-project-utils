@@ -36,6 +36,7 @@ export abstract class AbstractBuildStage implements BuildStage {
             
             const stepCreateAndRun = async (buildStep) => {
                 let step;
+
                 try {
                     step = await bsf.create(buildStep.buildStepType);
                     step?.setParams(buildStep);
