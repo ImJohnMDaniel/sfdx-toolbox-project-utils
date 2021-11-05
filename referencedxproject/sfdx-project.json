@@ -38,6 +38,20 @@
           "stages": {
             "initialize": [
               {
+                "buildStepType": "ForceOrgDelete",
+                "targetusername": "foobar"
+              },
+              {
+                "buildStepType": "RemoveTempShapeDirectory"
+              },
+              {
+                "buildStepType": "ForceOrgCreate",
+                "setalias": "foobar",
+                "durationdays": "2"
+              }
+            ],
+            "initializeHold": [
+              {
                 "buildStepType": "ForceDataRecordUpdate",
                 "params": "-s Organization -w \"Name='FOOBAR Company'\" -v \"TimeZoneSidKey='America/New_York'\""
               },

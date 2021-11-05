@@ -45,7 +45,7 @@ export default class ForceOrgCreate extends AbstractBuildStep {
 
         const args = [];
 
-        this.ux.log(this.params);
+        // this.ux.log(this.params);
 
         // ORG ALIAS
         if (this.params.setalias) {
@@ -53,18 +53,23 @@ export default class ForceOrgCreate extends AbstractBuildStep {
             args.push(`${this.params.setalias}`);
         }
         
+        if (this.params.durationdays) {
+            args.push('--durationdays');
+            args.push(`${this.params.durationdays}`);
+        }
+
         // DEFINITIONFILE
         if (this.params.definitionfile) {
             args.push('--definitionfile');
             args.push(`${this.params.definitionfile}`);
         } else {
-            this.ux.log('hello');
+            // this.ux.log('hello');
             // const definitionfile = _.get(this.projectJson['contents'], 'packageDirectories.definitionFile', false);
             // const definitionfile = _.find(this.projectJson['contents.packageDirectories'], function(o) { return o.age < 40; });
-            this.ux.log(this.projectJson['contents']['packageDirectories']);
+            // this.ux.log(this.projectJson['contents']['packageDirectories']);
             const definitionfile = _.find(this.projectJson['contents']['packageDirectories'], function(o) { return o.definitionFile != null; });
-            this.ux.log('hello');
-            this.ux.log(definitionfile['definitionFile']);
+            // this.ux.log('hello');
+            // this.ux.log(definitionfile['definitionFile']);
             args.push('--definitionfile');
             args.push(`${definitionfile['definitionFile']}`);
         }

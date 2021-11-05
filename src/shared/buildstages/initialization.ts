@@ -22,35 +22,23 @@ export default class InitizalizationStage implements BuildStage {
     }
 
     public async run(): Promise<AnyJson> {
-        const buildStepsConfigurations = [];
+        const buildStepsConfigurations = _.get(this.projectJson['contents'], 'plugins.toolbox.project.builder.stages.initialize', false);
 
-        // Add the mandatory build step of the actual org create 
-        buildStepsConfigurations.push({
-            "buildStepType": "ForceOrgCreate",
-            "setalias": "foobar"
-        });
-
-        const buildStepsConfigurationsFromSFDXProjectJson = _.get(this.projectJson['contents'], 'plugins.toolbox.project.builder.stages.initialize', false);
-
-        if ( buildStepsConfigurationsFromSFDXProjectJson ) {
-            buildStepsConfigurationsFromSFDXProjectJson.forEach(buildStep => {
-                buildStepsConfigurations.push(buildStep);
-            });
-        }
-
-        this.ux.logJson(buildStepsConfigurations);
+        // this.ux.logJson(buildStepsConfigurations);
 
         const bsf: BuildStepsFactory = await BuildStepsFactory.getInstance();
 
-        buildStepsConfigurations.forEach(async buildStep => {
-            this.ux.log(buildStep.buildStepType);
-            const step: BuildStep = bsf.create(buildStep.buildStepType);
-            // this.ux.log(step.getBuildStepTypeToken());
-            step.setParams(buildStep);
-            step.setProjectJson(this.projectJson);
-            step.setUx(this.ux);
-            await step.run();
-        });
+        if ( buildStepsConfigurations ) {
+            buildStepsConfigurations.forEach(async buildStep => {
+                // this.ux.log(buildStep.buildStepType);
+                const step: BuildStep = bsf.create(buildStep.buildStepType);
+                // this.ux.log(step.getBuildStepTypeToken());
+                step.setParams(buildStep);
+                step.setProjectJson(this.projectJson);
+                step.setUx(this.ux);
+                await step.run();
+            });
+        }
 
         return;
     }

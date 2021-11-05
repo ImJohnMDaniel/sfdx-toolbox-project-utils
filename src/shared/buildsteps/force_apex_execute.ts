@@ -1,9 +1,9 @@
-import { BuildStep } from "../../types/build_step";
+import { AbstractBuildStep } from "../../types/build_step";
 import { AnyJson } from '@salesforce/ts-types';
 import Execute from "@salesforce/plugin-apex/lib/commands/force/apex/execute";
 import { flags, FlagsConfig } from "@salesforce/command";
 
-export default class ForceApexExecute implements BuildStep {
+export default class ForceApexExecute extends AbstractBuildStep {
 
     // Since the current version of the force:apex:execute command has the flagsConfig variable
     //      as protected, we can't access it here like we can other classes.  So we will
@@ -17,7 +17,6 @@ export default class ForceApexExecute implements BuildStep {
         // apiversion: flags.Builtin;
     }
 
-    private params: any;
     public async run(): Promise<AnyJson> {
 
         const args = [];
@@ -30,15 +29,7 @@ export default class ForceApexExecute implements BuildStep {
         return 'ForceApexExecute';
     }
     
-    public setParams(params: any) {
-        this.params = params;
-    }
-
     public getSFDXProjectConfigureExample(): string {
         return ''
     }
-
-    // validateParams(): boolean {
-    //     throw new Error("Method not implemented.");
-    // }
 }
