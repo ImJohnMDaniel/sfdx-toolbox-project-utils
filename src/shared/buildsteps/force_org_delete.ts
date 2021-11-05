@@ -48,6 +48,7 @@ export default class ForceOrgDelete extends AbstractBuildStep {
             const orgCreationResultJson = await OrgDeleteCommand.run(args);
         }
         catch (e) {
+            this.ux.error(e);
             // noopt
         }
 

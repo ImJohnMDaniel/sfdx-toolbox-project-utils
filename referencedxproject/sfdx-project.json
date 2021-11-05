@@ -41,9 +41,6 @@
                 "buildStepType": "ForceOrgDelete"
               },
               {
-                "buildStepType": "RemoveTempShapeDirectory"
-              },
-              {
                 "buildStepType": "ForceOrgCreate",
                 "durationdays": "2"
               }

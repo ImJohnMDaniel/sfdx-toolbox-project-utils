@@ -3,6 +3,8 @@ import { AnyJson } from '@salesforce/ts-types';
 import { OrgCreateCommand } from 'salesforce-alm/dist/commands/force/org/create';
 import { FlagsConfig } from "@salesforce/command";
 import * as _ from 'lodash';
+import { rmdirSync } from "fs";
+import { tmpdir } from "os";
 
 /*
     create a scratch or sandbox org
@@ -44,6 +46,17 @@ export default class ForceOrgCreate extends AbstractBuildStep {
     public async run(): Promise<AnyJson> {
 
         this.ux.log('Creating new scratch org ' + this.orgAlias);
+
+        // clean up the temp directory "shape" folder
+        // see ForceDotCom CLI Issue #753 for details
+        //      https://github.com/forcedotcom/cli/issues/753
+        try {
+            rmdirSync( tmpdir() + '/shape' );
+        }
+        catch (e) {
+            // noopt
+        }
+
         const args = [];
 
         // this.ux.log(this.params);
