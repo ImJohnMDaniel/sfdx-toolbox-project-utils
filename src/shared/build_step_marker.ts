@@ -47,6 +47,10 @@ export default class BuildStepMarker {
     }
 
     public async getMarkering(orgAlias: string): Promise<BuildMarking> {
+        if ( !existsSync(this.getMarkerFilename(orgAlias)) ) {
+            return null;
+        }
+
         const marking: BuildMarking = JSON.parse(readFileSync(this.getMarkerFilename(orgAlias), 'utf8'));
         return marking;
     }

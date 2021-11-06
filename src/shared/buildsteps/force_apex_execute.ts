@@ -20,6 +20,20 @@ export default class ForceApexExecute extends AbstractBuildStep {
     public async run(): Promise<AnyJson> {
 
         const args = [];
+
+        // ORG ALIAS
+        if (this.orgAlias) {
+            args.push('--targetusername');
+            args.push(`${this.orgAlias}`);
+        }
+
+        if (this.params.apexcodefile) {
+            args.push('--apexcodefile');
+            args.push(`${this.params.apexcodefile}`);
+        }
+        else {
+            throw Error(this.getBuildStepTypeToken() + " requires the 'apexcodefile' flag.");
+        }
         
         const apexExecuteResultJson = await Execute.run(args);
 

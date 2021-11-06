@@ -39,9 +39,6 @@ export default class Build extends SfdxCommand {
     protected static requiresProject = true;
 
     public async run(): Promise<AnyJson> {
-        this.ux.log('TODO Need to implement toolbox:project:build command');
-
-        // TODO: Figure out how to check for a build marker and advance to that point in the process
 
         // call the validation stage
         const validationStageArgs = [];

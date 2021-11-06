@@ -5,7 +5,7 @@ import { UX } from "@salesforce/command";
 import * as _ from 'lodash';
 import BuildStepsFactory from "../shared/build_steps_factory";
 import Utils from "../shared/utils";
-import BuildStepMarker from "../shared/build_step_marker";
+import BuildStepMarker, { BuildMarking } from "../shared/build_step_marker";
 
 export interface BuildStage {
     run(): Promise<AnyJson>;
@@ -27,15 +27,30 @@ export abstract class AbstractBuildStage implements BuildStage {
         this.orgAlias = orgAlias;
     }
 
-    // TODO: Figure out how to check for a build marker and advance to that point in the process
     public async run(): Promise<AnyJson> {
         const buildStepsConfigurations = _.get(this.projectJson['contents'], 'plugins.toolbox.project.builder.stages.' + this.getStageToken(), false);
 
         const bsf: BuildStepsFactory = await BuildStepsFactory.getInstance();
 
+        const bsm: BuildStepMarker = await BuildStepMarker.getInstance();
+
         if ( buildStepsConfigurations ) {
             
+            const currentMarking: BuildMarking = await bsm.getMarkering(this.orgAlias);
+
             const stepCreateAndRun = async (buildStep, index: number) => {
+
+                // this.ux.log('currentMarking.stage == ' + currentMarking?.stage);
+                // this.ux.log('this.getStageToken() == ' + this.getStageToken());
+                // this.ux.log('currentMarking.stageIndex == ' + currentMarking?.stageIndex);
+                // this.ux.log('index == ' + index);
+                if ( currentMarking 
+                        && currentMarking.stage == this.getStageToken()
+                        && currentMarking.stageIndex > index
+                        ) {
+                    return;
+                }
+
                 try {
                     const step = await bsf.create(buildStep.buildStepType);
                     step?.setParams(buildStep);
@@ -44,7 +59,7 @@ export abstract class AbstractBuildStage implements BuildStage {
                     step?.setJsonOutputActive();
                     step?.setOrgAlias(this.orgAlias);
 
-                    await (await BuildStepMarker.getInstance()).mark(this, index, step, this.orgAlias);
+                    await (bsm).mark(this, index, step, this.orgAlias);
 
                     await step?.run();
                 }
@@ -55,7 +70,7 @@ export abstract class AbstractBuildStage implements BuildStage {
             
             await Utils.asyncForEach( buildStepsConfigurations, stepCreateAndRun );
 
-            await (await BuildStepMarker.getInstance()).removeMarking(this.orgAlias);
+            await bsm.removeMarking(this.orgAlias);
         }
 
         return;
