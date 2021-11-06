@@ -37,10 +37,10 @@ export default class BuildStepMarker {
             step: step.getBuildStepTypeToken()
         };
 
-        console.log('BuildStepMarker.mark called for ' + markerInfo );
+        // console.log('BuildStepMarker.mark called for ' + markerInfo.stage + ':' + markerInfo.stageIndex + ' -- ' + markerInfo.step );
 
-        if (!existsSync('temp')) {
-            mkdirSync('temp');
+        if (!existsSync(this.markerDirectoryName)) {
+            mkdirSync(this.markerDirectoryName);
         }
         
         await writeFileSync( this.getMarkerFilename(orgAlias), JSON.stringify(markerInfo));

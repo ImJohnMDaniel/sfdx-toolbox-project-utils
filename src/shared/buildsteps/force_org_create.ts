@@ -5,6 +5,7 @@ import { FlagsConfig } from "@salesforce/command";
 import * as _ from 'lodash';
 import { rmdirSync } from "fs";
 import { tmpdir } from "os";
+import { LoadOptions } from "@oclif/config";
 
 /*
     create a scratch or sandbox org
@@ -89,11 +90,18 @@ export default class ForceOrgCreate extends AbstractBuildStep {
         }
 
         // JSON
-        if (this.params.json) {
-            args.push('--json');
-        }
+        // force the inclusion of the JSON flag
+        // args.push('--json');
 
         const orgCreationResultJson = await OrgCreateCommand.run(args);
+        // this.ux.log('breadcrumb A');
+        // this.ux.log(orgCreationResultJson?.orgId);
+        // this.ux.log(orgCreationResultJson?.username);
+        // this.ux.log('breadcrumb B');
+        if (orgCreationResultJson === undefined) {
+            // there was a problem with the org creation step
+            throw Error('Org Create Command attempt was unsuccessful.');
+        }
 
         return;
     }

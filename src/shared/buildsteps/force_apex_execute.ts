@@ -23,6 +23,11 @@ export default class ForceApexExecute extends AbstractBuildStep {
         
         const apexExecuteResultJson = await Execute.run(args);
 
+        if ( apexExecuteResultJson == undefined ) {
+            // there was a problem with the apex execute step
+            throw Error('Apex Execute attempt was unsuccessful.');
+        }
+
         return;
     }
     public getBuildStepTypeToken(): string {

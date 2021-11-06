@@ -78,6 +78,15 @@ export default class ForceDataRecordUpdate extends AbstractBuildStep {
 
         const dataRecordUpdateResultJson = await Update.run(args);
 
+        // this.ux.log('breadcrumb A');
+        // this.ux.log(dataRecordUpdateResultJson);
+        // this.ux.log('breadcrumb B');
+
+        if (dataRecordUpdateResultJson === undefined) {
+            // there was a problem with the data update step
+            throw Error('Data Update attempt was unsuccessful.');
+        }
+
         return;
     }
     public getBuildStepTypeToken(): string {

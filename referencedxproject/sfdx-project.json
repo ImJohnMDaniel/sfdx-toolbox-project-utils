@@ -41,9 +41,6 @@
                 "buildStepType": "ForceOrgDelete"
               },
               {
-                "buildStepType": "bluefish"
-              },
-              {
                 "buildStepType": "ForceOrgCreate",
                 "durationdays": "2"
               },
@@ -64,9 +61,7 @@
                 "sobjecttype": "User",
                 "where": "Name='Jon Amos'",
                 "values": "IsActive=false"
-              }
-            ],
-            "initializeHold": [
+              },
               {
                 "buildStepType": "ForceApexExecute",
                 "apexcodefile": "scripts/scrubDataFromDXScratchOrg.apex"
