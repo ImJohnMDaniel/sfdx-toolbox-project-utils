@@ -67,7 +67,11 @@
                 "apexcodefile": "scripts/scrubDataFromDXScratchOrg.apex"
               }
             ],
-            "processResources": [],
+            "processResources": [
+              {
+                "buildStepType": "ToolboxPackageDependenciesInstall"
+              }
+            ],
             "compile": [
               {
                 "buildStepType": "ForceApexExecute",

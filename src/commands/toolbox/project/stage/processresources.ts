@@ -1,6 +1,7 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
+import ProcessResourcessStage from '../../../../shared/buildstages/process_resources';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -34,9 +35,8 @@ export default class Processresources extends SfdxCommand {
     protected static requiresProject = true;
 
     public async run(): Promise<AnyJson> {
-        this.ux.log('TODO Need to implement toolbox:project:stage:processresources command');
-
-        // TODO: Figure out how to check for a build marker and advance to that point in the process
+    
+        await new ProcessResourcessStage(await this.project.retrieveSfdxProjectJson(), this.flags.targetusername, this.ux).run();
 
         return;
     }
