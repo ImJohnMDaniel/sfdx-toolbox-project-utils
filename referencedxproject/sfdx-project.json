@@ -74,6 +74,9 @@
             ],
             "compile": [
               {
+                "buildStepType": "ForceSourcePush"
+              },
+              {
                 "buildStepType": "ForceApexExecute",
                 "apexcodefile": "scripts/configureForceDIBindingCache.apex"
               },
