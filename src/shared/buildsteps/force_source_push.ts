@@ -8,7 +8,7 @@ import { FlagsConfig } from "@salesforce/command";
  */
 export default class ForceSourcePush extends AbstractBuildStep {
 
-    protected static flagsConfig: FlagsConfig = OrgDeleteCommand.flagsConfig;
+    protected static flagsConfig: FlagsConfig = {}; // OrgDeleteCommand.flagsConfig;
 
     public async run(): Promise<AnyJson> {
 
@@ -24,7 +24,7 @@ export default class ForceSourcePush extends AbstractBuildStep {
         args.push('--targetusername');
         args.push(`${this.orgAlias}`);
         
-        const orgCreationResultJson = await OrgDeleteCommand.run(args);
+        // const orgCreationResultJson = await OrgDeleteCommand.run(args);
 
         return;
     }
