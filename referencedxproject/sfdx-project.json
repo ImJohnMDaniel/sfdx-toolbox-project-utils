@@ -69,7 +69,8 @@
             ],
             "processResources": [
               {
-                "buildStepType": "ToolboxPackageDependenciesInstall"
+                "buildStepType": "ToolboxPackageDependenciesInstall",
+                "wait": "240"
               }
             ],
             "compile": [
@@ -97,7 +98,8 @@
                 "buildSteps": [
                   {
                     "buildStepType": "SfdmuRun",
-                    "path": "data/Accounts"
+                    "path": "data/Accounts",
+                    "sourceusername": "csvfile"
                   }
                 ]
               },

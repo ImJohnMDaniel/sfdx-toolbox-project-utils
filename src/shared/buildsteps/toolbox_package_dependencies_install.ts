@@ -55,16 +55,74 @@ import Install from "@dx-cli-toolbox/sfdx-toolbox-package-utils/lib/commands/too
 
 export default class ToolboxPackageDependenciesInstall extends AbstractBuildStep {
 
-    protected static flagsConfig: FlagsConfig = {}; // Install.flagsConfig;
+    protected static flagsConfig: FlagsConfig = Install.flagsConfig;
 
     public async run(): Promise<AnyJson> {
 
+        this.ux.log('deployment of all package dependencies to scratch org ' + this.orgAlias);
+        
         const args = [];
 
         // ORG ALIAS
         if (this.orgAlias) {
             args.push('--targetusername');
             args.push(`${this.orgAlias}`);
+        }
+
+        // APEXCOMPILE
+        if (this.params.apexcompile) {
+            args.push('--apexcompile');
+            args.push(`${this.params.apexcompile}`);
+        }
+        
+        // BRANCH
+        if (this.params.branch) {
+            args.push('--branch');
+            args.push(`${this.params.branch}`);
+        }
+
+        // INSTALLATIONKEYS
+        if (this.params.installationkeys) {
+            args.push('--installationkeys');
+            args.push(`${this.params.installationkeys}`);
+        }
+
+        // PROMPT
+        if (this.params.prompt) {
+            args.push('--prompt');
+        }
+
+        // SECURITYTYPE
+        if (this.params.securitytype) {
+            args.push('--securitytype');
+            args.push(`${this.params.securitytype}`);
+        }
+
+        // UPGRADETYPE
+        if (this.params.upgradetype) {
+            args.push('--upgradetype');
+            args.push(`${this.params.upgradetype}`);
+        }
+
+        // DRYRUN
+        if (this.params.dryrun) {
+            args.push('--dryrun');
+        }
+
+        // JSON
+        if (this.params.json) {
+            args.push('--json');
+        }
+
+        // NOPRECHECK
+        if (this.params.noprecheck) {
+            args.push('--noprecheck');
+        }
+        
+        // WAIT
+        if (this.params.wait) {
+            args.push('--wait');
+            args.push(`${this.params.wait}`);
         }
 
         const toolboxPackageDependenciesInstallResultJson = await Install.run(args);

@@ -19,6 +19,7 @@ export default class ForceApexExecute extends AbstractBuildStep {
 
     public async run(): Promise<AnyJson> {
 
+        this.ux.log('Apex execution on scratch org ' + this.orgAlias);
         const args = [];
 
         // ORG ALIAS
@@ -27,6 +28,7 @@ export default class ForceApexExecute extends AbstractBuildStep {
             args.push(`${this.orgAlias}`);
         }
 
+        // APEXCODEFILE
         if (this.params.apexcodefile) {
             args.push('--apexcodefile');
             args.push(`${this.params.apexcodefile}`);
@@ -35,6 +37,11 @@ export default class ForceApexExecute extends AbstractBuildStep {
             throw Error(this.getBuildStepTypeToken() + " requires the 'apexcodefile' flag.");
         }
         
+        // JSON
+        if (this.params.json) {
+            args.push('--json');
+        }
+
         const apexExecuteResultJson = await Execute.run(args);
 
         if ( apexExecuteResultJson == undefined ) {
