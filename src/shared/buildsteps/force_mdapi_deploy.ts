@@ -67,9 +67,11 @@ export default class ForceMdapiDeploy extends AbstractBuildStep {
         }
 
         // WAIT
+        args.push('--wait');
         if (this.params.wait) {
-            args.push('--wait');
-            args.push(`${this.params.wait}`)
+            args.push(`${this.params.wait}`);
+        } else {
+            args.push('10');
         }
 
         // JSON

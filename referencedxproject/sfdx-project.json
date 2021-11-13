@@ -73,7 +73,7 @@
                 "wait": "240"
               }
             ],
-            "compile": [
+            "compilation": [
               {
                 "buildStepType": "ForceSourcePush"
               },

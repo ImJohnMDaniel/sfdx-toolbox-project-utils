@@ -1,6 +1,7 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
+import TestStage from '../../../../shared/buildstages/test';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -9,7 +10,7 @@ Messages.importMessagesDirectory(__dirname);
 // or any library that is using the messages framework can also be loaded this way.
 const messages = Messages.loadMessages('@dx-cli-toolbox/sfdx-toolbox-project-utils', 'toolbox-project-stage-testing');
 
-export default class Testing extends SfdxCommand {
+export default class Test extends SfdxCommand {
 
     public static description = messages.getMessage('commandDescription');
 
@@ -34,14 +35,7 @@ export default class Testing extends SfdxCommand {
     protected static requiresProject = true;
 
     public async run(): Promise<AnyJson> {
-        this.ux.log('TODO Need to implement toolbox:project:stage:testing command');
-
-        // TODO: Figure out how to check for a build marker and advance to that point in the process
-
-        // TODO: implement a BuildStep of unit test execution
-        // TODO: implement a BuildStep of a data load execution (if required)
-        // TODO: implement a BuildStep of a Apex PMD execution (if required)
-        // TODO: implement a way to execute the BuildSteps in parallel as required.
+        await new TestStage(await this.project.retrieveSfdxProjectJson(), this.flags.targetusername, this.ux).run();
 
         return;
     }

@@ -4,7 +4,7 @@ import { AnyJson } from '@salesforce/ts-types';
 import Initialization from '../project/stage/initialization';
 import Processresources from './stage/processresources';
 import Compilation from './stage/compilation';
-import Testing from './stage/testing';
+import Testing from './stage/test';
 import Validation from './stage/validation';
 
 // Initialize Messages with the current plugin directory

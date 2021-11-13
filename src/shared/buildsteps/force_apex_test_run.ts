@@ -178,7 +178,7 @@ export default class ForceApexTestRun extends AbstractBuildStep {
         return;
     }
     public getBuildStepTypeToken(): string {
-        return 'ForceApexTestRun    ';
+        return 'ForceApexTestRun';
     }
     
     public getSFDXProjectConfigureExample(): string {

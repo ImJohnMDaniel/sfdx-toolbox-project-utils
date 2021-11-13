@@ -36,9 +36,9 @@ export default class ForceSourcePush extends AbstractBuildStep {
         const args = [];
 
         // FORCEOVERWRITE
-        if (this.params.forceoverwrite) {
+        // if (this.params.forceoverwrite) {
             args.push('--forceoverwrite');
-        }
+        // }
 
         // IGNOREWARNINGS
         if (this.params.ignorewarnings) {
