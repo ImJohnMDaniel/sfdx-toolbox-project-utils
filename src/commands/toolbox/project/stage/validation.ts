@@ -21,8 +21,11 @@ export default class Validation extends SfdxCommand {
         // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
     };
 
-    // Comment this out if your command does not require an org username
+    // Command doesn't required username
     protected static requiresUsername = false;
+
+    // Command doesn't support username
+    protected static supportsUsername = false;
 
     // Comment this out if your command does not require a hub org username
     protected static requiresDevhubUsername = false;
@@ -35,8 +38,6 @@ export default class Validation extends SfdxCommand {
 
     public async run(): Promise<AnyJson> {
         this.ux.log('TODO Need to implement toolbox:project:stage:validation command');
-
-        // TODO: Figure out how to check for a build marker and advance to that point in the process
 
         return;
     }

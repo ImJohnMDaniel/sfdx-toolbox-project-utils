@@ -5,7 +5,6 @@ import { FlagsConfig } from "@salesforce/command";
 import * as _ from 'lodash';
 import { rmdirSync } from "fs";
 import { tmpdir } from "os";
-import { LoadOptions } from "@oclif/config";
 
 /*
     create a scratch or sandbox org

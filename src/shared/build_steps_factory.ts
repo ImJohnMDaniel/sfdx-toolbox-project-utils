@@ -20,7 +20,6 @@ export default class BuildStepsFactory {
     }
 
     public async create( token: String ): Promise<BuildStep> {
-
         if ( ! this.availableBuildSteps.has(token) ) {
             throw new Error("Unable to create '" + token + "' as it is not a valid BuildStep.");
         }

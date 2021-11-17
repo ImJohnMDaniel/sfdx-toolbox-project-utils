@@ -1,5 +1,5 @@
 import { flags, SfdxCommand } from '@salesforce/command';
-import { Messages, SfdxProjectJson } from '@salesforce/core';
+import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 import * as _ from 'lodash';
 import InitizalizationStage from '../../../../shared/buildstages/initialization';
@@ -24,7 +24,7 @@ export default class Initialization extends SfdxCommand {
     };
 
     // Comment this out if your command does not require an org username
-    // protected static requiresUsername = true;
+    protected static requiresUsername = false;
     protected static supportsUsername = true;
 
     // Comment this out if your command does not require a hub org username

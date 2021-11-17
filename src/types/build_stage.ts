@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import BuildStepsFactory from "../shared/build_steps_factory";
 import Utils from "../shared/utils";
 import BuildStepMarker, { BuildMarking } from "../shared/build_step_marker";
+import BuildStepExecutor from "../shared/build_step_executor";
 
 export interface BuildStage {
     run(): Promise<AnyJson>;
@@ -38,7 +39,7 @@ export abstract class AbstractBuildStage implements BuildStage {
             
             const currentMarking: BuildMarking = await bsm.getMarkering(this.orgAlias);
 
-            const stepCreateAndRun = async (buildStep, index: number) => {
+            const stepCreateAndRun = async (buildStepConfig, index: number) => {
 
                 // this.ux.log('currentMarking.stage == ' + currentMarking?.stage);
                 // this.ux.log('this.getStageToken() == ' + this.getStageToken());
@@ -52,16 +53,19 @@ export abstract class AbstractBuildStage implements BuildStage {
                 }
 
                 try {
-                    const step = await bsf.create(buildStep.buildStepType);
-                    step?.setParams(buildStep);
-                    step?.setProjectJson(this.projectJson);
-                    step?.setUx(this.ux);
-                    step?.setJsonOutputActive();
-                    step?.setOrgAlias(this.orgAlias);
+                    // console.log(buildStepConfig);
+                    const step = await bsf.create(buildStepConfig.buildStepType);
+                    // step?.setParams(buildStep);
+                    // step?.setProjectJson(this.projectJson);
+                    // step?.setUx(this.ux);
+                    // step?.setJsonOutputActive();
+                    // step?.setOrgAlias(this.orgAlias);
 
-                    await (bsm).mark(this, index, step, this.orgAlias);
+                    await bsm.mark(this, index, step, this.orgAlias);
 
-                    await step?.run();
+                    await BuildStepExecutor.run(step, buildStepConfig, this.projectJson, this.orgAlias, this.ux);
+
+                    // await step?.run();
                 }
                 catch (e){
                     throw e;

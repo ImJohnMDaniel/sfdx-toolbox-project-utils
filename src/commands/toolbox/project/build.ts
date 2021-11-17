@@ -6,6 +6,7 @@ import Processresources from './stage/processresources';
 import Compilation from './stage/compilation';
 import Testing from './stage/test';
 import Validation from './stage/validation';
+import { string } from '@oclif/parser/lib/flags';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -20,23 +21,38 @@ export default class Build extends SfdxCommand {
 
     public static examples = [messages.getMessage('examplesDescription')];
 
-    //   public static args = [{name: 'file'}];
-
     protected static flagsConfig = {
-        // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
+        setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') }),
+        setdefaultusername: flags.boolean({ char: 's', default: false, required: false, description: messages.getMessage('flagSetDefaultUsernameDescription') })
     };
 
-    // Comment this out if your command does not require an org username
     protected static requiresUsername = false;
+    // The "toolbox:project:build" command would not support a username because it will be creating it in the initialization stage
+    protected static supportsUsername = false;
 
-    // Comment this out if your command does not require a hub org username
     protected static requiresDevhubUsername = true;
 
-    // If true, then the command supported the parameter of specifying the hub org username
     protected static supportsDevhubUsername = true;
 
     // Set this to true if your command requires a project workspace; 'requiresProject' is false by default
     protected static requiresProject = true;
+
+    // May bring this back as the "build" command's flags become more apparent
+    // private prepareArgs(): any {
+    //     const args = [];
+
+    //     targetusername needs to be either the value supplied on the 
+    //          targetusername flag or the value supplied on the
+    //          config:list for defaultusername
+    //     args.push('--targetusername');
+    //     args.push(`${this.flags.setalias}`);
+
+    //     args.push('--setalias');
+    //     args.push(`${this.flags.setalias}`);
+    //     args.push(`${this.org.getUsername()}`);
+
+    //     return args;
+    // }
 
     public async run(): Promise<AnyJson> {
 
@@ -46,20 +62,34 @@ export default class Build extends SfdxCommand {
 
         // call the initialization stage
         const initializationStageArgs = [];
+        initializationStageArgs.push('--setalias');
+        initializationStageArgs.push(`${this.flags.setalias}`);
+
+        if ( this.flags.setdefaultusername )
+        {
+            initializationStageArgs.push('--setdefaultusername');
+            initializationStageArgs.push(`${this.flags.setdefaultusername}`);
+        }
         await Initialization.run(initializationStageArgs);
 
-        // call the Processresources stage
+        // // call the Processresources stage
         const processresourcesStageArgs = [];
+        processresourcesStageArgs.push('--targetusername');
+        processresourcesStageArgs.push(`${this.flags.setalias}`);
         await Processresources.run(processresourcesStageArgs);
 
         // call the Compilation stage
         const compilationArgs = [];
+        compilationArgs.push('--targetusername');
+        compilationArgs.push(`${this.flags.setalias}`);
         await Compilation.run(compilationArgs);
 
-        // TODO: Would the "testing" stage get called during a regular "project build"?  It would get called directly in a CI context, but what about a developer context?
+        // // TODO: Would the "testing" stage get called during a regular "project build"?  It would get called directly in a CI context, but what about a developer context?
 
         // call the Testing stage
         const testingStageArgs = [];
+        testingStageArgs.push('--targetusername');
+        testingStageArgs.push(`${this.flags.setalias}`);
         await Testing.run(testingStageArgs);
 
         return;

@@ -1,0 +1,44 @@
+Thoughts on alias verses targetusername
+
+
+
+toolbox:project:build
+    - The toolbox:project:build command requires an alias.  
+    - There is no use case where it would not be required.
+
+Stages
+toolbox:project:stage:validation
+    - performs basic checks on project to ensure that everything is in order for the build
+        - verifies that the sfdx-project.json "plugins.toolbox.project" JSON structure is valid.
+    - Neither the alias nor the targetusername are needed in this step.
+toolbox:project:stage:initialization
+    - performs the following key tasks:
+        - deletes scratch org previously created ***FOR THE ALIAS SPECIFIED***
+        - creates new scratch org ***FOR THE ALIAS SPECIFIED***
+        - incidental build steps ***FOR THE USERNAMED ASSOCIATED WITH THE ALIAS***
+    - The targetusername flag is problematic because the deleted org will be a different username 
+            than the org created.
+    - Requires SETALIAS flag
+toolbox:project:stage:processresources
+    - performs the following key tasks:
+        - deployment of all dependent packages
+        - incidental build steps ***FOR THE USERNAMED ASSOCIATED WITH THE ALIAS***
+    - Requires a TARGETUSERNAME flag 
+    - toolbox:project:build should transfer the "alias" to the command as the "targetusername"
+toolbox:project:stage:compilation
+    - performs the following key tasks:
+        - deployment of project source code
+        - incidental build steps ***FOR THE USERNAMED ASSOCIATED WITH THE ALIAS***
+    - Requires a TARGETUSERNAME flag 
+    - toolbox:project:build should transfer the "alias" to the command as the "targetusername"
+toolbox:project:stage:test 
+    - performs the following key tasks:
+        - unit testing
+        - static code analysis
+        - data loads 
+        - incidental build steps ***FOR THE USERNAMED ASSOCIATED WITH THE ALIAS***
+    - Requires a TARGETUSERNAME flag 
+    - toolbox:project:build should transfer the "alias" to the command as the "targetusername"
+
+Since one use case calls for multiple simultanous executions of "toolbox:project:build", 
+        the command should not rely on the config "defaultusername" setting.
