@@ -1,4 +1,4 @@
-import { AbstractBuildStep, BuildStep } from "../../types/build_step";
+import { AbstractBuildStep } from "../../types/build_step";
 import { AnyJson } from '@salesforce/ts-types';
 import { OrgCreateCommand } from 'salesforce-alm/dist/commands/force/org/create';
 import { FlagsConfig } from "@salesforce/command";
@@ -86,6 +86,11 @@ export default class ForceOrgCreate extends AbstractBuildStep {
             // this.ux.log(definitionfile['definitionFile']);
             args.push('--definitionfile');
             args.push(`${definitionfile['definitionFile']}`);
+        }
+
+        if (this.params.setalias) {
+            args.push('--setalias');
+            args.push(`${this.params.setalias}`);
         }
 
         // JSON

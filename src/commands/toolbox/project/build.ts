@@ -56,6 +56,8 @@ export default class Build extends SfdxCommand {
 
     public async run(): Promise<AnyJson> {
 
+        // TODO: Need a process to filter through the flags specified and pass to the stage commands only those that it can take.
+
         // call the validation stage
         const validationStageArgs = [];
         await Validation.run(validationStageArgs);
@@ -68,29 +70,30 @@ export default class Build extends SfdxCommand {
         if ( this.flags.setdefaultusername )
         {
             initializationStageArgs.push('--setdefaultusername');
-            initializationStageArgs.push(`${this.flags.setdefaultusername}`);
         }
-        await Initialization.run(initializationStageArgs);
+        const initializationResponse = await Initialization.run(initializationStageArgs);
+        
+        console.log(initializationResponse);
 
-        // // call the Processresources stage
-        const processresourcesStageArgs = [];
-        processresourcesStageArgs.push('--targetusername');
-        processresourcesStageArgs.push(`${this.flags.setalias}`);
-        await Processresources.run(processresourcesStageArgs);
+        // call the Processresources stage
+        // const processresourcesStageArgs = [];
+        // processresourcesStageArgs.push('--targetusername');
+        // processresourcesStageArgs.push(`${this.flags.setalias}`);
+        // await Processresources.run(processresourcesStageArgs);
 
         // call the Compilation stage
-        const compilationArgs = [];
-        compilationArgs.push('--targetusername');
-        compilationArgs.push(`${this.flags.setalias}`);
-        await Compilation.run(compilationArgs);
+        // const compilationArgs = [];
+        // compilationArgs.push('--targetusername');
+        // compilationArgs.push(`${this.flags.setalias}`);
+        // await Compilation.run(compilationArgs);
 
-        // // TODO: Would the "testing" stage get called during a regular "project build"?  It would get called directly in a CI context, but what about a developer context?
+        // TODO: Would the "testing" stage get called during a regular "project build"?  It would get called directly in a CI context, but what about a developer context?
 
         // call the Testing stage
-        const testingStageArgs = [];
-        testingStageArgs.push('--targetusername');
-        testingStageArgs.push(`${this.flags.setalias}`);
-        await Testing.run(testingStageArgs);
+        // const testingStageArgs = [];
+        // testingStageArgs.push('--targetusername');
+        // testingStageArgs.push(`${this.flags.setalias}`);
+        // await Testing.run(testingStageArgs);
 
         return;
     }

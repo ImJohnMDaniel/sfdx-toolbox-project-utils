@@ -15,12 +15,9 @@ export default class Initialization extends SfdxCommand {
     public static description = messages.getMessage('commandDescription');
 
     public static examples = [messages.getMessage('examplesDescription')];
-
-    //   public static args = [{name: 'file'}];
-
     protected static flagsConfig = {
-        // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
-        // targetusername: flags.string({ char: 'u', required: true, description: 'username or alias for the target org; overrides default target org'})
+        setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') }),
+        setdefaultusername: flags.boolean({ char: 's', default: false, required: false, description: messages.getMessage('flagSetDefaultUsernameDescription') })
     };
 
     // Comment this out if your command does not require an org username
@@ -38,11 +35,10 @@ export default class Initialization extends SfdxCommand {
 
     public async run(): Promise<AnyJson> {
 
-        if ( ! this.flags.targetusername ) {
-            throw Error('Flag targetusername is required.');
-        }
-
-        await new InitizalizationStage(await this.project.retrieveSfdxProjectJson(), this.flags.targetusername, this.ux).run();
+        // console.log('initialization area');
+        // console.log(this.flags);
+        
+        await new InitizalizationStage(await this.project.retrieveSfdxProjectJson(), this.ux, this.flags).run();
 
         return;
     }

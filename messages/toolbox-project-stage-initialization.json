@@ -1,5 +1,6 @@
 {
-    "commandDescription": "TODO: toolbox project stage initialization command description",
-    "examplesDescription": "TODO toolbox project stage initialization examples description"
-  }
-  
+  "commandDescription": "TODO: toolbox project stage initialization command description",
+  "examplesDescription": "TODO toolbox project stage initialization examples description",
+  "flagSetAliasDescription": "alias for the created org",
+  "flagSetDefaultUsernameDescription": "set the created org as the default username"
+}

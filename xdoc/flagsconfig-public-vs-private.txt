@@ -1,0 +1,12 @@
+FlagsConfig Public vs Private
+
+force_apex_execute.ts                       | @salesforce/plugin-apex   | forcedotcom/salesforcedx-apex         | protected         | PR 256 opened | https://github.com/forcedotcom/salesforcedx-apex/pull/256
+force_apex_test_run.ts                      | @salesforce/plugin-apex   | forcedotcom/salesforcedx-apex         | protected         | PR 256 opened | https://github.com/forcedotcom/salesforcedx-apex/pull/256
+force_data_record_update.ts                 | @salesforce/plugin-data   | salesforcecli/plugin-data             | public readonly
+force_mdapi_deploy.ts                       | salesforce-alm            | forcedotcom/salesforce-alm            | public readonly
+force_org_create.ts                         | salesforce-alm            | forcedotcom/salesforce-alm            | public readonly
+force_org_delete.ts                         | salesforce-alm            | forcedotcom/salesforce-alm            | public readonly
+force_source_push.ts                        | salesforce-alm            | forcedotcom/salesforce-alm            | public readonly
+force_user_permset_assign.ts                | @salesforce/plugin-user   | salesforcecli/plugin-user             | public readonly
+sfdmu_run.ts                                | sfdmu                     | forcedotcom/SFDX-Date-Move-Utility    | protected         | PR 384 opened | https://github.com/forcedotcom/SFDX-Data-Move-Utility/pull/384
+toolbox_package_dependencies_install.ts     | 
