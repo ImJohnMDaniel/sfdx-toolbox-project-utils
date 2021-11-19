@@ -1,6 +1,5 @@
-import { fs } from "@salesforce/core";
-import { existsSync, mkdir, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
-import { BuildStage } from "../types/build_stage";
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
+import { IBuildStage } from "../types/build_stage";
 import { BuildStep } from "../types/build_step";
 
 export interface BuildMarking {
@@ -30,7 +29,7 @@ export default class BuildStepMarker {
         return this.markerDirectoryName + '/' + this.markerFilePrefixName + orgAlias;
     }
 
-    public async mark( stage: BuildStage, stageIndex: number, step: BuildStep, orgAlias: string) {
+    public async mark( stage: IBuildStage, stageIndex: number, step: BuildStep, orgAlias: string) {
         const markerInfo: BuildMarking = {
             stage: stage.getStageToken(),
             stageIndex: stageIndex,

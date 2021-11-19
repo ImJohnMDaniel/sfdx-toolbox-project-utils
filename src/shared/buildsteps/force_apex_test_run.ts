@@ -1,7 +1,7 @@
 import { AbstractBuildStep } from "../../types/build_step";
 import { AnyJson } from '@salesforce/ts-types';
 import Run from "@salesforce/plugin-apex/lib/commands/force/apex/test/run";
-import { flags, FlagsConfig } from "@salesforce/command";
+import { FlagsConfig } from "@salesforce/command";
 
 /*
     invoke Apex tests
@@ -79,15 +79,6 @@ import { flags, FlagsConfig } from "@salesforce/command";
         $ sfdx force:apex:test:run -l RunLocalTests -d <path to outputdir> -u me@my.org
  */
 export default class ForceApexTestRun extends AbstractBuildStep {
-
-    // Since the current version of the force:apex:execute command has the flagsConfig variable
-    //      as protected, we can't access it here like we can other classes.  So we will
-    //      workaround it for now.
-    // protected static flagsConfig: FlagsConfig = Execute.flagsConfig;
-    protected static flagsConfig: FlagsConfig = { 
-        // TODO: implement these flags
-        
-    }
 
     public async run(): Promise<AnyJson> {
 
@@ -183,5 +174,11 @@ export default class ForceApexTestRun extends AbstractBuildStep {
     
     public getSFDXProjectConfigureExample(): string {
         return ''
+    }
+
+    public getFlagsConfig(): FlagsConfig {
+        // TODO: Uncomment this once PR is merged https://github.com/forcedotcom/salesforcedx-apex/pull/256
+        // return Run.flagsConfig; 
+        return {};
     }
 }

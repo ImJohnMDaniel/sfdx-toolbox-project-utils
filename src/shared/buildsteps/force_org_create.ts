@@ -41,8 +41,6 @@ import { tmpdir } from "os";
 
 export default class ForceOrgCreate extends AbstractBuildStep {
 
-    protected static flagsConfig: FlagsConfig = OrgCreateCommand.flagsConfig;
-
     public async run(): Promise<AnyJson> {
 
         this.ux.log('Creating new scratch org ' + this.orgAlias);
@@ -116,5 +114,9 @@ export default class ForceOrgCreate extends AbstractBuildStep {
 
     public getSFDXProjectConfigureExample(): string {
         return ''
+    }
+
+    public getFlagsConfig(): FlagsConfig {
+        return OrgCreateCommand.flagsConfig;
     }
 }

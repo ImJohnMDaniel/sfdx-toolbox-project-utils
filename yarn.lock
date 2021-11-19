@@ -5448,10 +5448,10 @@
   "resolved" "https://registry.npmjs.org/setimmediate/-/setimmediate-1.0.5.tgz"
   "version" "1.0.5"
 
-"sfdmu@^4.9.5":
-  "integrity" "sha512-9HbzGlwg8mVIZXTgUzBGPoHbxmB2QUcG8pu+04upVCoDiGs8ysw9Eu5FBUC9LhEDv283iSfJct5ebQf6iiPkGQ=="
-  "resolved" "https://registry.npmjs.org/sfdmu/-/sfdmu-4.9.5.tgz"
-  "version" "4.9.5"
+"sfdmu@^4.10.2":
+  "integrity" "sha512-7u8xAiwutzq5yfVMwmZF1Gn1hj1cRmuSjN70sJnMEziivmJK+87h1Z5MWOj0hlvQUp2+/XCJnw+jzVaAdwXbRg=="
+  "resolved" "https://registry.npmjs.org/sfdmu/-/sfdmu-4.10.2.tgz"
+  "version" "4.10.2"
   dependencies:
     "@oclif/command" "^1.8.0"
     "@oclif/config" "^1.17.0"

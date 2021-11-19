@@ -5,18 +5,6 @@ import { flags, FlagsConfig } from "@salesforce/command";
 
 export default class ForceApexExecute extends AbstractBuildStep {
 
-    // Since the current version of the force:apex:execute command has the flagsConfig variable
-    //      as protected, we can't access it here like we can other classes.  So we will
-    //      workaround it for now.
-    // protected static flagsConfig: FlagsConfig = Execute.flagsConfig;
-    protected static flagsConfig: FlagsConfig = { 
-        // TODO: implement these flags
-        // apexcodefile: flags.Discriminated<flags.Option<string>>;
-        apexcodefile: flags.string({ char: 'f', required: false, description: 'path to a local file that contains Apex code' }),
-        // loglevel: flags.Discriminated<flags.Enum<string>>;
-        // apiversion: flags.Builtin;
-    }
-
     public async run(): Promise<AnyJson> {
 
         this.ux.log('Apex execution on scratch org ' + this.orgAlias);
@@ -57,5 +45,17 @@ export default class ForceApexExecute extends AbstractBuildStep {
     
     public getSFDXProjectConfigureExample(): string {
         return ''
+    }
+
+    public getFlagsConfig(): FlagsConfig {
+        // TODO: Uncomment this once PR is merged https://github.com/forcedotcom/salesforcedx-apex/pull/256
+        // return Execute.flagsConfig; 
+        return { 
+            // TODO: implement these flags
+            // apexcodefile: flags.Discriminated<flags.Option<string>>;
+            apexcodefile: flags.string({ char: 'f', required: false, description: 'path to a local file that contains Apex code' }),
+            // loglevel: flags.Discriminated<flags.Enum<string>>;
+            // apiversion: flags.Builtin;
+        };
     }
 }

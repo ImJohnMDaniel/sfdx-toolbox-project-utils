@@ -8,8 +8,6 @@ import { FlagsConfig } from "@salesforce/command";
  */
 export default class ForceMdapiDeploy extends AbstractBuildStep {
 
-    protected static flagsConfig: FlagsConfig = MdapiDeployCommand.flagsConfig;
-
     public async run(): Promise<AnyJson> {
 
         this.ux.log('MDAPI deploy to scratch org ' + this.orgAlias);
@@ -93,5 +91,9 @@ export default class ForceMdapiDeploy extends AbstractBuildStep {
     
     public getSFDXProjectConfigureExample(): string {
         return ''
+    }
+
+    public getFlagsConfig(): FlagsConfig {
+        return MdapiDeployCommand.flagsConfig;
     }
 }

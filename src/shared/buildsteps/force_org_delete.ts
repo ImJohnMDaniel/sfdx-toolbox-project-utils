@@ -26,8 +26,6 @@ import { FlagsConfig } from "@salesforce/command";
  */
 export default class ForceOrgDelete extends AbstractBuildStep {
 
-    protected static flagsConfig: FlagsConfig = OrgDeleteCommand.flagsConfig;
-
     public async run(): Promise<AnyJson> {
 
         this.ux.log('Deleting existing scratch org ' + this.orgAlias);
@@ -55,5 +53,9 @@ export default class ForceOrgDelete extends AbstractBuildStep {
     
     public getSFDXProjectConfigureExample(): string {
         return ''
+    }
+
+    public getFlagsConfig(): FlagsConfig {
+        return OrgDeleteCommand.flagsConfig; 
     }
 }

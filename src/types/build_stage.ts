@@ -9,7 +9,7 @@ import Utils from "../shared/utils";
 import BuildStepMarker, { BuildMarking } from "../shared/build_step_marker";
 import BuildStepExecutor from "../shared/build_step_executor";
 
-export interface BuildStage {
+export interface IBuildStage {
     getBuildSteps(): BuildStep[];
     getFlags(): OutputFlags<any>;
     getProjectJson(): SfdxProjectJson;
@@ -18,7 +18,11 @@ export interface BuildStage {
     run(): Promise<AnyJson>;
 }
 
-export abstract class AbstractBuildStage implements BuildStage {
+export interface ICarriesStageable {
+    setCurrentStage(currentStage: IBuildStage): void;
+}
+
+export abstract class AbstractBuildStage implements IBuildStage {
 
     private readonly projectJson: SfdxProjectJson;
     private ux: UX;

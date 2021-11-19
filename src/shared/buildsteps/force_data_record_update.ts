@@ -2,6 +2,7 @@ import { AbstractBuildStep } from "../../types/build_step";
 import { AnyJson } from '@salesforce/ts-types';
 import { FlagsConfig } from "@salesforce/command";
 import Update from "@salesforce/plugin-data/lib/commands/force/data/record/update"
+import { IBuildStage, ICarriesStageable } from "../../types/build_stage";
 
 /*
     updates a single record
@@ -37,10 +38,7 @@ import Update from "@salesforce/plugin-data/lib/commands/force/data/record/updat
  */
 
 export default class ForceDataRecordUpdate extends AbstractBuildStep {
-
-    protected static flagsConfig: FlagsConfig = Update.flagsConfig;
-    
-    public async run(): Promise<AnyJson> {
+   public async run(): Promise<AnyJson> {
 
         this.ux.log('Performing data record update on ' + this.params.sobjecttype + ' SObject');
 
@@ -92,7 +90,11 @@ export default class ForceDataRecordUpdate extends AbstractBuildStep {
     public getBuildStepTypeToken(): string {
         return 'ForceDataRecordUpdate';
     }
-    getSFDXProjectConfigureExample(): string {
+    public getSFDXProjectConfigureExample(): string {
         return ''
+    }
+
+    public getFlagsConfig(): FlagsConfig {
+        return Update.flagsConfig;
     }
 }

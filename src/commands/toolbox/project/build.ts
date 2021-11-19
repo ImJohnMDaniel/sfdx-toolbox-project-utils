@@ -71,21 +71,21 @@ export default class Build extends SfdxCommand {
         {
             initializationStageArgs.push('--setdefaultusername');
         }
-        const initializationResponse = await Initialization.run(initializationStageArgs);
-        
-        console.log(initializationResponse);
+        await Initialization.run(initializationStageArgs);
+        // const initializationResponse = await Initialization.run(initializationStageArgs);
+        // console.log(initializationResponse);
 
         // call the Processresources stage
-        // const processresourcesStageArgs = [];
-        // processresourcesStageArgs.push('--targetusername');
-        // processresourcesStageArgs.push(`${this.flags.setalias}`);
-        // await Processresources.run(processresourcesStageArgs);
+        const processresourcesStageArgs = [];
+        processresourcesStageArgs.push('--targetusername');
+        processresourcesStageArgs.push(`${this.flags.setalias}`);
+        await Processresources.run(processresourcesStageArgs);
 
         // call the Compilation stage
-        // const compilationArgs = [];
-        // compilationArgs.push('--targetusername');
-        // compilationArgs.push(`${this.flags.setalias}`);
-        // await Compilation.run(compilationArgs);
+        const compilationArgs = [];
+        compilationArgs.push('--targetusername');
+        compilationArgs.push(`${this.flags.setalias}`);
+        await Compilation.run(compilationArgs);
 
         // TODO: Would the "testing" stage get called during a regular "project build"?  It would get called directly in a CI context, but what about a developer context?
 

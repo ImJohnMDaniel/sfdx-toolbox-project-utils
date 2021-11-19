@@ -1,13 +1,17 @@
 import { AbstractBuildStep } from "../../types/build_step";
 import { AnyJson } from '@salesforce/ts-types';
-import { flags, FlagsConfig } from "@salesforce/command";
+import { FlagsConfig } from "@salesforce/command";
 import BuildStepsFactory from "../build_steps_factory";
 import BuildStepExecutor from "../build_step_executor";
+import { IBuildStage, ICarriesStageable } from "../../types/build_stage";
 
-export default class ThreadedBuildStep extends AbstractBuildStep {
-
-    protected static flagsConfig: FlagsConfig = { };
-
+export default class ThreadedBuildStep extends AbstractBuildStep 
+    implements ICarriesStageable
+{
+    private currentStage: IBuildStage;
+    public setCurrentStage(currentStage: IBuildStage): void {
+        this.currentStage = currentStage;
+    }
     public async run(): Promise<AnyJson> {
 
         this.ux.log('Beginning execution of multiple threaded build steps against ' + this.orgAlias);
@@ -28,7 +32,7 @@ export default class ThreadedBuildStep extends AbstractBuildStep {
 // TODO double check this is doing what I think it should -- I probably needs "await Promise.all()"
             this.params.buildsteps.forEach(async buildStepConfig => {
                 const step = await bsf.create(buildStepConfig.buildStepType);
-                BuildStepExecutor.run(step, buildStepConfig, this.projectJson, this.orgAlias, this.ux);
+                BuildStepExecutor.run(this.currentStage, step, buildStepConfig);
             });
         }
 
@@ -42,5 +46,9 @@ export default class ThreadedBuildStep extends AbstractBuildStep {
     
     public getSFDXProjectConfigureExample(): string {
         return ''
+    }
+
+    public getFlagsConfig(): FlagsConfig {
+        return { };
     }
 }

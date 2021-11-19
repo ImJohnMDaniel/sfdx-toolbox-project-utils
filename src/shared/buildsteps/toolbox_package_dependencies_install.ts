@@ -1,6 +1,6 @@
 import { AbstractBuildStep } from "../../types/build_step";
 import { AnyJson } from '@salesforce/ts-types';
-import { flags, FlagsConfig } from "@salesforce/command";
+import { FlagsConfig } from "@salesforce/command";
 import Install from "@dx-cli-toolbox/sfdx-toolbox-package-utils/lib/commands/toolbox/package/dependencies/install";
 
 /*
@@ -54,9 +54,6 @@ import Install from "@dx-cli-toolbox/sfdx-toolbox-package-utils/lib/commands/too
  */
 
 export default class ToolboxPackageDependenciesInstall extends AbstractBuildStep {
-
-    protected static flagsConfig: FlagsConfig = Install.flagsConfig;
-
     public async run(): Promise<AnyJson> {
 
         this.ux.log('deployment of all package dependencies to scratch org ' + this.orgAlias);
@@ -140,5 +137,9 @@ export default class ToolboxPackageDependenciesInstall extends AbstractBuildStep
     
     public getSFDXProjectConfigureExample(): string {
         return ''
+    }
+
+    public getFlagsConfig(): FlagsConfig {
+        return Install.flagsConfig;
     }
 }

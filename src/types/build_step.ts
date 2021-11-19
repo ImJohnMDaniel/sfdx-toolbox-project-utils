@@ -1,4 +1,4 @@
-import { UX } from '@salesforce/command';
+import { FlagsConfig, UX } from '@salesforce/command';
 import { SfdxProjectJson } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 export interface BuildStep {
@@ -12,12 +12,14 @@ export interface BuildStep {
     // validateParams(): boolean;
     setJsonOutputActive(): void;
     setOrgAlias(orgAlias: string): void;
+    getFlagsConfig(): FlagsConfig;
 }
 
 export abstract class AbstractBuildStep implements BuildStep {
     abstract run(): Promise<AnyJson>;
     abstract getBuildStepTypeToken(): string;
     abstract getSFDXProjectConfigureExample(): string;
+    abstract getFlagsConfig(): FlagsConfig;
 
     protected projectJson: SfdxProjectJson;
     protected ux: UX;

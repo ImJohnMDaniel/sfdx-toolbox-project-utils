@@ -34,8 +34,6 @@ import { FlagsConfig } from "@salesforce/command";
  */
 export default class ForceUserPermsetAssign extends AbstractBuildStep {
 
-    protected static flagsConfig: FlagsConfig = UserPermsetAssignCommand.flagsConfig;
-
     public async run(): Promise<AnyJson> {
 
         this.ux.log('Permset assignment to scratch org ' + this.orgAlias);
@@ -73,5 +71,9 @@ export default class ForceUserPermsetAssign extends AbstractBuildStep {
     
     public getSFDXProjectConfigureExample(): string {
         return ''
+    }
+
+    public getFlagsConfig(): FlagsConfig {
+        return UserPermsetAssignCommand.flagsConfig; 
     }
 }

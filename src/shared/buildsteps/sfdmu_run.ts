@@ -47,8 +47,6 @@ import { FlagsConfig } from "@salesforce/command";
  */
 export default class SfdmuRun extends AbstractBuildStep {
 
-    protected static flagsConfig: FlagsConfig = {}; // Run.flagsConfig;
-
     public async run(): Promise<AnyJson> {
 
         this.ux.log('Data load to scratch org ' + this.orgAlias);
@@ -127,5 +125,9 @@ export default class SfdmuRun extends AbstractBuildStep {
     
     public getSFDXProjectConfigureExample(): string {
         return ''
+    }
+
+    public getFlagsConfig(): FlagsConfig {
+        return Run.flagsConfig; 
     }
 }

@@ -27,8 +27,6 @@ import { FlagsConfig } from "@salesforce/command";
  */
 export default class ForceSourcePush extends AbstractBuildStep {
 
-    protected static flagsConfig: FlagsConfig = SourcePushCommand.flagsConfig;
-
     public async run(): Promise<AnyJson> {
 
         this.ux.log('Source push to scratch org ' + this.orgAlias);
@@ -70,5 +68,9 @@ export default class ForceSourcePush extends AbstractBuildStep {
     
     public getSFDXProjectConfigureExample(): string {
         return ''
+    }
+
+    public getFlagsConfig(): FlagsConfig {
+        return SourcePushCommand.flagsConfig; 
     }
 }
