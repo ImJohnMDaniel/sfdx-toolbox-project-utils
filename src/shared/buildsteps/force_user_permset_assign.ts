@@ -1,13 +1,13 @@
-import { AbstractBuildStep } from "../../types/build_step";
-import { AnyJson } from '@salesforce/ts-types';
+import { FlagsConfig } from '@salesforce/command';
 import { UserPermsetAssignCommand } from '@salesforce/plugin-user/lib/commands/force/user/permset/assign';
-import { FlagsConfig } from "@salesforce/command";
+import { AnyJson } from '@salesforce/ts-types';
+import { AbstractBuildStep } from '../../types/build_step';
 
 /*
     assign a permission set to one or more users of an org
 
     USAGE
-        $ sfdx force:user:permset:assign -n <array> [-o <array>] [-u <string>] [--apiversion <string>] [--json] [--loglevel 
+        $ sfdx force:user:permset:assign -n <array> [-o <array>] [-u <string>] [--apiversion <string>] [--json] [--loglevel
             trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
     OPTIONS
@@ -24,7 +24,7 @@ import { FlagsConfig } from "@salesforce/command";
         --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)    [default: warn] logging level for this command invocation
 
     DESCRIPTION
-        To specify an alias for the -u or -o parameter, use the username alias you set with the "alias:set" CLI command, not the User.Alias value of the 
+        To specify an alias for the -u or -o parameter, use the username alias you set with the "alias:set" CLI command, not the User.Alias value of the
         org user.
 
     EXAMPLES
@@ -59,21 +59,21 @@ export default class ForceUserPermsetAssign extends AbstractBuildStep {
 
         args.push('--targetusername');
         args.push(`${this.orgAlias}`);
-        
-        const userPermsetAssignResultJson = await UserPermsetAssignCommand.run(args);
+
+        await UserPermsetAssignCommand.run(args);
 
         return;
     }
-    
+
     public getBuildStepTypeToken(): string {
         return 'ForceUserPermsetAssign';
     }
-    
+
     public getSFDXProjectConfigureExample(): string {
-        return ''
+        return '';
     }
 
     public getFlagsConfig(): FlagsConfig {
-        return UserPermsetAssignCommand.flagsConfig; 
+        return UserPermsetAssignCommand.flagsConfig;
     }
 }

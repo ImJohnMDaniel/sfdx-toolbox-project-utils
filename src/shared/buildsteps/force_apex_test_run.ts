@@ -1,14 +1,14 @@
-import { AbstractBuildStep } from "../../types/build_step";
+import { FlagsConfig } from '@salesforce/command';
+import Run from '@salesforce/plugin-apex/lib/commands/force/apex/test/run';
 import { AnyJson } from '@salesforce/ts-types';
-import Run from "@salesforce/plugin-apex/lib/commands/force/apex/test/run";
-import { FlagsConfig } from "@salesforce/command";
+import { AbstractBuildStep } from '../../types/build_step';
 
 /*
     invoke Apex tests
 
     USAGE
-        $ sfdx force:apex:test:run [-d <string>] [-l RunLocalTests|RunAllTestsInOrg|RunSpecifiedTests] [-n <string>] [-r human|tap|junit|json] [-s 
-            <string>] [-t <string>] [-w <string>] [-y] [-v -c] [-u <string>] [--apiversion <string>] [--verbose] [--json] [--loglevel 
+        $ sfdx force:apex:test:run [-d <string>] [-l RunLocalTests|RunAllTestsInOrg|RunSpecifiedTests] [-n <string>] [-r human|tap|junit|json] [-s
+            <string>] [-t <string>] [-w <string>] [-y] [-v -c] [-u <string>] [--apiversion <string>] [--verbose] [--json] [--loglevel
             trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
     OPTIONS
@@ -34,7 +34,7 @@ import { FlagsConfig } from "@salesforce/command";
             comma-separated list of Apex test suite names to run; if you select --suitenames, you can't specify --classnames or --tests
 
         -t, --tests=tests
-            comma-separated list of Apex test class names or IDs and, if applicable, test methods to run; if you specify --tests, you can't specify 
+            comma-separated list of Apex test class names or IDs and, if applicable, test methods to run; if you specify --tests, you can't specify
             --classnames or --suitenames
 
         -u, --targetusername=targetusername
@@ -62,13 +62,13 @@ import { FlagsConfig } from "@salesforce/command";
             display Apex test processing details; if JSON is specified, processing details aren't displayed
 
     DESCRIPTION
-        Specify which tests to run by using the --classnames, --suites, or --tests parameters. Alternatively, use the --testlevel parameter to run all the 
+        Specify which tests to run by using the --classnames, --suites, or --tests parameters. Alternatively, use the --testlevel parameter to run all the
         tests in your org, local tests, or specified tests.
-        To see code coverage results, use the --codecoverage parameter with --resultformat. The output displays a high-level summary of the test run and 
-        the code coverage values for classes in your org. If you specify human-readable result format, use the --detailedcoverage parameter to see detailed 
+        To see code coverage results, use the --codecoverage parameter with --resultformat. The output displays a high-level summary of the test run and
+        the code coverage values for classes in your org. If you specify human-readable result format, use the --detailedcoverage parameter to see detailed
         coverage results for each test method run.
 
-        NOTE: The testRunCoverage value (JSON and JUnit result formats) is a percentage of the covered lines and total lines from all the Apex classes 
+        NOTE: The testRunCoverage value (JSON and JUnit result formats) is a percentage of the covered lines and total lines from all the Apex classes
         evaluated by the tests in this run.
 
     EXAMPLES
@@ -96,72 +96,72 @@ export default class ForceApexTestRun extends AbstractBuildStep {
             args.push('--codecoverage');
             args.push(`${this.params.codecoverage}`);
         }
-        
+
         // OUTPUTDIR
         if (this.params.outputdir) {
             args.push('--outputdir');
             args.push(`${this.params.outputdir}`);
         }
-        
+
         // TESTLEVEL
         if (this.params.testlevel) {
             args.push('--testlevel');
             args.push(`${this.params.testlevel}`);
         }
-        
+
         // CLASSNAMES
         if (this.params.classnames) {
             args.push('--classnames');
             args.push(`${this.params.classnames}`);
         }
-        
+
         // RESULTFORMAT
         if (this.params.resultformat) {
             args.push('--resultformat');
             args.push(`${this.params.resultformat}`);
         }
-        
+
         // SUITENAMES
         if (this.params.suitenames) {
             args.push('--suitenames');
             args.push(`${this.params.suitenames}`);
         }
-        
+
         // TESTS
         if (this.params.tests) {
             args.push('--tests');
             args.push(`${this.params.tests}`);
         }
-        
+
         // DETAILEDCOVERAGE
         if (this.params.detailedcoverage) {
             args.push('--detailedcoverage');
         }
-        
+
         // WAIT
         if (this.params.wait) {
             args.push('--wait');
             args.push(`${this.params.wait}`);
         }
-        
+
         // SYNCHRONOUS
         if (this.params.synchronous) {
             args.push('--synchronous');
         }
-        
+
         // VERBOSE
         if (this.params.verbose) {
             args.push('--verbose');
         }
-        
+
         // JSON
         if (this.params.json) {
             args.push('--json');
         }
-        
+
         const apexTestRunResultJson = await Run.run(args);
 
-        if ( apexTestRunResultJson == undefined ) {
+        if ( apexTestRunResultJson === undefined ) {
             // there was a problem with the apex execute step
             throw Error('Apex Test Run attempt was unsuccessful.');
         }
@@ -171,14 +171,14 @@ export default class ForceApexTestRun extends AbstractBuildStep {
     public getBuildStepTypeToken(): string {
         return 'ForceApexTestRun';
     }
-    
+
     public getSFDXProjectConfigureExample(): string {
-        return ''
+        return '';
     }
 
     public getFlagsConfig(): FlagsConfig {
         // TODO: Uncomment this once PR is merged https://github.com/forcedotcom/salesforcedx-apex/pull/256
-        // return Run.flagsConfig; 
+        // return Run.flagsConfig;
         return {};
     }
 }

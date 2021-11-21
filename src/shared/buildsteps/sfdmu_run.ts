@@ -1,13 +1,13 @@
-import { AbstractBuildStep } from "../../types/build_step";
+import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
 import Run from 'sfdmu/lib/commands/sfdmu/run';
-import { FlagsConfig } from "@salesforce/command";
+import { AbstractBuildStep } from '../../types/build_step';
 
 /*
     The Salesforce DX data migration tool.
 
     USAGE
-        $ sfdx sfdmu:run [-s <string>] [-p <directory>] [--silent] [--version] [--filelog] [--noprompt] [--nowarnings] [-c <string>] [-u <string>] 
+        $ sfdx sfdmu:run [-s <string>] [-p <directory>] [--silent] [--version] [--filelog] [--noprompt] [--nowarnings] [-c <string>] [-u <string>]
             [--apiversion <string>] [--verbose] [--concise] [--quiet] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
     OPTIONS
@@ -113,21 +113,21 @@ export default class SfdmuRun extends AbstractBuildStep {
 
         args.push('--targetusername');
         args.push(`${this.orgAlias}`);
-        
-        const sfdmuRunResultJson = await Run.run(args);
+
+        await Run.run(args);
 
         return;
     }
-    
+
     public getBuildStepTypeToken(): string {
         return 'SfdmuRun';
     }
-    
+
     public getSFDXProjectConfigureExample(): string {
-        return ''
+        return '';
     }
 
     public getFlagsConfig(): FlagsConfig {
-        return Run.flagsConfig; 
+        return Run.flagsConfig;
     }
 }

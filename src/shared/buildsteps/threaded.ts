@@ -1,13 +1,12 @@
-import { AbstractBuildStep } from "../../types/build_step";
+import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
-import { FlagsConfig } from "@salesforce/command";
-import BuildStepsFactory from "../build_steps_factory";
-import BuildStepExecutor from "../build_step_executor";
-import { IBuildStage, ICarriesStageable } from "../../types/build_stage";
+import { IBuildStage, ICarriesStageable } from '../../types/build_stage';
+import { AbstractBuildStep } from '../../types/build_step';
+import BuildStepExecutor from '../build_step_executor';
+import BuildStepsFactory from '../build_steps_factory';
 
-export default class ThreadedBuildStep extends AbstractBuildStep 
-    implements ICarriesStageable
-{
+export default class ThreadedBuildStep extends AbstractBuildStep
+    implements ICarriesStageable {
     private currentStage: IBuildStage;
     public setCurrentStage(currentStage: IBuildStage): void {
         this.currentStage = currentStage;
@@ -27,11 +26,12 @@ export default class ThreadedBuildStep extends AbstractBuildStep
 
         // find the build steps within this build step
         if (this.params.buildSteps) {
-            // build steps were found 
+            // build steps were found
             // execute all of them at once
 // TODO double check this is doing what I think it should -- I probably needs "await Promise.all()"
             this.params.buildsteps.forEach(async buildStepConfig => {
                 const step = await bsf.create(buildStepConfig.buildStepType);
+                // tslint:disable-next-line: no-floating-promises
                 BuildStepExecutor.run(this.currentStage, step, buildStepConfig);
             });
         }
@@ -43,9 +43,9 @@ export default class ThreadedBuildStep extends AbstractBuildStep
     public getBuildStepTypeToken(): string {
         return 'ThreadedBuildStep';
     }
-    
+
     public getSFDXProjectConfigureExample(): string {
-        return ''
+        return '';
     }
 
     public getFlagsConfig(): FlagsConfig {

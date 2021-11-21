@@ -21,9 +21,10 @@ export default class Utils {
   // }
 
   // if a current flagsConfig is aware of the flag submitted, add that flag to the buildStepConfig (overwrite if necessary)
+  // tslint:disable-next-line: no-any
   public static filterAndPrepareBuildStepConfigFromFlagsBasedOnFlagsConfig(flags: OutputFlags<any>, currentFlagsConfig: FlagsConfig, buildStepConfig: any) {
 
-    if (buildStepConfig == undefined) {
+    if (buildStepConfig === undefined) {
       buildStepConfig = {};
     }
     // loop through the flags
@@ -37,13 +38,14 @@ export default class Utils {
   }
 
   // TODO: Research if @oclif/parser/lib/Parser class would be better for this task
+  // tslint:disable-next-line: no-any
   public static filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(flags: OutputFlags<any>, currentFlagsConfig: FlagsConfig, args: string[]) {
 
     // console.log('\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     // console.log('currentFlagsConfig_________________________');
     // console.log(currentFlagsConfig);
     // console.log('\n');
-    if (args == undefined) {
+    if (args === undefined) {
       args = [];
     }
     // loop through the flags

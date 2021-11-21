@@ -1,10 +1,10 @@
-import { AbstractBuildStep } from "../../types/build_step";
+import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
 import { MdapiDeployCommand } from 'salesforce-alm/dist/commands/force/mdapi/deploy';
-import { FlagsConfig } from "@salesforce/command";
+import { AbstractBuildStep } from '../../types/build_step';
 
 /*
-    
+
  */
 export default class ForceMdapiDeploy extends AbstractBuildStep {
 
@@ -79,18 +79,18 @@ export default class ForceMdapiDeploy extends AbstractBuildStep {
 
         args.push('--targetusername');
         args.push(`${this.orgAlias}`);
-        
-        const mdapiDeployResultJson = await MdapiDeployCommand.run(args);
+
+        await MdapiDeployCommand.run(args);
 
         return;
     }
-    
+
     public getBuildStepTypeToken(): string {
         return 'ForceMdapiDeploy';
     }
-    
+
     public getSFDXProjectConfigureExample(): string {
-        return ''
+        return '';
     }
 
     public getFlagsConfig(): FlagsConfig {

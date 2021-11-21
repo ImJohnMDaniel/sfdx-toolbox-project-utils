@@ -1,7 +1,7 @@
-import { AbstractBuildStep } from "../../types/build_step";
+import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
 import { OrgDeleteCommand } from 'salesforce-alm/dist/commands/force/org/delete';
-import { FlagsConfig } from "@salesforce/command";
+import { AbstractBuildStep } from '../../types/build_step';
 
 /*
     mark a scratch or sandbox org for deletion
@@ -18,7 +18,7 @@ import { FlagsConfig } from "@salesforce/command";
         --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for this command invocation
 
     DESCRIPTION
-        To mark the org for deletion without being prompted to confirm, specify --noprompt. 
+        To mark the org for deletion without being prompted to confirm, specify --noprompt.
 
     Examples:
         $ sfdx force:org:delete -u me@my.org
@@ -41,21 +41,21 @@ export default class ForceOrgDelete extends AbstractBuildStep {
 
         args.push('--targetusername');
         args.push(`${this.orgAlias}`);
-        
-        const orgCreationResultJson = await OrgDeleteCommand.run(args);
+
+        await OrgDeleteCommand.run(args);
 
         return;
     }
-    
+
     public getBuildStepTypeToken(): string {
         return 'ForceOrgDelete';
     }
-    
+
     public getSFDXProjectConfigureExample(): string {
-        return ''
+        return '';
     }
 
     public getFlagsConfig(): FlagsConfig {
-        return OrgDeleteCommand.flagsConfig; 
+        return OrgDeleteCommand.flagsConfig;
     }
 }

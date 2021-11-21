@@ -1,8 +1,7 @@
-import { AbstractBuildStep } from "../../types/build_step";
+import { FlagsConfig } from '@salesforce/command';
+import Update from '@salesforce/plugin-data/lib/commands/force/data/record/update';
 import { AnyJson } from '@salesforce/ts-types';
-import { FlagsConfig } from "@salesforce/command";
-import Update from "@salesforce/plugin-data/lib/commands/force/data/record/update"
-import { IBuildStage, ICarriesStageable } from "../../types/build_stage";
+import { AbstractBuildStep } from '../../types/build_step';
 
 /*
     updates a single record
@@ -91,7 +90,7 @@ export default class ForceDataRecordUpdate extends AbstractBuildStep {
         return 'ForceDataRecordUpdate';
     }
     public getSFDXProjectConfigureExample(): string {
-        return ''
+        return '';
     }
 
     public getFlagsConfig(): FlagsConfig {

@@ -1,6 +1,6 @@
-import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
-import { IBuildStage } from "../types/build_stage";
-import { IBuildStep } from "../types/build_step";
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
+import { IBuildStage } from '../types/build_stage';
+import { IBuildStep } from '../types/build_step';
 
 export interface BuildMarking {
     stage: string;
@@ -10,10 +10,6 @@ export interface BuildMarking {
 
 export default class BuildStepMarker {
 
-    private markerFilePrefixName: string = 'project-build-marker-';
-    private markerDirectoryName: string = 'temp';
-    private static theInstance: BuildStepMarker;
-
     public static async getInstance() {
         if (BuildStepMarker.theInstance == null ) {
             this.theInstance = new BuildStepMarker();
@@ -21,17 +17,19 @@ export default class BuildStepMarker {
         return BuildStepMarker.theInstance;
     }
 
+    private static theInstance: BuildStepMarker;
+
+    private markerFilePrefixName: string = 'project-build-marker-';
+    private markerDirectoryName: string = 'temp';
+
     private constructor() {
 
-    }
-
-    private getMarkerFilename(orgAlias: string): string {
-        return this.markerDirectoryName + '/' + this.markerFilePrefixName + orgAlias;
     }
 
     public async mark( stage: IBuildStage, stageIndex: number, step: IBuildStep, orgAlias: string) {
         const markerInfo: BuildMarking = {
             stage: stage.getStageToken(),
+            // tslint:disable-next-line: object-literal-shorthand
             stageIndex: stageIndex,
             step: step.getBuildStepTypeToken()
         };
@@ -41,7 +39,7 @@ export default class BuildStepMarker {
         if (!existsSync(this.markerDirectoryName)) {
             mkdirSync(this.markerDirectoryName);
         }
-        
+
         await writeFileSync( this.getMarkerFilename(orgAlias), JSON.stringify(markerInfo));
     }
 
@@ -56,5 +54,9 @@ export default class BuildStepMarker {
 
     public async removeMarking(orgAlias: string) {
         unlinkSync(this.getMarkerFilename(orgAlias));
+    }
+
+    private getMarkerFilename(orgAlias: string): string {
+        return this.markerDirectoryName + '/' + this.markerFilePrefixName + orgAlias;
     }
 }

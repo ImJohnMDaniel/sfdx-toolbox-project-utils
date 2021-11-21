@@ -5,7 +5,8 @@ export interface IBuildStep {
     run(): Promise<AnyJson>;
     // setLogger({}): void;
     getBuildStepTypeToken(): string;
-    setParams(params: any): void; 
+    // tslint:disable-next-line: no-any
+    setParams(params: any): void;
     setUx(thisUx: UX): void;
     setProjectJson(projectJson: SfdxProjectJson): void;
     getSFDXProjectConfigureExample(): string;
@@ -16,34 +17,35 @@ export interface IBuildStep {
 }
 
 export abstract class AbstractBuildStep implements IBuildStep {
-    abstract run(): Promise<AnyJson>;
-    abstract getBuildStepTypeToken(): string;
-    abstract getSFDXProjectConfigureExample(): string;
-    abstract getFlagsConfig(): FlagsConfig;
-
     protected projectJson: SfdxProjectJson;
     protected ux: UX;
+    // tslint:disable-next-line: no-any
     protected params: any;
     protected orgAlias: string;
     protected jsonOutput: boolean;
-    setProjectJson(projectJson: SfdxProjectJson): void {
+    public abstract run(): Promise<AnyJson>;
+    public abstract getBuildStepTypeToken(): string;
+    public abstract getSFDXProjectConfigureExample(): string;
+    public abstract getFlagsConfig(): FlagsConfig;
+
+    public setProjectJson(projectJson: SfdxProjectJson): void {
         this.projectJson = projectJson;
     }
 
-    setUx(thisUx: UX): void {
+    public setUx(thisUx: UX): void {
         this.ux = thisUx;
     }
 
-    setParams(params: any): void {
+    // tslint:disable-next-line: no-any
+    public setParams(params: any): void {
         this.params = params;
     }
 
-    setJsonOutputActive(): void {
+    public setJsonOutputActive(): void {
         this.jsonOutput = true;
     }
 
-    setOrgAlias(orgAlias: string): void {
+    public setOrgAlias(orgAlias: string): void {
         this.orgAlias = orgAlias;
     }
-
 }

@@ -1,13 +1,12 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
-import Initialization from '../project/stage/initialization';
-import Processresources from './stage/processresources';
+import Utils from '../../../shared/utils';
 import Compilation from './stage/compilation';
+import Initialization from './stage/initialization';
+import Processresources from './stage/processresources';
 import Testing from './stage/test';
 import Validation from './stage/validation';
-import { string } from '@oclif/parser/lib/flags';
-import Utils from '../../../shared/utils';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -72,7 +71,7 @@ export default class Build extends SfdxCommand {
         testingStageArgs.push('--targetusername');
         testingStageArgs.push(`${this.flags.setalias}`);
         Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Testing.flagsConfig, compilationArgs);
-        await Testing.run(testingStageArgs);
+        // await Testing.run(testingStageArgs);
 
         return;
     }

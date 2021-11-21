@@ -1,7 +1,7 @@
-import { AbstractBuildStep } from "../../types/build_step";
+import { flags, FlagsConfig } from '@salesforce/command';
+import Execute from '@salesforce/plugin-apex/lib/commands/force/apex/execute';
 import { AnyJson } from '@salesforce/ts-types';
-import Execute from "@salesforce/plugin-apex/lib/commands/force/apex/execute";
-import { flags, FlagsConfig } from "@salesforce/command";
+import { AbstractBuildStep } from '../../types/build_step';
 
 export default class ForceApexExecute extends AbstractBuildStep {
 
@@ -20,11 +20,10 @@ export default class ForceApexExecute extends AbstractBuildStep {
         if (this.params.apexcodefile) {
             args.push('--apexcodefile');
             args.push(`${this.params.apexcodefile}`);
-        }
-        else {
+        } else {
             throw Error(this.getBuildStepTypeToken() + " requires the 'apexcodefile' flag.");
         }
-        
+
         // JSON
         if (this.params.json) {
             args.push('--json');
@@ -32,7 +31,7 @@ export default class ForceApexExecute extends AbstractBuildStep {
 
         const apexExecuteResultJson = await Execute.run(args);
 
-        if ( apexExecuteResultJson == undefined ) {
+        if ( apexExecuteResultJson === undefined ) {
             // there was a problem with the apex execute step
             throw Error('Apex Execute attempt was unsuccessful.');
         }
@@ -42,18 +41,18 @@ export default class ForceApexExecute extends AbstractBuildStep {
     public getBuildStepTypeToken(): string {
         return 'ForceApexExecute';
     }
-    
+
     public getSFDXProjectConfigureExample(): string {
-        return ''
+        return '';
     }
 
     public getFlagsConfig(): FlagsConfig {
         // TODO: Uncomment this once PR is merged https://github.com/forcedotcom/salesforcedx-apex/pull/256
-        // return Execute.flagsConfig; 
-        return { 
+        // return Execute.flagsConfig;
+        return {
             // TODO: implement these flags
             // apexcodefile: flags.Discriminated<flags.Option<string>>;
-            apexcodefile: flags.string({ char: 'f', required: false, description: 'path to a local file that contains Apex code' }),
+            apexcodefile: flags.string({ char: 'f', required: false, description: 'path to a local file that contains Apex code' })
             // loglevel: flags.Discriminated<flags.Enum<string>>;
             // apiversion: flags.Builtin;
         };

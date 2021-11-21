@@ -1,10 +1,10 @@
-import { AbstractBuildStep } from "../../types/build_step";
+import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
-import { OrgCreateCommand } from 'salesforce-alm/dist/commands/force/org/create';
-import { FlagsConfig } from "@salesforce/command";
+import { rmdirSync } from 'fs';
 import * as _ from 'lodash';
-import { rmdirSync } from "fs";
-import { tmpdir } from "os";
+import { tmpdir } from 'os';
+import { OrgCreateCommand } from 'salesforce-alm/dist/commands/force/org/create';
+import { AbstractBuildStep } from '../../types/build_step';
 
 /*
     create a scratch or sandbox org
@@ -29,7 +29,7 @@ import { tmpdir } from "os";
         --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for this command invocation
 
     DESCRIPTION
-        Specify a configuration file or provide key=value pairs while creating a scratch org or a sandbox. When creating scratch orgs, —targetdevhubusername (-v) must be a Dev Hub org. When creating sandboxes, the --targetusername (-u) must be a production org with sandbox licenses. The —type (-t) is required 
+        Specify a configuration file or provide key=value pairs while creating a scratch org or a sandbox. When creating scratch orgs, —targetdevhubusername (-v) must be a Dev Hub org. When creating sandboxes, the --targetusername (-u) must be a production org with sandbox licenses. The —type (-t) is required
         if creating a sandbox.
 
     Examples:
@@ -50,8 +50,7 @@ export default class ForceOrgCreate extends AbstractBuildStep {
         //      https://github.com/forcedotcom/cli/issues/753
         try {
             rmdirSync( tmpdir() + '/shape' );
-        }
-        catch (e) {
+        } catch (e) {
             // noopt
         }
 
@@ -64,7 +63,7 @@ export default class ForceOrgCreate extends AbstractBuildStep {
             args.push('--setalias');
             args.push(`${this.orgAlias}`);
         }
-        
+
         if (this.params.durationdays) {
             args.push('--durationdays');
             args.push(`${this.params.durationdays}`);
@@ -113,7 +112,7 @@ export default class ForceOrgCreate extends AbstractBuildStep {
     }
 
     public getSFDXProjectConfigureExample(): string {
-        return ''
+        return '';
     }
 
     public getFlagsConfig(): FlagsConfig {

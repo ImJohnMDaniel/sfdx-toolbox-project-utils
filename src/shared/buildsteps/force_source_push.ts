@@ -1,13 +1,13 @@
-import { AbstractBuildStep } from "../../types/build_step";
+import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
 import { SourcePushCommand } from 'salesforce-alm/dist/commands/force/source/push';
-import { FlagsConfig } from "@salesforce/command";
+import { AbstractBuildStep } from '../../types/build_step';
 
 /*
     push source to a scratch org from the project
 
     USAGE
-        $ sfdx force:source:push [-f] [-g] [-w <minutes>] [-u <string>] [--apiversion <string>] [--json] [--loglevel 
+        $ sfdx force:source:push [-f] [-g] [-w <minutes>] [-u <string>] [--apiversion <string>] [--json] [--loglevel
             trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
     OPTIONS
@@ -22,7 +22,7 @@ import { FlagsConfig } from "@salesforce/command";
     DESCRIPTION
         NOTE: This command must be run from within a project.
 
-        If the command detects a conflict, it displays the conflicts but does not complete the process. After reviewing the conflict, rerun the command 
+        If the command detects a conflict, it displays the conflicts but does not complete the process. After reviewing the conflict, rerun the command
         with the --forceoverwrite parameter.
  */
 export default class ForceSourcePush extends AbstractBuildStep {
@@ -35,7 +35,7 @@ export default class ForceSourcePush extends AbstractBuildStep {
 
         // FORCEOVERWRITE
         // if (this.params.forceoverwrite) {
-            args.push('--forceoverwrite');
+        args.push('--forceoverwrite');
         // }
 
         // IGNOREWARNINGS
@@ -46,7 +46,7 @@ export default class ForceSourcePush extends AbstractBuildStep {
         // WAIT
         if (this.params.wait) {
             args.push('--wait');
-            args.push(`${this.params.wait}`)
+            args.push(`${this.params.wait}`);
         }
 
         // JSON
@@ -56,21 +56,21 @@ export default class ForceSourcePush extends AbstractBuildStep {
 
         args.push('--targetusername');
         args.push(`${this.orgAlias}`);
-        
-        const sourcePushResultJson = await SourcePushCommand.run(args);
+
+        await SourcePushCommand.run(args);
 
         return;
     }
-    
+
     public getBuildStepTypeToken(): string {
         return 'ForceSourcePush';
     }
-    
+
     public getSFDXProjectConfigureExample(): string {
-        return ''
+        return '';
     }
 
     public getFlagsConfig(): FlagsConfig {
-        return SourcePushCommand.flagsConfig; 
+        return SourcePushCommand.flagsConfig;
     }
 }
