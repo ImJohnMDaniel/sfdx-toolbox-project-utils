@@ -94,18 +94,13 @@
                 "permsetname": "FooBarAccess"
               },
               {
-                "buildStepType": "thread",
+                "buildStepType": "ThreadedBuildStep",
                 "buildSteps": [
                   {
                     "buildStepType": "SfdmuRun",
                     "path": "data/Accounts",
                     "sourceusername": "csvfile"
-                  }
-                ]
-              },
-              {
-                "buildStepType": "thread",
-                "buildSteps": [
+                  },
                   {
                     "buildStepType": "ForceApexTestRun"
                   }

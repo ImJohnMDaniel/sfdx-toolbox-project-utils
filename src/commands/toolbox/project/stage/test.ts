@@ -16,8 +16,6 @@ export default class Test extends SfdxCommand {
 
     public static examples = [messages.getMessage('examplesDescription')];
 
-    //   public static args = [{name: 'file'}];
-
     public static flagsConfig = {
         // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
     };

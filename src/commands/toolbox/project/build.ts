@@ -71,7 +71,7 @@ export default class Build extends SfdxCommand {
         testingStageArgs.push('--targetusername');
         testingStageArgs.push(`${this.flags.setalias}`);
         Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Testing.flagsConfig, compilationArgs);
-        // await Testing.run(testingStageArgs);
+        await Testing.run(testingStageArgs);
 
         return;
     }

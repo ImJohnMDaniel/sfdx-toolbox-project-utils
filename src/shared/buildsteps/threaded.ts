@@ -25,11 +25,13 @@ export default class ThreadedBuildStep extends AbstractBuildStep
         const bsf: BuildStepsFactory = await BuildStepsFactory.getInstance();
 
         // find the build steps within this build step
-        if (this.params.buildSteps) {
+        if (this.params.buildSteps !== undefined) {
+            // console.log('this.params.buildSteps');
+            // console.log(this.params.buildSteps);
             // build steps were found
             // execute all of them at once
 // TODO double check this is doing what I think it should -- I probably needs "await Promise.all()"
-            this.params.buildsteps.forEach(async buildStepConfig => {
+            this.params.buildSteps.forEach(async buildStepConfig => {
                 const step = await bsf.create(buildStepConfig.buildStepType);
                 // tslint:disable-next-line: no-floating-promises
                 BuildStepExecutor.run(this.currentStage, step, buildStepConfig);
