@@ -7,6 +7,7 @@ import Compilation from './stage/compilation';
 import Testing from './stage/test';
 import Validation from './stage/validation';
 import { string } from '@oclif/parser/lib/flags';
+import Utils from '../../../shared/utils';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -37,41 +38,17 @@ export default class Build extends SfdxCommand {
     // Set this to true if your command requires a project workspace; 'requiresProject' is false by default
     protected static requiresProject = true;
 
-    // May bring this back as the "build" command's flags become more apparent
-    // private prepareArgs(): any {
-    //     const args = [];
-
-    //     targetusername needs to be either the value supplied on the 
-    //          targetusername flag or the value supplied on the
-    //          config:list for defaultusername
-    //     args.push('--targetusername');
-    //     args.push(`${this.flags.setalias}`);
-
-    //     args.push('--setalias');
-    //     args.push(`${this.flags.setalias}`);
-    //     args.push(`${this.org.getUsername()}`);
-
-    //     return args;
-    // }
-
     public async run(): Promise<AnyJson> {
 
-        // TODO: Need a process to filter through the flags specified and pass to the stage commands only those that it can take.
-
         // call the validation stage
-        const validationStageArgs = [];
-        await Validation.run(validationStageArgs);
+        const validationArgs = [];
+        Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Validation.flagsConfig, validationArgs);
+        await Validation.run(validationArgs);
 
         // call the initialization stage
         const initializationStageArgs = [];
-        initializationStageArgs.push('--setalias');
-        initializationStageArgs.push(`${this.flags.setalias}`);
-
-        if ( this.flags.setdefaultusername )
-        {
-            initializationStageArgs.push('--setdefaultusername');
-        }
-        await Initialization.run(initializationStageArgs);
+        Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Initialization.flagsConfig, initializationStageArgs);
+        await Initialization.run( initializationStageArgs );
         // const initializationResponse = await Initialization.run(initializationStageArgs);
         // console.log(initializationResponse);
 
@@ -79,21 +56,23 @@ export default class Build extends SfdxCommand {
         const processresourcesStageArgs = [];
         processresourcesStageArgs.push('--targetusername');
         processresourcesStageArgs.push(`${this.flags.setalias}`);
+        Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Processresources.flagsConfig, processresourcesStageArgs);
         await Processresources.run(processresourcesStageArgs);
 
         // call the Compilation stage
         const compilationArgs = [];
         compilationArgs.push('--targetusername');
         compilationArgs.push(`${this.flags.setalias}`);
+        Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Compilation.flagsConfig, compilationArgs);
         await Compilation.run(compilationArgs);
 
         // TODO: Would the "testing" stage get called during a regular "project build"?  It would get called directly in a CI context, but what about a developer context?
-
         // call the Testing stage
-        // const testingStageArgs = [];
-        // testingStageArgs.push('--targetusername');
-        // testingStageArgs.push(`${this.flags.setalias}`);
-        // await Testing.run(testingStageArgs);
+        const testingStageArgs = [];
+        testingStageArgs.push('--targetusername');
+        testingStageArgs.push(`${this.flags.setalias}`);
+        Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Testing.flagsConfig, compilationArgs);
+        await Testing.run(testingStageArgs);
 
         return;
     }

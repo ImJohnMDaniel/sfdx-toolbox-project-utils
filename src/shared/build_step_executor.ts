@@ -1,33 +1,15 @@
-import { BuildStep } from "../types/build_step";
+import { IBuildStep } from "../types/build_step";
 import { IBuildStage, ICarriesStageable } from "../types/build_stage";
+import Utils from "./utils";
 
 export default class BuildStepExecutor {
 
-    public static async run(stage: IBuildStage, step: BuildStep, buildStepConfig: any) {
+    public static async run(stage: IBuildStage, step: IBuildStep, buildStepConfig: any) {
 
-        // projectJson: SfdxProjectJson, orgAlias: string, thisUx: UX, flags: OutputFlags<any>
-
-
-        // console.log('++++++++++++++++++++++++');
-        // console.log('       buildStepConfig');
-        // console.log(buildStepConfig);
-        // console.log('++++++++++++++++++++++++');
-        // console.log('       flags');
-        // console.log(stage.getFlags());
-        // console.log(stage.getFlags().setdefaultusername);
-        // console.log('++++++++++++++++++++++++');
-
-        // if a BuildStep's flagsConfig is aware of the flag, add that flat to the buildStepConfig (overwrite if necessary)
-        // loop through the flags
-
-        // Object.keys(stage.getFlags()).forEach((key: string) => {
-        //     console.log(key);
-        // });
+        // if a BuildStep's flagsConfig is aware of the flag, add that flag to the buildStepConfig (overwrite if necessary)
+        Utils.filterAndPrepareBuildStepConfigFromFlagsBasedOnFlagsConfig(stage.getFlags(), step.getFlagsConfig(), buildStepConfig);
         
-        // Object.keys(stage.getFlags()).find( flag => flag in step.getFlagsConfig())
-
         function instanceOfICarriesStageable(object: any): object is ICarriesStageable {
-            // console.log('testing via instanceOfICarriesStageable');
             return 'setCurrentStage' in object;
         }
 
@@ -38,20 +20,14 @@ export default class BuildStepExecutor {
             step?.setJsonOutputActive();
             step?.setOrgAlias(stage.getFlags().setalias ? stage.getFlags().setalias : stage.getFlags().targetusername);
 
-            console.log(step.getBuildStepTypeToken());
             if (instanceOfICarriesStageable(step)) {
-                // console.log('This step is an ICarriesStageable\n\n');
                 step.setCurrentStage(stage);
             }
 
-            await step?.run();
+            // await step?.run();
         }
         catch (e){
             throw e;
         }
-    }
-
-    private static mergeBuildStepConfigAndFlags() {
-
     }
 }

@@ -15,7 +15,7 @@ export default class Initialization extends SfdxCommand {
     public static description = messages.getMessage('commandDescription');
 
     public static examples = [messages.getMessage('examplesDescription')];
-    protected static flagsConfig = {
+    public static flagsConfig = {
         setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') }),
         setdefaultusername: flags.boolean({ char: 's', default: false, required: false, description: messages.getMessage('flagSetDefaultUsernameDescription') })
     };

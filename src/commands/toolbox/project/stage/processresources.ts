@@ -16,7 +16,7 @@ export default class Processresources extends SfdxCommand {
 
     public static examples = [messages.getMessage('examplesDescription')];
 
-    protected static flagsConfig = {
+    public static flagsConfig = {
         // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
     };
 

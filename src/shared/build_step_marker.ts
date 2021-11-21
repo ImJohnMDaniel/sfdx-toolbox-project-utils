@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 import { IBuildStage } from "../types/build_stage";
-import { BuildStep } from "../types/build_step";
+import { IBuildStep } from "../types/build_step";
 
 export interface BuildMarking {
     stage: string;
@@ -29,7 +29,7 @@ export default class BuildStepMarker {
         return this.markerDirectoryName + '/' + this.markerFilePrefixName + orgAlias;
     }
 
-    public async mark( stage: IBuildStage, stageIndex: number, step: BuildStep, orgAlias: string) {
+    public async mark( stage: IBuildStage, stageIndex: number, step: IBuildStep, orgAlias: string) {
         const markerInfo: BuildMarking = {
             stage: stage.getStageToken(),
             stageIndex: stageIndex,

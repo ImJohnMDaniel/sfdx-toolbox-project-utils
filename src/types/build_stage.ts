@@ -1,4 +1,4 @@
-import { BuildStep } from "./build_step";
+import { IBuildStep } from "./build_step";
 import { AnyJson } from '@salesforce/ts-types';
 import { SfdxProjectJson } from "@salesforce/core";
 import { UX } from "@salesforce/command";
@@ -10,7 +10,7 @@ import BuildStepMarker, { BuildMarking } from "../shared/build_step_marker";
 import BuildStepExecutor from "../shared/build_step_executor";
 
 export interface IBuildStage {
-    getBuildSteps(): BuildStep[];
+    getBuildSteps(): IBuildStep[];
     getFlags(): OutputFlags<any>;
     getProjectJson(): SfdxProjectJson;
     getStageToken(): string;
@@ -42,13 +42,6 @@ export abstract class AbstractBuildStage implements IBuildStage {
 
         const buildStepsConfigurations = _.get(this.projectJson['contents'], 'plugins.toolbox.project.builder.stages.' + this.getStageToken(), false);
 
-        // console.log('============================================================');
-        // console.log('buildStepsConfigurations');
-        // console.log(buildStepsConfigurations);
-        // console.log('this.flags');
-        // console.log(this.flags);
-        // console.log('============================================================');
-        
         const bsf: BuildStepsFactory = await BuildStepsFactory.getInstance();
 
         const bsm: BuildStepMarker = await BuildStepMarker.getInstance();
@@ -59,10 +52,6 @@ export abstract class AbstractBuildStage implements IBuildStage {
 
             const stepCreateAndRun = async (buildStepConfig, index: number) => {
 
-                // this.ux.log('currentMarking.stage == ' + currentMarking?.stage);
-                // this.ux.log('this.getStageToken() == ' + this.getStageToken());
-                // this.ux.log('currentMarking.stageIndex == ' + currentMarking?.stageIndex);
-                // this.ux.log('index == ' + index);
                 if ( currentMarking 
                         && currentMarking.stage == this.getStageToken()
                         && currentMarking.stageIndex > index ) 
@@ -73,18 +62,10 @@ export abstract class AbstractBuildStage implements IBuildStage {
                 try {
                     // console.log(buildStepConfig);
                     const step = await bsf.create(buildStepConfig.buildStepType);
-                    // step?.setParams(buildStep);
-                    // step?.setProjectJson(this.projectJson);
-                    // step?.setUx(this.ux);
-                    // step?.setJsonOutputActive();
-                    // step?.setOrgAlias(this.orgAlias);
 
                     await bsm.mark(this, index, step, this.orgAlias);
 
-                    // await BuildStepExecutor.run(step, buildStepConfig, this.projectJson, this.orgAlias, this.ux, this.flags);
                     await BuildStepExecutor.run(this, step, buildStepConfig);
-
-                    // await step?.run();
                 }
                 catch (e){
                     throw e;
@@ -98,7 +79,7 @@ export abstract class AbstractBuildStage implements IBuildStage {
 
         return;
     }
-    public getBuildSteps(): BuildStep[] {
+    public getBuildSteps(): IBuildStep[] {
         throw new Error("Method not implemented.");
     }
 

@@ -1,7 +1,7 @@
 import { FlagsConfig, UX } from '@salesforce/command';
 import { SfdxProjectJson } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
-export interface BuildStep {
+export interface IBuildStep {
     run(): Promise<AnyJson>;
     // setLogger({}): void;
     getBuildStepTypeToken(): string;
@@ -15,7 +15,7 @@ export interface BuildStep {
     getFlagsConfig(): FlagsConfig;
 }
 
-export abstract class AbstractBuildStep implements BuildStep {
+export abstract class AbstractBuildStep implements IBuildStep {
     abstract run(): Promise<AnyJson>;
     abstract getBuildStepTypeToken(): string;
     abstract getSFDXProjectConfigureExample(): string;

@@ -1,4 +1,4 @@
-import { BuildStep } from '../types/build_step';
+import { IBuildStep } from '../types/build_step';
 import buildsteps from './buildsteps';
 
 export default class BuildStepsFactory {
@@ -19,7 +19,7 @@ export default class BuildStepsFactory {
         ));
     }
 
-    public async create( token: String ): Promise<BuildStep> {
+    public async create( token: String ): Promise<IBuildStep> {
         if ( ! this.availableBuildSteps.has(token) ) {
             throw new Error("Unable to create '" + token + "' as it is not a valid BuildStep.");
         }
