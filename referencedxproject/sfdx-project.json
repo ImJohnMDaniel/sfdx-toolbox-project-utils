@@ -102,7 +102,8 @@
                     "sourceusername": "csvfile"
                   },
                   {
-                    "buildStepType": "ForceApexTestRun"
+                    "buildStepType": "ForceApexTestRun",
+                    "wait": "30"
                   }
                 ]
               }
