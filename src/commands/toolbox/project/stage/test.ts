@@ -33,6 +33,7 @@ export default class Test extends SfdxCommand {
     protected static requiresProject = true;
 
     public async run(): Promise<AnyJson> {
+
         await new TestStage(await this.project.retrieveSfdxProjectJson(), this.ux, this.flags).run();
 
         return;
