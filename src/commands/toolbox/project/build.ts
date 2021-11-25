@@ -23,7 +23,8 @@ export default class Build extends SfdxCommand {
 
     protected static flagsConfig = {
         setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') }),
-        setdefaultusername: flags.boolean({ char: 's', default: false, required: false, description: messages.getMessage('flagSetDefaultUsernameDescription') })
+        setdefaultusername: flags.boolean({ char: 's', default: false, required: false, description: messages.getMessage('flagSetDefaultUsernameDescription') }),
+        scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()})
     };
 
     protected static requiresUsername = false;

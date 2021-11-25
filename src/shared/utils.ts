@@ -1,5 +1,7 @@
 import { OutputFlags } from '@oclif/parser';
-import { FlagsConfig } from '@salesforce/command';
+import { flags, FlagsConfig } from '@salesforce/command';
+import { Messages } from '@salesforce/core';
+import { BuildStepScope } from './constants';
 export default class Utils {
   public static async asyncForEach(array, callback): Promise<void> {
     for (let index = 0; index < array.length; index++) {
@@ -64,5 +66,33 @@ export default class Utils {
     // console.log('\nargs : ');
     // console.log(args);
     // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  }
+
+  public static buildStepScopesDefault(): string {
+    return BuildStepScope[BuildStepScope.ALL];
+  }
+
+  public static buildStepScopes(): string[] {
+
+    const stringIsNumber = value => isNaN(Number(value)) === false;
+
+    // Turn enum into array
+    function toArray(enumme): string[] {
+      return Object.keys(enumme)
+        .filter(stringIsNumber)
+        .map(key => enumme[key]);
+    }
+
+    return toArray(BuildStepScope);
+  }
+
+  public static getCommonFlagMessages(): string {
+    return Messages.loadMessages('@dx-cli-toolbox/sfdx-toolbox-project-utils', 'toolbox-project-flags-common').getMessage('flagBuildStepScopeDescription');
+  }
+
+  public static getCommonFlags(): any {
+    return {
+      scope: flags.enum({ default: this.buildStepScopesDefault(), required: false, description: this.getCommonFlagMessages(), options: this.buildStepScopes() })
+    };
   }
 }

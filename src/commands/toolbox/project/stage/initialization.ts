@@ -3,6 +3,7 @@ import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 import * as _ from 'lodash';
 import InitizalizationStage from '../../../../shared/buildstages/initialization';
+import Utils from '../../../../shared/utils';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -17,7 +18,8 @@ export default class Initialization extends SfdxCommand {
     public static examples = [messages.getMessage('examplesDescription')];
     public static flagsConfig = {
         setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') }),
-        setdefaultusername: flags.boolean({ char: 's', default: false, required: false, description: messages.getMessage('flagSetDefaultUsernameDescription') })
+        setdefaultusername: flags.boolean({ char: 's', default: false, required: false, description: messages.getMessage('flagSetDefaultUsernameDescription') }),
+        scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()})
     };
 
     // Comment this out if your command does not require an org username
