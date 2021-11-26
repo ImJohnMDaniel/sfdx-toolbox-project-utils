@@ -72,7 +72,7 @@ export abstract class AbstractBuildStage implements IBuildStage {
 
                     await bsm.mark(this, index, step, this.orgAlias);
 
-                    await BuildStepExecutor.run(this, step, buildStepConfig);
+                    await BuildStepExecutor.run(this, step, buildStepConfig, this.getFlags().scope);
                 } catch (e) {
                     throw e;
                 }
