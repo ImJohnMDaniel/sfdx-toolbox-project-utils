@@ -23,6 +23,11 @@ export interface ICarriesStageable {
     setCurrentStage(currentStage: IBuildStage): void;
 }
 
+// tslint:disable-next-line: no-any
+export function instanceOfICarriesStageable(object: any): object is ICarriesStageable {
+    return 'setCurrentStage' in object;
+}
+
 export abstract class AbstractBuildStage implements IBuildStage {
 
     private readonly projectJson: SfdxProjectJson;

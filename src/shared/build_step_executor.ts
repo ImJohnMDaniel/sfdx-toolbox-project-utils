@@ -1,4 +1,4 @@
-import { IBuildStage, ICarriesStageable } from '../types/build_stage';
+import { IBuildStage, instanceOfICarriesStageable } from '../types/build_stage';
 import { IBuildStep } from '../types/build_step';
 import Utils from './utils';
 
@@ -9,11 +9,6 @@ export default class BuildStepExecutor {
 
         // if a BuildStep's flagsConfig is aware of the flag, add that flag to the buildStepConfig (overwrite if necessary)
         Utils.filterAndPrepareBuildStepConfigFromFlagsBasedOnFlagsConfig(stage.getFlags(), step.getFlagsConfig(), buildStepConfig);
-
-        // tslint:disable-next-line: no-any
-        function instanceOfICarriesStageable(object: any): object is ICarriesStageable {
-            return 'setCurrentStage' in object;
-        }
 
         try {
             step?.setParams(buildStepConfig);
