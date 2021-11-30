@@ -30,7 +30,7 @@ export default class BuildStepExecutor {
                 step.setCurrentStage(stage);
             }
 
-            // await step?.run();
+            await step?.run();
         } catch (e) {
             throw e;
         }

@@ -41,9 +41,9 @@ export default class Build extends SfdxCommand {
     public async run(): Promise<AnyJson> {
 
         // call the validation stage
-        // const validationArgs = [];
-        // Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Validation.flagsConfig, validationArgs);
-        // await Validation.run(validationArgs);
+        const validationArgs = [];
+        Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Validation.flagsConfig, validationArgs);
+        await Validation.run(validationArgs);
 
         // call the initialization stage
         const initializationStageArgs = [];
@@ -51,26 +51,26 @@ export default class Build extends SfdxCommand {
         await Initialization.run( initializationStageArgs );
 
         // call the Processresources stage
-        // const processresourcesStageArgs = [];
-        // processresourcesStageArgs.push('--targetusername');
-        // processresourcesStageArgs.push(`${this.flags.setalias}`);
-        // Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Processresources.flagsConfig, processresourcesStageArgs);
-        // await Processresources.run(processresourcesStageArgs);
+        const processresourcesStageArgs = [];
+        processresourcesStageArgs.push('--targetusername');
+        processresourcesStageArgs.push(`${this.flags.setalias}`);
+        Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Processresources.flagsConfig, processresourcesStageArgs);
+        await Processresources.run(processresourcesStageArgs);
 
         // call the Compilation stage
-        // const compilationArgs = [];
-        // compilationArgs.push('--targetusername');
-        // compilationArgs.push(`${this.flags.setalias}`);
-        // Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Compilation.flagsConfig, compilationArgs);
-        // await Compilation.run(compilationArgs);
+        const compilationArgs = [];
+        compilationArgs.push('--targetusername');
+        compilationArgs.push(`${this.flags.setalias}`);
+        Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Compilation.flagsConfig, compilationArgs);
+        await Compilation.run(compilationArgs);
 
         // TODO: Would the "testing" stage get called during a regular "project build"?  It would get called directly in a CI context, but what about a developer context?
         // call the Testing stage
-        // const testingStageArgs = [];
-        // testingStageArgs.push('--targetusername');
-        // testingStageArgs.push(`${this.flags.setalias}`);
-        // Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Testing.flagsConfig, compilationArgs);
-        // await Testing.run(testingStageArgs);
+        const testingStageArgs = [];
+        testingStageArgs.push('--targetusername');
+        testingStageArgs.push(`${this.flags.setalias}`);
+        Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Testing.flagsConfig, compilationArgs);
+        await Testing.run(testingStageArgs);
 
         return;
     }

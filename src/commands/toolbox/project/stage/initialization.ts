@@ -45,8 +45,8 @@ export default class Initialization extends SfdxCommand {
 
         // console.log('initialization area');
         // console.log(this.flags);
-        console.log('blue');
-        // await new InitizalizationStage(await this.project.retrieveSfdxProjectJson(), this.ux, this.flags).run();
+        // console.log('blue');
+        await new InitizalizationStage(await this.project.retrieveSfdxProjectJson(), this.ux, this.flags).run();
 
         return;
     }

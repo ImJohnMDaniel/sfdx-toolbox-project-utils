@@ -40,7 +40,7 @@ export abstract class AbstractBuildStage implements IBuildStage {
     public constructor(projectJson: SfdxProjectJson, thisUx: UX, flags: OutputFlags<any>) {
         this.projectJson = projectJson;
         this.ux = thisUx;
-        this.orgAlias = flags.setalias;
+        this.orgAlias = flags.targetusername ? flags.targetusername : flags.setalias;
         this.flags = flags;
     }
 
