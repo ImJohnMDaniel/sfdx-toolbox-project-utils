@@ -1,6 +1,6 @@
 import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
-import { OrgDeleteCommand } from 'salesforce-alm/dist/commands/force/org/delete';
+import { Delete } from '@salesforce/plugin-org/lib/commands/force/org/delete'
 import { AbstractBuildStep } from '../../types/build_step';
 
 /*
@@ -42,7 +42,7 @@ export default class ForceOrgDelete extends AbstractBuildStep {
         args.push('--targetusername');
         args.push(`${this.orgAlias}`);
 
-        await OrgDeleteCommand.run(args);
+        await Delete.run(args);
 
         return;
     }
@@ -56,6 +56,6 @@ export default class ForceOrgDelete extends AbstractBuildStep {
     }
 
     public getFlagsConfig(): FlagsConfig {
-        return OrgDeleteCommand.flagsConfig;
+        return Delete.flagsConfig;
     }
 }

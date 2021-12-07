@@ -177,8 +177,6 @@ export default class ForceApexTestRun extends AbstractBuildStep {
     }
 
     public getFlagsConfig(): FlagsConfig {
-        // TODO: Uncomment this once PR is merged https://github.com/forcedotcom/salesforcedx-apex/pull/256
-        // return Run.flagsConfig;
-        return {};
+        return Run.flagsConfig;
     }
 }

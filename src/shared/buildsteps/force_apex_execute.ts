@@ -47,14 +47,6 @@ export default class ForceApexExecute extends AbstractBuildStep {
     }
 
     public getFlagsConfig(): FlagsConfig {
-        // TODO: Uncomment this once PR is merged https://github.com/forcedotcom/salesforcedx-apex/pull/256
-        // return Execute.flagsConfig;
-        return {
-            // TODO: implement these flags
-            // apexcodefile: flags.Discriminated<flags.Option<string>>;
-            apexcodefile: flags.string({ char: 'f', required: false, description: 'path to a local file that contains Apex code' })
-            // loglevel: flags.Discriminated<flags.Enum<string>>;
-            // apiversion: flags.Builtin;
-        };
+        return Execute.flagsConfig;
     }
 }

@@ -1,6 +1,6 @@
 import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
-// import Run from 'sfdmu/lib/commands/sfdmu/run';
+import Run from 'sfdmu/lib/commands/sfdmu/run';
 // import Run from 'sfdmu/src/commands/sfdmu/run';
 import { AbstractBuildStep } from '../../types/build_step';
 
@@ -119,6 +119,7 @@ export default class SfdmuRun extends AbstractBuildStep {
         console.log('~~~~~~~~~~~~~BEFORE');
 
         // disabled for now until I have time to work through issue seen when using
+        // await Run.run(args);
         // await Run.run(args, config);
 
         console.log('~~~~~~~~~~~~~AFTER');
@@ -135,6 +136,6 @@ export default class SfdmuRun extends AbstractBuildStep {
     }
 
     public getFlagsConfig(): FlagsConfig {
-        return; // Run.flagsConfig;
+        return Run.flagsConfig;
     }
 }

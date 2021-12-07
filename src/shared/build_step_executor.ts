@@ -8,31 +8,30 @@ export default class BuildStepExecutor {
     // tslint:disable-next-line: no-any
     public static async run(stage: IBuildStage, step: IBuildStep, buildStepConfig: any, currentScope: BuildStepScope) {
 
-        console.log(step.getBuildStepTypeToken());
-        console.log(stage.getFlags().scope);
+        // console.log(step.getBuildStepTypeToken());
+        // console.log(stage.getFlags().scope);
         if (stage.getFlags().scope
             && ( stage.getFlags().scope === BuildStepScope[BuildStepScope.ALL]
                 || stage.getFlags().scope === BuildStepScope[currentScope])) {
-            console.log(`executing scope: ${stage.getFlags().scope}`);
-        }
+            // console.log(`executing scope: ${stage.getFlags().scope}`);
+            // if a BuildStep's flagsConfig is aware of the flag, add that flag to the buildStepConfig (overwrite if necessary)
+            Utils.filterAndPrepareBuildStepConfigFromFlagsBasedOnFlagsConfig(stage.getFlags(), step.getFlagsConfig(), buildStepConfig);
 
-        // if a BuildStep's flagsConfig is aware of the flag, add that flag to the buildStepConfig (overwrite if necessary)
-        Utils.filterAndPrepareBuildStepConfigFromFlagsBasedOnFlagsConfig(stage.getFlags(), step.getFlagsConfig(), buildStepConfig);
+            try {
+                step?.setParams(buildStepConfig);
+                step?.setProjectJson(stage.getProjectJson());
+                step?.setUx(stage.getUX());
+                step?.setJsonOutputActive();
+                step?.setOrgAlias(stage.getFlags().setalias ? stage.getFlags().setalias : stage.getFlags().targetusername);
 
-        try {
-            step?.setParams(buildStepConfig);
-            step?.setProjectJson(stage.getProjectJson());
-            step?.setUx(stage.getUX());
-            step?.setJsonOutputActive();
-            step?.setOrgAlias(stage.getFlags().setalias ? stage.getFlags().setalias : stage.getFlags().targetusername);
+                if (instanceOfICarriesStageable(step)) {
+                    step.setCurrentStage(stage);
+                }
 
-            if (instanceOfICarriesStageable(step)) {
-                step.setCurrentStage(stage);
+                await step?.run();
+            } catch (e) {
+                throw e;
             }
-
-            await step?.run();
-        } catch (e) {
-            throw e;
         }
     }
 }

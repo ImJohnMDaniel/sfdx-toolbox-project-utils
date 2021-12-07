@@ -34,7 +34,7 @@ export default class ThreadedBuildStep extends AbstractBuildStep
             this.params.buildSteps.forEach(async buildStepConfig => {
                 const step = await bsf.create(buildStepConfig.buildStepType);
                 // tslint:disable-next-line: no-floating-promises
-                BuildStepExecutor.run(this.currentStage, step, buildStepConfig);
+                BuildStepExecutor.run(this.currentStage, step, buildStepConfig, this.currentStage.getFlags().scope);
             });
         }
 
