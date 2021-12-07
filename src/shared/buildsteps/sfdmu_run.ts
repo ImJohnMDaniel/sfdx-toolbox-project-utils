@@ -119,6 +119,7 @@ export default class SfdmuRun extends AbstractBuildStep {
         console.log('~~~~~~~~~~~~~BEFORE');
 
         // disabled for now until I have time to work through issue seen when using
+        console.log('         *********** THE "sfdmu.run" COMMAND WOULD NORMALLY EXECUTE HERE, BUT IT IS DISABLED FOR NOW. *********** ');
         // await Run.run(args);
         // await Run.run(args, config);
 

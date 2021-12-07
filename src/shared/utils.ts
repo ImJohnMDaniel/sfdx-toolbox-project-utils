@@ -24,45 +24,45 @@ export default class Utils {
 
   // if a current flagsConfig is aware of the flag submitted, add that flag to the buildStepConfig (overwrite if necessary)
   // tslint:disable-next-line: no-any
-  public static filterAndPrepareBuildStepConfigFromFlagsBasedOnFlagsConfig(flags: OutputFlags<any>, currentFlagsConfig: FlagsConfig, buildStepConfig: any) {
+  public static filterAndPrepareBuildStepConfigFromFlagsBasedOnFlagsConfig(theInputflags: OutputFlags<any>, currentFlagsConfig: FlagsConfig, buildStepConfig: any) {
 
     if (buildStepConfig === undefined) {
       buildStepConfig = {};
     }
     // loop through the flags
-    Object.keys(flags).forEach((flagSubmitted: string) => {
+    Object.keys(theInputflags).forEach((flagSubmitted: string) => {
       // Is this flagSubmitted a flag included the currentFlagsConfig?
       if (currentFlagsConfig[flagSubmitted]) {
         // then add the flagSubmittedToStage to the list of step params
-        buildStepConfig[flagSubmitted] = flags[flagSubmitted];
+        buildStepConfig[flagSubmitted] = theInputflags[flagSubmitted];
       }
     });
   }
 
   // TODO: Research if @oclif/parser/lib/Parser class would be better for this task
   // tslint:disable-next-line: no-any
-  public static filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(flags: OutputFlags<any>, currentFlagsConfig: FlagsConfig, args: string[]) {
+  public static filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(theInputflags: OutputFlags<any>, currentFlagsConfig: FlagsConfig, args: string[]) {
 
     console.log('\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     console.log('currentFlagsConfig_________________________');
     console.log(currentFlagsConfig);
     console.log('\n');
-    console.log('flags_________________________');
-    console.log(flags);
+    console.log('theInputflags_________________________');
+    console.log(theInputflags);
     console.log('\n');
     if (args === undefined) {
       args = [];
     }
     // loop through the flags
-    Object.keys(flags).forEach((flagSubmitted: string) => {
+    Object.keys(theInputflags).forEach((flagSubmitted: string) => {
       console.log('   flagSubmitted: ' + flagSubmitted);
       // Is this flagSubmitted a flag included the currentFlagsConfig?
       if (currentFlagsConfig[flagSubmitted]) {
         console.log('   adding flagSubmitted to args');
         // then add the flagSubmittedToStage to the list of step params
         args.push('--' + flagSubmitted);
-        if (flags[flagSubmitted] !== undefined && flags[flagSubmitted] !== true) {
-          args.push(flags[flagSubmitted]);
+        if (theInputflags[flagSubmitted] !== undefined && theInputflags[flagSubmitted] !== true) {
+          args.push(theInputflags[flagSubmitted]);
         }
       }
     });
