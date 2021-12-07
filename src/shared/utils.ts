@@ -30,13 +30,15 @@ export default class Utils {
       buildStepConfig = {};
     }
     // loop through the flags
-    Object.keys(theInputflags).forEach((flagSubmitted: string) => {
-      // Is this flagSubmitted a flag included the currentFlagsConfig?
-      if (currentFlagsConfig[flagSubmitted]) {
-        // then add the flagSubmittedToStage to the list of step params
-        buildStepConfig[flagSubmitted] = theInputflags[flagSubmitted];
-      }
-    });
+    if ( theInputflags !== undefined ) {
+      Object.keys(theInputflags).forEach((flagSubmitted: string) => {
+        // Is this flagSubmitted a flag included the currentFlagsConfig?
+        if (currentFlagsConfig[flagSubmitted]) {
+          // then add the flagSubmittedToStage to the list of step params
+          buildStepConfig[flagSubmitted] = theInputflags[flagSubmitted];
+        }
+      });
+    }
   }
 
   // TODO: Research if @oclif/parser/lib/Parser class would be better for this task
@@ -54,18 +56,20 @@ export default class Utils {
       args = [];
     }
     // loop through the flags
-    Object.keys(theInputflags).forEach((flagSubmitted: string) => {
-      console.log('   flagSubmitted: ' + flagSubmitted);
-      // Is this flagSubmitted a flag included the currentFlagsConfig?
-      if (currentFlagsConfig[flagSubmitted]) {
-        console.log('   adding flagSubmitted to args');
-        // then add the flagSubmittedToStage to the list of step params
-        args.push('--' + flagSubmitted);
-        if (theInputflags[flagSubmitted] !== undefined && theInputflags[flagSubmitted] !== true) {
-          args.push(theInputflags[flagSubmitted]);
+    if ( theInputflags !== undefined ) {
+      Object.keys(theInputflags).forEach((flagSubmitted: string) => {
+        console.log('   flagSubmitted: ' + flagSubmitted);
+        // Is this flagSubmitted a flag included the currentFlagsConfig?
+        if (currentFlagsConfig[flagSubmitted]) {
+          console.log('   adding flagSubmitted to args');
+          // then add the flagSubmittedToStage to the list of step params
+          args.push('--' + flagSubmitted);
+          if (theInputflags[flagSubmitted] !== undefined && theInputflags[flagSubmitted] !== true) {
+            args.push(theInputflags[flagSubmitted]);
+          }
         }
-      }
-    });
+      });
+    }
     console.log('\nargs : ');
     console.log(args);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
