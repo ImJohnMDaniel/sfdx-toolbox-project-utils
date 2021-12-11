@@ -1,6 +1,10 @@
-import { SfdxCommand } from '@salesforce/command';
+import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
+import { BuildStepScope } from '../../../../shared/constants';
+import Utils from '../../../../shared/utils';
+import Compilation from '../stage/compilation';
+import Testing from '../stage/test';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -18,7 +22,7 @@ export default class Deploy extends SfdxCommand {
     //   public static args = [{name: 'file'}];
 
     protected static flagsConfig = {
-        // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
+        scope: flags.enum({ default: BuildStepScope[BuildStepScope.POSTPACKAGEDEPLOY], required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes(), hidden: true })
     };
 
     // Comment this out if your command does not require an org username
@@ -34,10 +38,26 @@ export default class Deploy extends SfdxCommand {
     protected static requiresProject = true;
 
     public async run(): Promise<AnyJson> {
-        this.ux.log('TODO Need to implement toolbox:project:postpackage:deploy command');
 
-        // Return an object to be displayed with --json
-        // return { orgId: this.org.getOrgId(), outputString };
+        // call the validation stage
+        // const validationArgs = [];
+        // Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Validation.flagsConfig, validationArgs);
+        // await Validation.run(validationArgs);
+
+        // call the Compilation stage
+        const compilationArgs = [];
+        compilationArgs.push('--targetusername');
+        compilationArgs.push(`${this.flags.targetusername}`);
+        Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Compilation.flagsConfig, compilationArgs);
+        await Compilation.run(compilationArgs);
+
+        // call the Testing stage
+        const testingStageArgs = [];
+        testingStageArgs.push('--targetusername');
+        testingStageArgs.push(`${this.flags.targetusername}`);
+        Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Testing.flagsConfig, testingStageArgs);
+        await Testing.run(testingStageArgs);
+
         return;
     }
 }

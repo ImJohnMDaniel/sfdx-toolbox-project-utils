@@ -45,23 +45,23 @@ export default class Utils {
   // tslint:disable-next-line: no-any
   public static filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(theInputflags: OutputFlags<any>, currentFlagsConfig: FlagsConfig, args: string[]) {
 
-    console.log('\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-    console.log('currentFlagsConfig_________________________');
-    console.log(currentFlagsConfig);
-    console.log('\n');
-    console.log('theInputflags_________________________');
-    console.log(theInputflags);
-    console.log('\n');
+    // console.log('\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    // console.log('currentFlagsConfig_________________________');
+    // console.log(currentFlagsConfig);
+    // console.log('\n');
+    // console.log('theInputflags_________________________');
+    // console.log(theInputflags);
+    // console.log('\n');
     if (args === undefined) {
       args = [];
     }
     // loop through the flags
     if ( theInputflags !== undefined ) {
       Object.keys(theInputflags).forEach((flagSubmitted: string) => {
-        console.log('   flagSubmitted: ' + flagSubmitted);
+        // console.log('   flagSubmitted: ' + flagSubmitted);
         // Is this flagSubmitted a flag included the currentFlagsConfig?
         if (currentFlagsConfig[flagSubmitted]) {
-          console.log('   adding flagSubmitted to args');
+          // console.log('   adding flagSubmitted to args');
           // then add the flagSubmittedToStage to the list of step params
           args.push('--' + flagSubmitted);
           if (theInputflags[flagSubmitted] !== undefined && theInputflags[flagSubmitted] !== true) {
@@ -70,9 +70,9 @@ export default class Utils {
         }
       });
     }
-    console.log('\nargs : ');
-    console.log(args);
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    // console.log('\nargs : ');
+    // console.log(args);
+    // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   }
 
   public static buildStepScopesDefault(): string {

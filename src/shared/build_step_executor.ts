@@ -8,12 +8,20 @@ export default class BuildStepExecutor {
     // tslint:disable-next-line: no-any
     public static async run(stage: IBuildStage, step: IBuildStep, buildStepConfig: any, currentScope: BuildStepScope) {
 
+        // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
         // console.log(step.getBuildStepTypeToken());
         // console.log(stage.getFlags().scope);
+        // console.log(currentScope);
+        // console.log(BuildStepScope[currentScope]);
+        // console.log(BuildStepScope[BuildStepScope[currentScope]]);
+        // console.log(BuildStepScope[BuildStepScope.ALL]);
+        // console.log(stage.getFlags().scope === BuildStepScope[BuildStepScope[currentScope]]);
+        // console.log(stage.getFlags().scope === BuildStepScope[BuildStepScope.ALL]);
+
         if (stage.getFlags().scope
             && ( stage.getFlags().scope === BuildStepScope[BuildStepScope.ALL]
-                || stage.getFlags().scope === BuildStepScope[currentScope])) {
-            // console.log(`executing scope: ${stage.getFlags().scope}`);
+                || stage.getFlags().scope === BuildStepScope[BuildStepScope[currentScope]])) {
+            // console.log(`executing ${step.getBuildStepTypeToken()} under scope: ${stage.getFlags().scope}`);
             // if a BuildStep's flagsConfig is aware of the flag, add that flag to the buildStepConfig (overwrite if necessary)
             Utils.filterAndPrepareBuildStepConfigFromFlagsBasedOnFlagsConfig(stage.getFlags(), step.getFlagsConfig(), buildStepConfig);
 

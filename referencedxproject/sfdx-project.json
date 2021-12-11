@@ -84,7 +84,7 @@
               {
                 "buildStepType": "ForceMdapiDeploy",
                 "deploydir": "sfdx-source/unpackaged-post-deployment",
-                "postDeployAndSetup": true
+                "scope": "POSTPACKAGEDEPLOY"
               }
             ],
             "test": [
@@ -99,11 +99,13 @@
                   {
                     "buildStepType": "SfdmuRun",
                     "path": "data/Accounts",
-                    "sourceusername": "csvfile"
+                    "sourceusername": "csvfile",
+                    "scope": "DATALOAD"
                   },
                   {
                     "buildStepType": "ForceApexTestRun",
-                    "wait": "30"
+                    "wait": "30",
+                    "scope": "CI"
                   }
                 ]
               }
