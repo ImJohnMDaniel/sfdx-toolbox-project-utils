@@ -17,7 +17,7 @@ export default class Processresources extends SfdxCommand {
 
     public static examples = [messages.getMessage('examplesDescription')];
 
-    public static flagsConfig = {
+    public static flagsConfig: FlagsConfig = {
         // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
         scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()})
     };

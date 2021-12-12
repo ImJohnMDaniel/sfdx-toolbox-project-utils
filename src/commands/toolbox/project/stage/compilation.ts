@@ -1,4 +1,4 @@
-import { flags, SfdxCommand } from '@salesforce/command';
+import { flags, FlagsConfig, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 import CompilationStage from '../../../../shared/buildstages/compilation';
@@ -19,9 +19,13 @@ export default class Compilation extends SfdxCommand {
 
     //   public static args = [{name: 'file'}];
 
-    public static flagsConfig = {
-        // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
-        scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()})
+    public static flagsConfig: FlagsConfig = {
+        // ...CompilationStage.flagsConfig,
+        ...{
+                        // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
+            // bluefish: flags.boolean({ char: 'b', default: true, required: true, description: Utils.getCommonFlagMessages() }),
+            scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()})
+            }
     };
 
     // Comment this out if your command does not require an org username

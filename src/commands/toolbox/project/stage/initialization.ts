@@ -1,4 +1,4 @@
-import { flags, SfdxCommand } from '@salesforce/command';
+import { flags, FlagsConfig, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 import * as _ from 'lodash';
@@ -16,7 +16,7 @@ export default class Initialization extends SfdxCommand {
     public static description = messages.getMessage('commandDescription');
 
     public static examples = [messages.getMessage('examplesDescription')];
-    public static flagsConfig = {
+    public static flagsConfig: FlagsConfig = {
         setdefaultusername: flags.boolean({ char: 's', required: true, default: false, description: messages.getMessage('flagSetDefaultUsernameDescription') }),
         setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') }),
         scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()})

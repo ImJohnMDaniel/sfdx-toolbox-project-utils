@@ -1,4 +1,4 @@
-import { SfdxCommand } from '@salesforce/command';
+import { FlagsConfig, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 
@@ -17,7 +17,7 @@ export default class Configure extends SfdxCommand {
 
     //   public static args = [{name: 'file'}];
 
-    protected static flagsConfig = {
+    protected static flagsConfig: FlagsConfig = {
         // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
     };
 

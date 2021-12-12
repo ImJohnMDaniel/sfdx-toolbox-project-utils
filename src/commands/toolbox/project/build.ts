@@ -1,4 +1,4 @@
-import { flags, SfdxCommand } from '@salesforce/command';
+import { flags, FlagsConfig, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 import Utils from '../../../shared/utils';
@@ -21,10 +21,19 @@ export default class Build extends SfdxCommand {
 
     public static examples = [messages.getMessage('examplesDescription')];
 
-    protected static flagsConfig = {
-        setdefaultusername: flags.boolean({ char: 's', default: false, required: true, description: messages.getMessage('flagSetDefaultUsernameDescription') }),
-        setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') }),
-        scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes() })
+    // protected static flagsConfig = {
+    //     setdefaultusername: flags.boolean({ char: 's', default: false, required: true, description: messages.getMessage('flagSetDefaultUsernameDescription') }),
+    //     setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') }),
+    //     scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes() })
+    // };
+
+    protected static flagsConfig: FlagsConfig = {
+        ...Validation.flagsConfig
+        , ...Initialization.flagsConfig
+        , ...Processresources.flagsConfig
+        , ...Compilation.flagsConfig
+        , ...Testing.flagsConfig
+        , ...{ scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes() })}
     };
 
     protected static requiresUsername = false;
