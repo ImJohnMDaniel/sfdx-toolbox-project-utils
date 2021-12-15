@@ -1,4 +1,4 @@
-import { flags, FlagsConfig } from '@salesforce/command';
+import { FlagsConfig } from '@salesforce/command';
 import Execute from '@salesforce/plugin-apex/lib/commands/force/apex/execute';
 import { AnyJson } from '@salesforce/ts-types';
 import { AbstractBuildStep } from '../../types/build_step';
