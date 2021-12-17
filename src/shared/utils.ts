@@ -1,12 +1,33 @@
 import { OutputFlags } from '@oclif/parser';
 import { flags, FlagsConfig } from '@salesforce/command';
-import { Messages } from '@salesforce/core';
+import { JsonMap } from '@salesforce/ts-types';
+import { ConfigFile, Messages, SfdxProject, SfdxProjectJson } from '@salesforce/core';
 import { BuildStepScope } from './constants';
 export default class Utils {
   public static async asyncForEach(array, callback): Promise<void> {
     for (let index = 0; index < array.length; index++) {
       await callback(array[index], index, array);
     }
+  }
+
+  public static async asyncExec(callback): Promise<void> {
+    await callback();
+  }
+
+  // public static async getSfdxProjectJson(): Promise<JsonMap> {
+  //   const project = await SfdxProject.resolve();
+  //   const projectJson = await project.resolveProjectConfig();
+
+  // }
+
+  public static getSfdxProjectJson(): SfdxProjectJson {
+    // const projectJson = new SfdxProjectJson({} as ConfigFile.Options);
+    // console.log('HELLO -- getSfdxProjectJson() ');
+    // console.log(projectJson.getContents());
+    // console.log('GOODBYE -- getSfdxProjectJson() ');
+    let projectJson = new SfdxProjectJson({} as ConfigFile.Options)
+    projectJson.readSync();
+    return projectJson;
   }
 
   // TODO: Research if @oclif/parser/lib/Parser class would be better for this task

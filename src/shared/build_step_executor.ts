@@ -32,24 +32,24 @@ export default class BuildStepExecutor {
         // if (stage.getFlags().scope
         //     && ( stage.getFlags().scope === BuildStepScope[BuildStepScope.ALL]
         //         || stage.getFlags().scope === BuildStepScope[BuildStepScope[currentScope]])) {
-            if (stage.getFlags().scope
-                && ( stage.getFlags().scope === Utils.buildStepScopesDefault()
+            if (stage.getFlagsSubmitted().scope
+                && ( stage.getFlagsSubmitted().scope === Utils.buildStepScopesDefault()
                     || (buildStepConfig.scope 
-                        && buildStepConfig.scope === stage.getFlags().scope
+                        && buildStepConfig.scope === stage.getFlagsSubmitted().scope
                         ) 
                     )
                ) 
             {
-                console.log(`executing ${step.getBuildStepTypeToken()} under scope: ${buildStepConfig.scope ? buildStepConfig.scope : stage.getFlags().scope}`);
+                console.log(`executing ${step.getBuildStepTypeToken()} under scope: ${buildStepConfig.scope ? buildStepConfig.scope : stage.getFlagsSubmitted().scope}`);
             // if a BuildStep's flagsConfig is aware of the flag, add that flag to the buildStepConfig (overwrite if necessary)
-            Utils.filterAndPrepareBuildStepConfigFromFlagsBasedOnFlagsConfig(stage.getFlags(), step.getFlagsConfig(), buildStepConfig);
+            Utils.filterAndPrepareBuildStepConfigFromFlagsBasedOnFlagsConfig(stage.getFlagsSubmitted(), step.getFlagsConfig(), buildStepConfig);
 
             try {
                 step?.setParams(buildStepConfig);
                 step?.setProjectJson(stage.getProjectJson());
                 step?.setUx(stage.getUX());
                 step?.setJsonOutputActive();
-                step?.setOrgAlias(stage.getFlags().setalias ? stage.getFlags().setalias : stage.getFlags().targetusername);
+                step?.setOrgAlias(stage.getFlagsSubmitted().setalias ? stage.getFlagsSubmitted().setalias : stage.getFlagsSubmitted().targetusername);
 
                 if (instanceOfICarriesStageable(step)) {
                     step.setCurrentStage(stage);

@@ -1,5 +1,7 @@
+
+import { JsonMap } from '@salesforce/ts-types';
 import { OutputFlags } from '@oclif/parser';
-import { UX } from '@salesforce/command';
+import { FlagsConfig, UX } from '@salesforce/command';
 import { SfdxProjectJson } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 import * as _ from 'lodash';
@@ -12,10 +14,11 @@ import { IBuildStep } from './build_step';
 export interface IBuildStage {
     getBuildSteps(): IBuildStep[];
     // tslint:disable-next-line: no-any
-    getFlags(): OutputFlags<any>;
+    getFlagsSubmitted(): OutputFlags<any>;
     getProjectJson(): SfdxProjectJson;
     getStageToken(): string;
     getUX(): UX;
+    getFlagsConfig(): Promise<FlagsConfig>;
     run(): Promise<AnyJson>;
 }
 
@@ -30,25 +33,70 @@ export function instanceOfICarriesStageable(object: any): object is ICarriesStag
 
 export abstract class AbstractBuildStage implements IBuildStage {
 
-    private readonly projectJson: SfdxProjectJson;
+    // private readonly projectJson: SfdxProjectJson;
     private ux: UX;
     private orgAlias: string;
     // tslint:disable-next-line: no-any
-    private readonly flags: OutputFlags<any>;
+    private readonly flagsSubmitted: OutputFlags<any>;
+
+    // public static flagsFromCommand: FlagsConfig = { };
 
     // tslint:disable-next-line: no-any
-    public constructor(projectJson: SfdxProjectJson, thisUx: UX, flags: OutputFlags<any>) {
-        this.projectJson = projectJson;
+    public constructor(thisUx: UX, flagsSubmitted: OutputFlags<any>) {
         this.ux = thisUx;
-        this.orgAlias = flags.targetusername ? flags.targetusername : flags.setalias;
-        this.flags = flags;
+        this.orgAlias = flagsSubmitted.targetusername ? flagsSubmitted.targetusername : flagsSubmitted.setalias;
+        this.flagsSubmitted = flagsSubmitted;
     }
 
     public abstract getStageToken(): string;
 
+
+    private static getBuildStepConfigurations( stageToken: string ): any {
+        return _.get(Utils.getSfdxProjectJson()['contents'], 'plugins.toolbox.project.builder.stages.' + stageToken, false);
+    }
+
+    public static async getFlagsConfig( stageToken: string ): Promise<FlagsConfig> {
+        
+        /*
+         * const project = await SfdxProject.resolve();
+         * const projectJson = await project.resolveProjectConfig();
+         * const myPluginProperties = projectJson.get('myplugin') || {};
+         * myPluginProperties.myprop = 'someValue';
+         * projectJson.set('myplugin', myPluginProperties);
+         * await projectJson.write();
+         */
+
+        
+        
+        // const buildStepsConfigurations = this.getBuildStepConfigurations(projectJson, stageToken);
+        const buildStepsConfigurations = this.getBuildStepConfigurations(stageToken);
+        
+        const bsf: BuildStepsFactory = await BuildStepsFactory.getInstance();
+
+        let flagsConfigOutput: FlagsConfig = { };
+
+        if ( buildStepsConfigurations ) {
+            const stepCreation = async (buildStepConfig) => {
+                try {
+                    const step: IBuildStep = await bsf.create(buildStepConfig.buildStepType);
+
+                    flagsConfigOutput = { ...flagsConfigOutput, ...step.getFlagsConfig() };
+
+                } catch (e) {
+                    throw e;
+                }
+            }
+
+            await Utils.asyncForEach( buildStepsConfigurations, stepCreation );
+        }
+
+        return flagsConfigOutput;
+    }
+
     public async run(): Promise<AnyJson> {
 
-        const buildStepsConfigurations = _.get(this.projectJson['contents'], 'plugins.toolbox.project.builder.stages.' + this.getStageToken(), false);
+        // const buildStepsConfigurations = AbstractBuildStage.getBuildStepConfigurations(this.projectJson, this.getStageToken());
+        const buildStepsConfigurations = AbstractBuildStage.getBuildStepConfigurations(this.getStageToken());
 
         const bsf: BuildStepsFactory = await BuildStepsFactory.getInstance();
 
@@ -72,7 +120,7 @@ export abstract class AbstractBuildStage implements IBuildStage {
 
                     await bsm.mark(this, index, step, this.orgAlias);
 
-                    await BuildStepExecutor.run(this, step, buildStepConfig, this.getFlags().scope);
+                    await BuildStepExecutor.run(this, step, buildStepConfig, this.getFlagsSubmitted().scope);
                 } catch (e) {
                     throw e;
                 }
@@ -97,8 +145,9 @@ export abstract class AbstractBuildStage implements IBuildStage {
         return this.ux;
     }
 
+    // TODO: What is the purpose of this command again?  Is this "the flags that were submitted" or is it "the flagsConfig"?
     // tslint:disable-next-line: no-any
-    public getFlags(): OutputFlags<any> {
-        return this.flags;
+    public getFlagsSubmitted(): OutputFlags<any> {
+        return this.flagsSubmitted;
     }
 }

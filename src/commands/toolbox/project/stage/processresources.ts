@@ -3,6 +3,7 @@ import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 import ProcessResourcessStage from '../../../../shared/buildstages/process_resources';
 import Utils from '../../../../shared/utils';
+// import Utils from '../../../../shared/utils';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -19,8 +20,26 @@ export default class Processresources extends SfdxCommand {
 
     public static flagsConfig: FlagsConfig = {
         // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
-        scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()})
+
+        ...ProcessResourcessStage.flagsFromCommand
+        , ...{ scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()}) }
+        , ...{ }
+        /*
+            this is simply the corresponding ProcessResourcessStage class quickly accessing all of the build steps in that 
+            stage and then finding those build step classes to add the contents from the getFlagsConfig() method.
+        */
     };
+
+    /*
+    protected static flagsConfig: FlagsConfig = {
+            ...Validation.flagsConfig
+            , ...Initialization.flagsConfig
+            , ...Processresources.flagsConfig
+            , ...Compilation.flagsConfig
+            , ...Testing.flagsConfig
+            , ...{ scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes() })}
+        };
+    */
 
     // Comment this out if your command does not require an org username
     protected static requiresUsername = true;

@@ -6,16 +6,16 @@
       "definitionFile": "config/foobar-project-scratch-def.json",
       "dependencies": [
         {
-          "package": "steampunk-fflib-apex-mocks@1.0.0-10"
+          "package": "steampunk-fflib-apex-mocks@1.1.0-1"
         },
         {
-          "package": "steampunk-fflib-apex-common@1.0.0-16"
+          "package": "steampunk-fflib-apex-common@1.1.0-2"
         },
         {
-          "package": "steampunk-force-di@1.0.0-8"
+          "package": "steampunk-force-di@1.2.0-1"
         },
         {
-          "package": "steampunk-at4dx@1.0.0-15"
+          "package": "steampunk-at4dx@1.2.0-2"
         }
       ]
     }
@@ -120,9 +120,9 @@
     "steampunk-fflib-apex-common": "0Ho5A000000PB2NSAW",
     "steampunk-force-di": "0Ho5A000000PB2SSAW",
     "steampunk-at4dx": "0Ho5A000000PB2hSAG",
-    "steampunk-fflib-apex-mocks@1.0.0-10": "04t5A000001xzMjQAI",
-    "steampunk-fflib-apex-common@1.0.0-16": "04t5A000001xzN3QAI",
-    "steampunk-force-di@1.0.0-8": "04t5A000001xzMpQAI",
-    "steampunk-at4dx@1.0.0-15": "04t5A000001xzN8QAI"
+    "steampunk-fflib-apex-mocks@1.1.0-1": "04t6e000000Y8YNAA0",
+    "steampunk-fflib-apex-common@1.1.0-2": "04t6e000000Y8YcAAK",
+    "steampunk-force-di@1.2.0-1": "04t6e000000Y8YwAAK",
+    "steampunk-at4dx@1.2.0-2": "04t6e000000Y8Z1AAK"
   }
 }
