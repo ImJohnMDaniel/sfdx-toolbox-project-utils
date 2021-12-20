@@ -18,8 +18,7 @@ export default class Test extends SfdxCommand {
     public static examples = [messages.getMessage('examplesDescription')];
 
     public static flagsConfig: FlagsConfig = {
-        // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
-        scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()})
+        ...Utils.flagsCommonConfig()
     };
 
     // Comment this out if your command does not require an org username
@@ -36,7 +35,7 @@ export default class Test extends SfdxCommand {
 
     public async run(): Promise<AnyJson> {
 
-        await new TestStage(await this.project.retrieveSfdxProjectJson(), this.ux, this.flags).run();
+        await new TestStage(this.ux, this.flags).run();
 
         return;
     }

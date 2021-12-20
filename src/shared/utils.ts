@@ -1,17 +1,12 @@
 import { OutputFlags } from '@oclif/parser';
 import { flags, FlagsConfig } from '@salesforce/command';
-import { JsonMap } from '@salesforce/ts-types';
-import { ConfigFile, Messages, SfdxProject, SfdxProjectJson } from '@salesforce/core';
+import { ConfigFile, Messages, SfdxProjectJson } from '@salesforce/core';
 import { BuildStepScope } from './constants';
 export default class Utils {
   public static async asyncForEach(array, callback): Promise<void> {
     for (let index = 0; index < array.length; index++) {
       await callback(array[index], index, array);
     }
-  }
-
-  public static async asyncExec(callback): Promise<void> {
-    await callback();
   }
 
   // public static async getSfdxProjectJson(): Promise<JsonMap> {
@@ -122,5 +117,14 @@ export default class Utils {
     return {
       scope: flags.enum({ default: this.buildStepScopesDefault(), required: false, description: this.getCommonFlagMessages(), options: this.buildStepScopes() })
     };
+  }
+
+  public static flagScopeDefault(): FlagsConfig {
+    return { scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()}) };
+  }
+
+  public static flagsCommonConfig(): FlagsConfig {
+    return { ...Utils.flagScopeDefault()
+            , ...{ } };
   }
 }

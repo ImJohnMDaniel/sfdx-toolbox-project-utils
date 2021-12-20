@@ -1,4 +1,4 @@
-import { flags, FlagsConfig, SfdxCommand } from '@salesforce/command';
+import { FlagsConfig, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 import Utils from '../../../shared/utils';
@@ -33,7 +33,7 @@ export default class Build extends SfdxCommand {
         , ...Processresources.flagsConfig
         , ...Compilation.flagsConfig
         , ...Testing.flagsConfig
-        , ...{ scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes() })}
+        , ...Utils.flagsCommonConfig()
     };
 
     protected static requiresUsername = false;

@@ -1,8 +1,6 @@
 
-import { JsonMap } from '@salesforce/ts-types';
 import { OutputFlags } from '@oclif/parser';
 import { FlagsConfig, UX } from '@salesforce/command';
-import { SfdxProjectJson } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 import * as _ from 'lodash';
 import BuildStepExecutor from '../shared/build_step_executor';
@@ -15,7 +13,7 @@ export interface IBuildStage {
     getBuildSteps(): IBuildStep[];
     // tslint:disable-next-line: no-any
     getFlagsSubmitted(): OutputFlags<any>;
-    getProjectJson(): SfdxProjectJson;
+    // getProjectJson(): SfdxProjectJson;
     getStageToken(): string;
     getUX(): UX;
     getFlagsConfig(): Promise<FlagsConfig>;
@@ -51,11 +49,11 @@ export abstract class AbstractBuildStage implements IBuildStage {
     public abstract getStageToken(): string;
 
 
-    private static getBuildStepConfigurations( stageToken: string ): any {
+    private getBuildStepConfigurations( stageToken: string ): any {
         return _.get(Utils.getSfdxProjectJson()['contents'], 'plugins.toolbox.project.builder.stages.' + stageToken, false);
     }
 
-    public static async getFlagsConfig( stageToken: string ): Promise<FlagsConfig> {
+    public async getFlagsConfig(): Promise<FlagsConfig> {
         
         /*
          * const project = await SfdxProject.resolve();
@@ -69,7 +67,7 @@ export abstract class AbstractBuildStage implements IBuildStage {
         
         
         // const buildStepsConfigurations = this.getBuildStepConfigurations(projectJson, stageToken);
-        const buildStepsConfigurations = this.getBuildStepConfigurations(stageToken);
+        const buildStepsConfigurations = this.getBuildStepConfigurations(this.getStageToken());
         
         const bsf: BuildStepsFactory = await BuildStepsFactory.getInstance();
 
@@ -96,7 +94,7 @@ export abstract class AbstractBuildStage implements IBuildStage {
     public async run(): Promise<AnyJson> {
 
         // const buildStepsConfigurations = AbstractBuildStage.getBuildStepConfigurations(this.projectJson, this.getStageToken());
-        const buildStepsConfigurations = AbstractBuildStage.getBuildStepConfigurations(this.getStageToken());
+        const buildStepsConfigurations = this.getBuildStepConfigurations(this.getStageToken());
 
         const bsf: BuildStepsFactory = await BuildStepsFactory.getInstance();
 
@@ -137,9 +135,9 @@ export abstract class AbstractBuildStage implements IBuildStage {
         throw new Error('Method not implemented.');
     }
 
-    public getProjectJson(): SfdxProjectJson {
-        return this.projectJson;
-    }
+    // public getProjectJson(): SfdxProjectJson {
+    //     return this.projectJson;
+    // }
 
     public getUX(): UX {
         return this.ux;

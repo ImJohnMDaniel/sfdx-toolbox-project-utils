@@ -21,11 +21,7 @@ export default class Compilation extends SfdxCommand {
 
     public static flagsConfig: FlagsConfig = {
         // ...CompilationStage.flagsConfig,
-        ...{
-                        // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
-            // bluefish: flags.boolean({ char: 'b', default: true, required: true, description: Utils.getCommonFlagMessages() }),
-            scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()})
-            }
+        ...Utils.flagsCommonConfig()
     };
 
     // Comment this out if your command does not require an org username
@@ -41,7 +37,7 @@ export default class Compilation extends SfdxCommand {
     protected static requiresProject = true;
 
     public async run(): Promise<AnyJson> {
-        await new CompilationStage(await this.project.retrieveSfdxProjectJson(), this.ux, this.flags).run();
+        await new CompilationStage(this.ux, this.flags).run();
 
         return;
     }

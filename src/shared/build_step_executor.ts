@@ -46,7 +46,8 @@ export default class BuildStepExecutor {
 
             try {
                 step?.setParams(buildStepConfig);
-                step?.setProjectJson(stage.getProjectJson());
+                // step?.setProjectJson(stage.getProjectJson());
+                step?.setProjectJson(Utils.getSfdxProjectJson());
                 step?.setUx(stage.getUX());
                 step?.setJsonOutputActive();
                 step?.setOrgAlias(stage.getFlagsSubmitted().setalias ? stage.getFlagsSubmitted().setalias : stage.getFlagsSubmitted().targetusername);

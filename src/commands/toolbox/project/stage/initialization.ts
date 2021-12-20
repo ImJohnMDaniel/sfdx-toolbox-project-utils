@@ -19,8 +19,7 @@ export default class Initialization extends SfdxCommand {
     public static flagsConfig: FlagsConfig = {
         setdefaultusername: flags.boolean({ char: 's', required: true, default: false, description: messages.getMessage('flagSetDefaultUsernameDescription') }),
         setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') }),
-        scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()})
-
+        ...Utils.flagsCommonConfig()
         // setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') }),
         // setdefaultusername: flags.boolean({ char: 's', required: false, description: messages.getMessage('flagSetDefaultUsernameDescription') }),
         // scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()})
@@ -46,7 +45,7 @@ export default class Initialization extends SfdxCommand {
         // console.log('initialization area');
         // console.log(this.flags);
         // console.log('blue');
-        await new InitizalizationStage(await this.project.retrieveSfdxProjectJson(), this.ux, this.flags).run();
+        await new InitizalizationStage(this.ux, this.flags).run();
 
         return;
     }

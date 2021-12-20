@@ -19,8 +19,7 @@ export default class Validation extends SfdxCommand {
     //   public static args = [{name: 'file'}];
 
     public static flagsConfig: FlagsConfig = {
-        // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
-        scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()})
+        ...Utils.flagsCommonConfig()
     };
 
     // Command doesn't required username

@@ -1,9 +1,8 @@
-import { flags, FlagsConfig, SfdxCommand } from '@salesforce/command';
+import { FlagsConfig, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 import ProcessResourcessStage from '../../../../shared/buildstages/process_resources';
 import Utils from '../../../../shared/utils';
-// import Utils from '../../../../shared/utils';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -21,8 +20,8 @@ export default class Processresources extends SfdxCommand {
     public static flagsConfig: FlagsConfig = {
         // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
 
-        ...ProcessResourcessStage.flagsFromCommand
-        , ...{ scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()}) }
+        // ...ProcessResourcessStage.flagsFromCommand
+        ...Utils.flagsCommonConfig()
         , ...{ }
         /*
             this is simply the corresponding ProcessResourcessStage class quickly accessing all of the build steps in that 
@@ -54,7 +53,7 @@ export default class Processresources extends SfdxCommand {
     protected static requiresProject = true;
 
     public async run(): Promise<AnyJson> {
-        await new ProcessResourcessStage(await this.project.retrieveSfdxProjectJson(), this.ux, this.flags).run();
+        await new ProcessResourcessStage(this.ux, this.flags).run();
 
         return;
     }
