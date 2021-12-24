@@ -1,0 +1,27 @@
+Scopes and the commands that go with them
+
+All Scopes Available;
+    - ALL
+    - CI
+    - DEV
+    - DATALOAD
+    - POSTPACKAGEDEPLOY
+
+Reference DX Project Build Steps verses "Intended Execution With Scope" | CI | DEV | DATALOAD  | POSTPACKAGEDEPLOY
+    - Stage: initialize
+        - ForceOrgDelete        - scope undefined                       | X  | X   |           | 
+        - ForceOrgCreate        - scope undefined                       | X  | X   |           | 
+        - ForceDataRecordUpdate - scope undefined                       | X  | X   |           | 
+        - ForceDataRecordUpdate - scope undefined                       | X  | X   |           | 
+        - ForceDataRecordUpdate - scope undefined                       | X  | X   |           | 
+        - ForceApexExecute      - scope undefined                       | X  | X   |           | 
+    - Stage: processResources
+        - ToolboxPackageDependenciesInstall - scope undefined           | X  | X   |           | 
+    - Stage: compilation
+        - ForceSourcePush       - scope undefined                       | X  | X   |           | 
+        - ForceApexExecute      - scope undefined                       | X  | X   |           | X
+        - ForceMdapiDeploy      - scope undefined                       | X  | X   |           | X
+    - Stage: test
+        - ForceUserPermsetAssign    - scope: CI                         | X  |     |           | 
+        - SfdmuRun                  - scope: DATALOAD                   | X  | X   | X         | 
+        - ForceApexTestRun          - scope: CI                         | X  |     |           | 
