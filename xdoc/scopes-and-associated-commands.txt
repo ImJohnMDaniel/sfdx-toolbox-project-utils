@@ -25,3 +25,12 @@ Reference DX Project Build Steps verses "Intended Execution With Scope" | CI | D
         - ForceUserPermsetAssign    - scope: CI                         | X  |     |           | 
         - SfdmuRun                  - scope: DATALOAD                   | X  | X   | X         | 
         - ForceApexTestRun          - scope: CI                         | X  |     |           | 
+
+Two types of scope:
+    - Scopes that progressively build on each other -- DEV is a subset of a full CI
+        - CI probably shouldn't be a scope.  It represents every step. 
+        - DEV is DEVELOPER_SETUP 
+        - "Progressive Build" scopes always execute every "exclusive scope" build step 
+        - If CI is everything, then should the scope be set everywhere? ....should a scope be mandatory?
+            - if it is mandatory, then the validation stage should verify that everything is ready.
+    - Scopes that are exclusive -- DATALOAD only runs build steps with a scope of "DATALOAD"
