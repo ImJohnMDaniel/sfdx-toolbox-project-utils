@@ -17,6 +17,7 @@ export default class BuildStepExecutor {
         // console.log(BuildStepScope[BuildStepScope[currentScope]]);
         // console.log(BuildStepScope[BuildStepScope.ALL]);
         // console.log(Utils.buildStepScopesDefault());
+        console.log(BuildStepScope[Utils.buildStepScopesDefault()]);
         // console.log(stage.getFlags().scope === BuildStepScope[BuildStepScope.ALL]);
         // console.log(stage.getFlags().scope === BuildStepScope[BuildStepScope[currentScope]]);
         // console.log(buildStepConfig?.scope === stage.getFlags().scope);
@@ -32,15 +33,15 @@ export default class BuildStepExecutor {
         // if (stage.getFlags().scope
         //     && ( stage.getFlags().scope === BuildStepScope[BuildStepScope.ALL]
         //         || stage.getFlags().scope === BuildStepScope[BuildStepScope[currentScope]])) {
-            if (stage.getFlagsSubmitted().scope
-                && ( stage.getFlagsSubmitted().scope === Utils.buildStepScopesDefault()
-                    || (buildStepConfig.scope 
-                        && buildStepConfig.scope === stage.getFlagsSubmitted().scope
-                        ) 
-                    )
-               ) 
-            {
-                console.log(`executing ${step.getBuildStepTypeToken()} under scope: ${buildStepConfig.scope ? buildStepConfig.scope : stage.getFlagsSubmitted().scope}`);
+        if (stage.getFlagsSubmitted().scope
+            && ( stage.getFlagsSubmitted().scope === BuildStepScope[Utils.buildStepScopesDefault()]
+                || (buildStepConfig.scope 
+                    && buildStepConfig.scope === stage.getFlagsSubmitted().scope
+                    ) 
+                )
+            ) 
+        {
+            console.log(`executing ${step.getBuildStepTypeToken()} under scope: ${buildStepConfig.scope ? buildStepConfig.scope : stage.getFlagsSubmitted().scope}`);
             // if a BuildStep's flagsConfig is aware of the flag, add that flag to the buildStepConfig (overwrite if necessary)
             Utils.filterAndPrepareBuildStepConfigFromFlagsBasedOnFlagsConfig(stage.getFlagsSubmitted(), step.getFlagsConfig(), buildStepConfig);
 

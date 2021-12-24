@@ -91,11 +91,14 @@ export default class Utils {
     // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   }
 
-  public static buildStepScopesDefault(): string {
-    return BuildStepScope[BuildStepScope.ALL];
+  // public static buildStepScopesDefault(): string {
+  //   return BuildStepScope[BuildStepScope.ALL];
+  // }
+  public static buildStepScopesDefault(): BuildStepScope {
+    return BuildStepScope.ALL;
   }
 
-  public static buildStepScopes(): string[] {
+  public static buildStepScopesAsStrings(): string[] {
 
     const stringIsNumber = value => isNaN(Number(value)) === false;
 
@@ -113,14 +116,18 @@ export default class Utils {
     return Messages.loadMessages('@dx-cli-toolbox/sfdx-toolbox-project-utils', 'toolbox-project-flags-common').getMessage('flagBuildStepScopeDescription');
   }
 
-  public static getCommonFlags(): any {
-    return {
-      scope: flags.enum({ default: this.buildStepScopesDefault(), required: false, description: this.getCommonFlagMessages(), options: this.buildStepScopes() })
-    };
+  // public static getCommonFlags(): any {
+  //   return {
+  //     scope: flags.enum({ default: this.buildStepScopesDefault(), required: false, description: this.getCommonFlagMessages(), options: this.buildStepScopes() })
+  //   };
+  // }
+
+  public static flagScope(theBuildStepScope: BuildStepScope): FlagsConfig {
+    return { scope: flags.enum({ default: BuildStepScope[theBuildStepScope], required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopesAsStrings()}) };
   }
 
   public static flagScopeDefault(): FlagsConfig {
-    return { scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()}) };
+    return Utils.flagScope(Utils.buildStepScopesDefault());
   }
 
   public static flagsCommonConfig(): FlagsConfig {
