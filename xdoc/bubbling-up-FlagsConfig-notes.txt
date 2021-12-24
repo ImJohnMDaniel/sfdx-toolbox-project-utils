@@ -1,0 +1,46 @@
+Notes on bubbling up FlagsConfig
+
+Latest update -- 20211223
+* Bubbling up the flags dynamically from the set of build steps that the
+     current DX project's "sfdx-project.json/plugins/toolbox/project/builder/stages/*" may have configured 
+     is problematic.  The SfdxCommand "--help" flag relies on the STATIC "flagsConfig" class variable.  The
+     issue is how to hook that up dynamically to read the configured "buildstepconfigurations" in the sfdx-project.json 
+     and then use the BuildStepsFactory to dynamically instantiate the appropriate IBuildStep's in order to 
+     read those SfdxCommand's flagsConfig variables.  If the SfdxCommand "--help" flag could somehow wait for 
+     an asynchronous function to complete, then I can see how to make this happen.  But at this moment, I don't 
+     see how this is possible and thus am putting this feature on hold.
+* The answer may lie in the approach discussed here -- https://www.geeksforgeeks.org/how-to-wait-for-a-promise-to-finish-before-returning-the-variable-of-a-function/
+
+
+commands
+    toolbox:project:build
+        - validation
+        - initialization
+        - processresources
+        - compilation
+        - test
+        - final overrides
+    toolbox:project:build:configure
+    toolbox:project:dataload
+        - compilation (scope:DATALOAD)
+        - test (scope:DATALOAD)
+        - final overrides
+    toolbox:project:postpackage:deploy
+        - compilation (scope:POSTPACKAGEDEPLOY)
+        - test (scope:POSTPACKAGEDEPLOY)
+        - final overrides
+    toolbox:project:stage:validation
+        - build steps in sfdx-project.json from validation stage
+        - final overrides
+    toolbox:project:stage:initialization
+        - build steps in sfdx-project.json from initialization stage
+        - final overrides
+    toolbox:project:stage:processresources
+        - build steps in sfdx-project.json from processresources stage
+        - final overrides
+    toolbox:project:stage:compilation
+        - build steps in sfdx-project.json from compilation stage
+        - final overrides
+    toolbox:project:stage:test
+        - build steps in sfdx-project.json from test stage
+        - final overrides

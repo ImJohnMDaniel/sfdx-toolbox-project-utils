@@ -1,5 +1,7 @@
 // import { FlagsConfig } from '@salesforce/command';
+import { FlagsConfig } from '@salesforce/command';
 import { AbstractBuildStage } from '../../types/build_stage';
+import ToolboxPackageDependenciesInstall from '../buildsteps/toolbox_package_dependencies_install';
 // import { IBuildStep } from '../../types/build_step';
 // import BuildStepsFactory from '../build_steps_factory';
 // import Utils from '../utils';
@@ -44,7 +46,7 @@ import { AbstractBuildStage } from '../../types/build_stage';
 
 //         // const bsf: BuildStepsFactory = await BuildStepsFactory.getInstance();
 //         let bsf: BuildStepsFactory;
-        
+
 //         console.log('3==========');
 
 //         const stepCreation = async (buildStepConfig) => {
@@ -96,7 +98,7 @@ import { AbstractBuildStage } from '../../types/build_stage';
 //     // }
 
 //     // do {
-        
+
 //     // } while (flagsConfigOutput === {});
 
 //     console.log('9==========');
@@ -109,10 +111,61 @@ import { AbstractBuildStage } from '../../types/build_stage';
 //     return;
 // }
 
+/*
+
+    var first_function = function () {
+        console.log("Entered first function");
+        return new Promise(resolve => {
+            setTimeout(function () {
+                resolve("\t\t This is first promise");
+                console.log("Returned first promise");
+            }, 2000);
+        });
+    };
+
+
+    //This function executes returns promise after 4 seconds
+    var second_function = function() {
+    console.log("Entered second function");
+    return new Promise(resolve => {
+        setTimeout(function() {
+        resolve("\t\t This is second promise");
+        console.log("Returned second promise");
+        }, 4000);
+    });
+    };
+
+    var async_function = function (): string {
+        console.log('async function called');
+
+        const first_promise = await first_function();
+        console.log("After awaiting for 2 seconds," +
+            "the promise returned from first function is:");
+        console.log(first_promise);
+
+        // const second_promise= await second_function();
+        // console.log("After awaiting for 4 seconds, the" + 
+        // "promise returned from second function is:");
+        // console.log(second_promise);
+        return first_promise as string;
+    }
+
+// async_function();         
+*/
+
+
 export default class ProcessResourcessStage extends AbstractBuildStage {
 
     // public static flagsFromCommand: FlagsConfig = await ProcessResourcessStage.getFlagsConfig('processResources');
     // public static flagsFromCommand: FlagsConfig = await ProcessResourcessStage.getFlagsConfig('processResources');
+    public static flagsFromCommand(): FlagsConfig {
+
+        // const buildStage = new ProcessResourcessStage();
+        // return buildStage.getFlagsConfig();
+        // return async_function();
+        // return new ToolboxPackageDependenciesInstall().getFlagsConfig();
+        return { };
+    }
 
     public getStageToken(): string {
         return 'processResources';

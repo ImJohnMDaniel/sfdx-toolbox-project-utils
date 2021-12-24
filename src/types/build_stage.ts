@@ -40,10 +40,15 @@ export abstract class AbstractBuildStage implements IBuildStage {
     // public static flagsFromCommand: FlagsConfig = { };
 
     // tslint:disable-next-line: no-any
-    public constructor(thisUx: UX, flagsSubmitted: OutputFlags<any>) {
-        this.ux = thisUx;
-        this.orgAlias = flagsSubmitted.targetusername ? flagsSubmitted.targetusername : flagsSubmitted.setalias;
-        this.flagsSubmitted = flagsSubmitted;
+    public constructor(thisUx?: UX, flagsSubmitted?: OutputFlags<any>) {
+        if ( thisUx ) {
+            this.ux = thisUx;
+        }
+        
+        if ( flagsSubmitted ) {
+            this.orgAlias = flagsSubmitted.targetusername ? flagsSubmitted.targetusername : flagsSubmitted.setalias;
+            this.flagsSubmitted = flagsSubmitted;    
+        }
     }
 
     public abstract getStageToken(): string;
@@ -64,8 +69,6 @@ export abstract class AbstractBuildStage implements IBuildStage {
          * await projectJson.write();
          */
 
-        
-        
         // const buildStepsConfigurations = this.getBuildStepConfigurations(projectJson, stageToken);
         const buildStepsConfigurations = this.getBuildStepConfigurations(this.getStageToken());
         
