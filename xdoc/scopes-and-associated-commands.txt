@@ -33,4 +33,5 @@ Two types of scope:
         - "Progressive Build" scopes always execute every "exclusive scope" build step 
         - If CI is everything, then should the scope be set everywhere? ....should a scope be mandatory?
             - if it is mandatory, then the validation stage should verify that everything is ready.
+        - the default scope should be DEV and you can override the scope on the various stage builds in a CI scenario
     - Scopes that are exclusive -- DATALOAD only runs build steps with a scope of "DATALOAD"
