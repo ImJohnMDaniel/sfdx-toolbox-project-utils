@@ -19,12 +19,9 @@ export default class Initialization extends SfdxCommand {
     public static flagsConfig: FlagsConfig = {
         setdefaultusername: flags.boolean({ char: 's', required: true, default: false, description: messages.getMessage('flagSetDefaultUsernameDescription') }),
         setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') }),
-        ...Utils.flagsCommonConfig()
-        // setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') }),
-        // setdefaultusername: flags.boolean({ char: 's', required: false, description: messages.getMessage('flagSetDefaultUsernameDescription') }),
-        // scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()})
-        // scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes()}),
-        // setdefaultusername: flags.boolean({ char: 's', required: false, description: messages.getMessage('flagSetDefaultUsernameDescription') })
+        ...Utils.flagsCommonConfig(),
+        ...Utils.flagScopeDefault(false),
+        ...{ }
     };
 
     // Comment this out if your command does not require an org username

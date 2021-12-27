@@ -22,6 +22,7 @@ export default class Processresources extends SfdxCommand {
 
         ...ProcessResourcessStage.flagsFromCommand(),
         ...Utils.flagsCommonConfig(),
+        ...Utils.flagScopeDefault(false),
         ...{ }
         /*
             this is simply the corresponding ProcessResourcessStage class quickly accessing all of the build steps in that 

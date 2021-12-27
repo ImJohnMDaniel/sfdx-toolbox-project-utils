@@ -1,6 +1,7 @@
 import { FlagsConfig, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
+import { BuildStepScope } from '../../../shared/build_step_scopes';
 import Utils from '../../../shared/utils';
 
 // Initialize Messages with the current plugin directory
@@ -20,7 +21,8 @@ export default class Dataload extends SfdxCommand {
 
     protected static flagsConfig: FlagsConfig = {
         // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
-        ...Utils.flagsCommonConfig()
+        ...Utils.flagsCommonConfig(),
+        ...Utils.flagScope(BuildStepScope.DATALOAD)
     };
 
     // Comment this out if your command does not require an org username

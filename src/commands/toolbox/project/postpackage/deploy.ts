@@ -1,6 +1,7 @@
 import { FlagsConfig, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
+import { BuildStepScope } from '../../../../shared/build_step_scopes';
 import Utils from '../../../../shared/utils';
 import Compilation from '../stage/compilation';
 import Testing from '../stage/test';
@@ -21,9 +22,11 @@ export default class Deploy extends SfdxCommand {
     //   public static args = [{name: 'file'}];
 
     protected static flagsConfig: FlagsConfig = {
-        ...Compilation.flagsConfig
-        , ...Testing.flagsConfig
-        , ...Utils.flagsCommonConfig()
+        ...Compilation.flagsConfig,
+        ...Testing.flagsConfig,
+        ...Utils.flagsCommonConfig(),
+        ...Utils.flagScope(BuildStepScope.POSTPACKAGEDEPLOY),
+        ...{ }
     };
 
     // Comment this out if your command does not require an org username

@@ -101,16 +101,20 @@ export default class Utils {
   //   };
   // }
 
-  public static flagScope(theBuildStepScope: BuildStepScope): FlagsConfig {
-    return { scope: flags.enum({ default: BuildStepScope[theBuildStepScope], required: false, description: Utils.getCommonFlagMessages(), options: BuildStepScopes.buildStepScopesAsStrings()}) };
+  public static flagScope(theBuildStepScope: BuildStepScope, isHidden?: boolean): FlagsConfig {
+    return { scope: flags.enum({ default: BuildStepScope[theBuildStepScope]
+                                , hidden: isHidden !== undefined ? isHidden : true
+                                , required: false
+                                , description: Utils.getCommonFlagMessages()
+                                , options: BuildStepScopes.buildStepScopesAsStrings()}) };
   }
 
-  public static flagScopeDefault(): FlagsConfig {
-    return Utils.flagScope(BuildStepScopes.buildStepScopesDefault());
+  public static flagScopeDefault(isHidden?: boolean): FlagsConfig {
+    return Utils.flagScope(BuildStepScopes.buildStepScopesDefault(), isHidden !== undefined ? isHidden : false);
   }
 
   public static flagsCommonConfig(): FlagsConfig {
-    return { ...Utils.flagScopeDefault()
+    return { ...Utils.flagScopeDefault(true)
             , ...{ } };
   }
 }

@@ -1,4 +1,4 @@
-import { flags, FlagsConfig, SfdxCommand } from '@salesforce/command';
+import { FlagsConfig, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 import CompilationStage from '../../../../shared/buildstages/compilation';
@@ -21,7 +21,9 @@ export default class Compilation extends SfdxCommand {
 
     public static flagsConfig: FlagsConfig = {
         // ...CompilationStage.flagsConfig,
-        ...Utils.flagsCommonConfig()
+        ...Utils.flagsCommonConfig(),
+        ...Utils.flagScopeDefault(false),
+        ...{ }
     };
 
     // Comment this out if your command does not require an org username

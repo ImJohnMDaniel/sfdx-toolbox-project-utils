@@ -19,7 +19,9 @@ export default class Validation extends SfdxCommand {
     //   public static args = [{name: 'file'}];
 
     public static flagsConfig: FlagsConfig = {
-        ...Utils.flagsCommonConfig()
+        ...Utils.flagsCommonConfig(),
+        ...Utils.flagScopeDefault(false),
+        ...{ }
     };
 
     // Command doesn't required username
