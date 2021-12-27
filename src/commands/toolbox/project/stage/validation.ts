@@ -40,6 +40,8 @@ export default class Validation extends SfdxCommand {
     public async run(): Promise<AnyJson> {
         this.ux.log('TODO Need to implement toolbox:project:stage:validation command');
 
+        // TODO - Need to implement validation of "toolbox.project.*" JSON section of sfdx-project.json
+
         return;
     }
 }

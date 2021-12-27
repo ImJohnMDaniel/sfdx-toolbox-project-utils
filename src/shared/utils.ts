@@ -1,7 +1,7 @@
 import { OutputFlags } from '@oclif/parser';
 import { flags, FlagsConfig } from '@salesforce/command';
 import { ConfigFile, Messages, SfdxProjectJson } from '@salesforce/core';
-import { BuildStepScope } from './constants';
+import BuildStepScopes, { BuildStepScope } from './build_step_scopes';
 export default class Utils {
   public static async asyncForEach(array, callback): Promise<void> {
     for (let index = 0; index < array.length; index++) {
@@ -91,27 +91,6 @@ export default class Utils {
     // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   }
 
-  // public static buildStepScopesDefault(): string {
-  //   return BuildStepScope[BuildStepScope.ALL];
-  // }
-  public static buildStepScopesDefault(): BuildStepScope {
-    return BuildStepScope.ALL;
-  }
-
-  public static buildStepScopesAsStrings(): string[] {
-
-    const stringIsNumber = value => isNaN(Number(value)) === false;
-
-    // Turn enum into array
-    function toArray(enumme): string[] {
-      return Object.keys(enumme)
-        .filter(stringIsNumber)
-        .map(key => enumme[key]);
-    }
-
-    return toArray(BuildStepScope);
-  }
-
   public static getCommonFlagMessages(): string {
     return Messages.loadMessages('@dx-cli-toolbox/sfdx-toolbox-project-utils', 'toolbox-project-flags-common').getMessage('flagBuildStepScopeDescription');
   }
@@ -123,11 +102,11 @@ export default class Utils {
   // }
 
   public static flagScope(theBuildStepScope: BuildStepScope): FlagsConfig {
-    return { scope: flags.enum({ default: BuildStepScope[theBuildStepScope], required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopesAsStrings()}) };
+    return { scope: flags.enum({ default: BuildStepScope[theBuildStepScope], required: false, description: Utils.getCommonFlagMessages(), options: BuildStepScopes.buildStepScopesAsStrings()}) };
   }
 
   public static flagScopeDefault(): FlagsConfig {
-    return Utils.flagScope(Utils.buildStepScopesDefault());
+    return Utils.flagScope(BuildStepScopes.buildStepScopesDefault());
   }
 
   public static flagsCommonConfig(): FlagsConfig {

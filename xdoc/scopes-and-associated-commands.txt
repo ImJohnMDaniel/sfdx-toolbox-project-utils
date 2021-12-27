@@ -1,37 +1,57 @@
 Scopes and the commands that go with them
 
 All Scopes Available;
-    - ALL
-    - CI
-    - DEV
+    - COMPLETE
+    - BASIC
     - DATALOAD
     - POSTPACKAGEDEPLOY
 
-Reference DX Project Build Steps verses "Intended Execution With Scope" | CI | DEV | DATALOAD  | POSTPACKAGEDEPLOY
+Reference DX Project Build Steps verses "Intended Execution With Scope" 
+                                                                        |   PROGRESSIVE    |       EXCLUSIVE               |
+                                                                        | COMPLETE | BASIC | DATALOAD  | POSTPACKAGEDEPLOY |
     - Stage: initialize
-        - ForceOrgDelete        - scope undefined                       | X  | X   |           | 
-        - ForceOrgCreate        - scope undefined                       | X  | X   |           | 
-        - ForceDataRecordUpdate - scope undefined                       | X  | X   |           | 
-        - ForceDataRecordUpdate - scope undefined                       | X  | X   |           | 
-        - ForceDataRecordUpdate - scope undefined                       | X  | X   |           | 
-        - ForceApexExecute      - scope undefined                       | X  | X   |           | 
+        - ForceOrgDelete        - scope undefined                       | X        | X     |           | 
+        - ForceOrgCreate        - scope undefined                       | X        | X     |           | 
+        - ForceDataRecordUpdate - scope undefined                       | X        | X     |           | 
+        - ForceDataRecordUpdate - scope undefined                       | X        | X     |           | 
+        - ForceDataRecordUpdate - scope undefined                       | X        | X     |           | 
+        - ForceApexExecute      - scope undefined                       | X        | X     |           | 
     - Stage: processResources
-        - ToolboxPackageDependenciesInstall - scope undefined           | X  | X   |           | 
+        - ToolboxPackageDependenciesInstall - scope undefined           | X        | X     |           | 
     - Stage: compilation
-        - ForceSourcePush       - scope undefined                       | X  | X   |           | 
-        - ForceApexExecute      - scope undefined                       | X  | X   |           | X
-        - ForceMdapiDeploy      - scope undefined                       | X  | X   |           | X
+        - ForceSourcePush       - scope undefined                       | X        | X     |           | 
+        - ForceApexExecute      - scope undefined                       | X        | X     |           | X
+        - ForceMdapiDeploy      - scope undefined                       | X        | X     |           | X
     - Stage: test
-        - ForceUserPermsetAssign    - scope: CI                         | X  |     |           | 
-        - SfdmuRun                  - scope: DATALOAD                   | X  | X   | X         | 
-        - ForceApexTestRun          - scope: CI                         | X  |     |           | 
+        - ForceUserPermsetAssign    - scope: COMPLETE                   | X        |       |           | 
+        - SfdmuRun                  - scope: DATALOAD                   | X        | X     | X         | 
+        - ForceApexTestRun          - scope: COMPLETE                   | X        |       |           | 
 
 Two types of scope:
-    - Scopes that progressively build on each other -- DEV is a subset of a full CI
-        - CI probably shouldn't be a scope.  It represents every step. 
-        - DEV is DEVELOPER_SETUP 
+    - Scopes that progressively build on each other -- BASIC is a subset of a full COMPLETE
         - "Progressive Build" scopes always execute every "exclusive scope" build step 
-        - If CI is everything, then should the scope be set everywhere? ....should a scope be mandatory?
+        - If COMPLETE is everything, then should the scope be set everywhere? ....should a scope be mandatory?
             - if it is mandatory, then the validation stage should verify that everything is ready.
-        - the default scope should be DEV and you can override the scope on the various stage builds in a CI scenario
+        - the default scope should be BASIC and you can override the scope on the various stage builds in a COMPLETE scenario
+            - if the default scope is BASIC, then is there really any benefit in adding/mentioning that scope tag in the sfdx-project.json config?
+            - this would allow the admin to annotate the steps that would be COMPLETE only.
+            - no mention of scope would be considered default - BASIC
     - Scopes that are exclusive -- DATALOAD only runs build steps with a scope of "DATALOAD"
+
+
+Pesudo Logic
+    ===================
+    Inputs Required
+        - Stage 
+        - BuildStepConfig
+    ===================
+    - Determine working stage scope 
+        - if scope flag not specified, use default 
+    - Determine working build step config scope
+        - if scope attribute not specified, use default
+    - If scope requested === COMPLETE 
+        - then execute every build step 
+    - if scope requested === BASIC
+        - then execute every build step except those with scope of COMPLETE
+    - if scope requested === {{EXCLUSIVE}}
+        - then execute every build step where the build step scope matches the {{EXCLUSIVE}} scope specified

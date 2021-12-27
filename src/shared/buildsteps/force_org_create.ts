@@ -1,6 +1,6 @@
 import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
-import { rmdirSync } from 'fs';
+import { rmSync } from 'fs';
 import * as _ from 'lodash';
 import { tmpdir } from 'os';
 import { OrgCreateCommand } from 'salesforce-alm/dist/commands/force/org/create';
@@ -49,7 +49,7 @@ export default class ForceOrgCreate extends AbstractBuildStep {
         // see ForceDotCom CLI Issue #753 for details
         //      https://github.com/forcedotcom/cli/issues/753
         try {
-            rmdirSync( tmpdir() + '/shape' );
+            rmSync( tmpdir() + '/shape' );
         } catch (e) {
             // noopt
         }
