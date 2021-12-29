@@ -22,7 +22,7 @@ $ npm install -g @dx-cli-toolbox/sfdx-toolbox-project-utils
 $ sfdx COMMAND
 running command...
 $ sfdx (-v|--version|version)
-@dx-cli-toolbox/sfdx-toolbox-project-utils/0.0.1 darwin-x64 node-v14.13.0
+@dx-cli-toolbox/sfdx-toolbox-project-utils/0.0.7 darwin-x64 node-v17.0.1
 $ sfdx --help [COMMAND]
 USAGE
   $ sfdx COMMAND
@@ -30,22 +30,168 @@ USAGE
 ```
 <!-- usagestop -->
 <!-- commands -->
-* [`sfdx hello:org [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-helloorg--n-string--f--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx toolbox:project:build -s -a <string> [-v <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-toolboxprojectbuild--s--a-string--v-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx toolbox:project:build:configure [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-toolboxprojectbuildconfigure---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx toolbox:project:dataload [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-toolboxprojectdataload--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx toolbox:project:postpackage:deploy [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-toolboxprojectpostpackagedeploy--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx toolbox:project:stage:compilation [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-toolboxprojectstagecompilation---scope-basiccompletedataloadpostpackagedeploy--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx toolbox:project:stage:initialization -s -a <string> [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-toolboxprojectstageinitialization--s--a-string---scope-basiccompletedataloadpostpackagedeploy--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx toolbox:project:stage:processresources [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-toolboxprojectstageprocessresources---scope-basiccompletedataloadpostpackagedeploy--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx toolbox:project:stage:test [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-toolboxprojectstagetest---scope-basiccompletedataloadpostpackagedeploy--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx toolbox:project:stage:validation [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-toolboxprojectstagevalidation---scope-basiccompletedataloadpostpackagedeploy---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 
-## `sfdx hello:org [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+## `sfdx toolbox:project:build -s -a <string> [-v <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
-print a greeting and your org IDs
+TODO: toolbox project build command description
 
 ```
-print a greeting and your org IDs
-
 USAGE
-  $ sfdx hello:org [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel 
+  $ sfdx toolbox:project:build -s -a <string> [-v <string>] [--apiversion <string>] [--json] [--loglevel 
   trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
 OPTIONS
-  -f, --force                                                                       example boolean flag
-  -n, --name=name                                                                   name to print
+  -a, --setalias=setalias                                                           (required) alias for the created org
+
+  -s, --setdefaultusername                                                          (required) set the created org as
+                                                                                    the default username
+
+  -v, --targetdevhubusername=targetdevhubusername                                   username or alias for the dev hub
+                                                                                    org; overrides default dev hub org
+
+  --apiversion=apiversion                                                           override the api version used for
+                                                                                    api requests made by this command
+
+  --json                                                                            format output as json
+
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+
+EXAMPLE
+  TODO toolbox project build examples description
+```
+
+_See code: [src/commands/toolbox/project/build.ts](https://github.com/ImJohnMDaniel/sfdx-toolbox-project-utils/blob/v0.0.7/src/commands/toolbox/project/build.ts)_
+
+## `sfdx toolbox:project:build:configure [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+TODO: toolbox project build configure command description
+
+```
+USAGE
+  $ sfdx toolbox:project:build:configure [--json] [--loglevel 
+  trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  --json                                                                            format output as json
+
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+
+EXAMPLE
+  TODO toolbox project build configure examples description
+```
+
+_See code: [src/commands/toolbox/project/build/configure.ts](https://github.com/ImJohnMDaniel/sfdx-toolbox-project-utils/blob/v0.0.7/src/commands/toolbox/project/build/configure.ts)_
+
+## `sfdx toolbox:project:dataload [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+TODO: toolbox project dataload command description
+
+```
+USAGE
+  $ sfdx toolbox:project:dataload [-u <string>] [--apiversion <string>] [--json] [--loglevel 
+  trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -u, --targetusername=targetusername                                               username or alias for the target
+                                                                                    org; overrides default target org
+
+  --apiversion=apiversion                                                           override the api version used for
+                                                                                    api requests made by this command
+
+  --json                                                                            format output as json
+
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+
+EXAMPLE
+  TODO toolbox project dataload examples description
+```
+
+_See code: [src/commands/toolbox/project/dataload.ts](https://github.com/ImJohnMDaniel/sfdx-toolbox-project-utils/blob/v0.0.7/src/commands/toolbox/project/dataload.ts)_
+
+## `sfdx toolbox:project:postpackage:deploy [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+TODO: toolbox project postpackage deploy command description
+
+```
+USAGE
+  $ sfdx toolbox:project:postpackage:deploy [-u <string>] [--apiversion <string>] [--json] [--loglevel 
+  trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -u, --targetusername=targetusername                                               username or alias for the target
+                                                                                    org; overrides default target org
+
+  --apiversion=apiversion                                                           override the api version used for
+                                                                                    api requests made by this command
+
+  --json                                                                            format output as json
+
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+
+EXAMPLE
+  TODO toolbox project postpackage deploy examples description
+```
+
+_See code: [src/commands/toolbox/project/postpackage/deploy.ts](https://github.com/ImJohnMDaniel/sfdx-toolbox-project-utils/blob/v0.0.7/src/commands/toolbox/project/postpackage/deploy.ts)_
+
+## `sfdx toolbox:project:stage:compilation [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+TODO: toolbox project stage compilation command description
+
+```
+USAGE
+  $ sfdx toolbox:project:stage:compilation [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [-u <string>] 
+  [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -u, --targetusername=targetusername                                               username or alias for the target
+                                                                                    org; overrides default target org
+
+  --apiversion=apiversion                                                           override the api version used for
+                                                                                    api requests made by this command
+
+  --json                                                                            format output as json
+
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+
+  --scope=(BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY)                               [default: BASIC] Which scope the
+                                                                                    command will execute under.
+
+EXAMPLE
+  TODO toolbox project stage compilation examples description
+```
+
+_See code: [src/commands/toolbox/project/stage/compilation.ts](https://github.com/ImJohnMDaniel/sfdx-toolbox-project-utils/blob/v0.0.7/src/commands/toolbox/project/stage/compilation.ts)_
+
+## `sfdx toolbox:project:stage:initialization -s -a <string> [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+TODO: toolbox project stage initialization command description
+
+```
+USAGE
+  $ sfdx toolbox:project:stage:initialization -s -a <string> [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [-v 
+  <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel 
+  trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -a, --setalias=setalias                                                           (required) alias for the created org
+
+  -s, --setdefaultusername                                                          (required) set the created org as
+                                                                                    the default username
 
   -u, --targetusername=targetusername                                               username or alias for the target
                                                                                     org; overrides default target org
@@ -61,14 +207,102 @@ OPTIONS
   --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
                                                                                     this command invocation
 
-EXAMPLES
-  $ sfdx hello:org --targetusername myOrg@example.com --targetdevhubusername devhub@org.com
-     Hello world! This is org: MyOrg and I will be around until Tue Mar 20 2018!
-     My hub org id is: 00Dxx000000001234
-  
-  $ sfdx hello:org --name myname --targetusername myOrg@example.com
-     Hello myname! This is org: MyOrg and I will be around until Tue Mar 20 2018!
+  --scope=(BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY)                               [default: BASIC] Which scope the
+                                                                                    command will execute under.
+
+EXAMPLE
+  TODO toolbox project stage initialization examples description
 ```
+
+_See code: [src/commands/toolbox/project/stage/initialization.ts](https://github.com/ImJohnMDaniel/sfdx-toolbox-project-utils/blob/v0.0.7/src/commands/toolbox/project/stage/initialization.ts)_
+
+## `sfdx toolbox:project:stage:processresources [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+TODO: toolbox project stage processresources command description
+
+```
+USAGE
+  $ sfdx toolbox:project:stage:processresources [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [-v <string>] [-u 
+  <string>] [--apiversion <string>] [--json] [--loglevel 
+  trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -u, --targetusername=targetusername                                               username or alias for the target
+                                                                                    org; overrides default target org
+
+  -v, --targetdevhubusername=targetdevhubusername                                   username or alias for the dev hub
+                                                                                    org; overrides default dev hub org
+
+  --apiversion=apiversion                                                           override the api version used for
+                                                                                    api requests made by this command
+
+  --json                                                                            format output as json
+
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+
+  --scope=(BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY)                               [default: BASIC] Which scope the
+                                                                                    command will execute under.
+
+EXAMPLE
+  TODO toolbox project stage processresources examples description
+```
+
+_See code: [src/commands/toolbox/project/stage/processresources.ts](https://github.com/ImJohnMDaniel/sfdx-toolbox-project-utils/blob/v0.0.7/src/commands/toolbox/project/stage/processresources.ts)_
+
+## `sfdx toolbox:project:stage:test [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+TODO: toolbox project stage testing command description
+
+```
+USAGE
+  $ sfdx toolbox:project:stage:test [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [-u <string>] [--apiversion 
+  <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -u, --targetusername=targetusername                                               username or alias for the target
+                                                                                    org; overrides default target org
+
+  --apiversion=apiversion                                                           override the api version used for
+                                                                                    api requests made by this command
+
+  --json                                                                            format output as json
+
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+
+  --scope=(BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY)                               [default: BASIC] Which scope the
+                                                                                    command will execute under.
+
+EXAMPLE
+  TODO toolbox project stage testing examples description
+```
+
+_See code: [src/commands/toolbox/project/stage/test.ts](https://github.com/ImJohnMDaniel/sfdx-toolbox-project-utils/blob/v0.0.7/src/commands/toolbox/project/stage/test.ts)_
+
+## `sfdx toolbox:project:stage:validation [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+TODO: toolbox project stage validation command description
+
+```
+USAGE
+  $ sfdx toolbox:project:stage:validation [--scope BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY] [--json] [--loglevel 
+  trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  --json                                                                            format output as json
+
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+
+  --scope=(BASIC|COMPLETE|DATALOAD|POSTPACKAGEDEPLOY)                               [default: BASIC] Which scope the
+                                                                                    command will execute under.
+
+EXAMPLE
+  TODO toolbox project stage validation examples description
+```
+
+_See code: [src/commands/toolbox/project/stage/validation.ts](https://github.com/ImJohnMDaniel/sfdx-toolbox-project-utils/blob/v0.0.7/src/commands/toolbox/project/stage/validation.ts)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->
 # Debugging your plugin

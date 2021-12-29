@@ -5,7 +5,7 @@
   "author": "John M. Daniel",
   "bugs": "https://github.com/ImJohnMDaniel/sfdx-toolbox-project-utils/issues",
   "dependencies": {
-    "@dx-cli-toolbox/sfdx-toolbox-package-utils": "^0.7.2",
+    "@dx-cli-toolbox/sfdx-toolbox-package-utils": "^0.8.0",
     "@oclif/command": "^1.8.16",
     "@oclif/config": "^1.18.2",
     "@oclif/errors": "^1.3.5",
@@ -17,8 +17,13 @@
     "@salesforce/plugin-source": "^1.6.2",
     "@salesforce/plugin-user": "^1.7.0",
     "salesforce-alm": "^53.7.2",
-    "sfdmu": "^4.11.9",
     "tslib": "^2.3.1"
+  },
+  "overrides": {
+    "@salesforce/command": "4.2.1",
+    "sfdmu": {
+      "@salesforce/command": "4.2.1"
+    }
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.26.10",

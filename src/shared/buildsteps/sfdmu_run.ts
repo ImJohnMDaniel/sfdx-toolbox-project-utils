@@ -1,6 +1,6 @@
 import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
-import Run from 'sfdmu/lib/commands/sfdmu/run';
+// import Run from 'sfdmu/lib/commands/sfdmu/run';
 // import Run from 'sfdmu/src/commands/sfdmu/run';
 import { AbstractBuildStep } from '../../types/build_step';
 
@@ -137,6 +137,7 @@ export default class SfdmuRun extends AbstractBuildStep {
     }
 
     public getFlagsConfig(): FlagsConfig {
-        return Run.flagsConfig;
+        // TODO: enable this method once SFDMU dependency issues are resolved.
+        return { }; // Run.flagsConfig;
     }
 }
