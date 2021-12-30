@@ -1,5 +1,6 @@
 import ForceApexExecute from './force_apex_execute';
 import ForceApexTestRun from './force_apex_test_run';
+import ForceCommunityPublish from './force_community_publish';
 import ForceDataRecordUpdate from './force_data_record_update';
 import ForceMdapiDeploy from './force_mdapi_deploy';
 import ForceOrgCreate from './force_org_create';
@@ -13,6 +14,7 @@ import ToolboxPackageDependenciesInstall from './toolbox_package_dependencies_in
 export default [
     ForceApexExecute,
     ForceApexTestRun,
+    ForceCommunityPublish,
     ForceDataRecordUpdate,
     ForceMdapiDeploy,
     ForceOrgCreate,
