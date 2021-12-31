@@ -1,6 +1,7 @@
 // import { FlagsConfig } from '@salesforce/command';
 import { FlagsConfig } from '@salesforce/command';
 import { AbstractBuildStage } from '../../types/build_stage';
+import ToolboxPackageDependenciesInstall from '../buildsteps/toolbox_package_dependencies_install';
 // import { IBuildStep } from '../../types/build_step';
 // import BuildStepsFactory from '../build_steps_factory';
 // import Utils from '../utils';
@@ -155,17 +156,11 @@ import { AbstractBuildStage } from '../../types/build_stage';
 
 export default class ProcessResourcessStage extends AbstractBuildStage {
 
-    // public static flagsFromCommand: FlagsConfig = await ProcessResourcessStage.getFlagsConfig('processResources');
-    // public static flagsFromCommand: FlagsConfig = await ProcessResourcessStage.getFlagsConfig('processResources');
-    public static flagsFromCommand(): FlagsConfig {
+    public static flagsConfig: FlagsConfig = {
+        ...new ToolboxPackageDependenciesInstall().getFlagsConfig()
+    };
 
-        // const buildStage = new ProcessResourcessStage();
-        // return buildStage.getFlagsConfig();
-        // return async_function();
-        // return new ToolboxPackageDependenciesInstall().getFlagsConfig();
-        return { };
-    }
-
+    
     public getStageToken(): string {
         return 'processResources';
     }

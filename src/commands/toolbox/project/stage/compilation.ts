@@ -20,7 +20,7 @@ export default class Compilation extends SfdxCommand {
     //   public static args = [{name: 'file'}];
 
     public static flagsConfig: FlagsConfig = {
-        // ...CompilationStage.flagsConfig,
+        ...CompilationStage.flagsConfig,
         ...Utils.flagsCommonConfig(),
         ...Utils.flagScopeDefault(false),
         ...{ }

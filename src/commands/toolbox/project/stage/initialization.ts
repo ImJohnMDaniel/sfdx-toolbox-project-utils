@@ -17,11 +17,13 @@ export default class Initialization extends SfdxCommand {
 
     public static examples = [messages.getMessage('examplesDescription')];
     public static flagsConfig: FlagsConfig = {
-        setdefaultusername: flags.boolean({ char: 's', required: true, default: false, description: messages.getMessage('flagSetDefaultUsernameDescription') }),
-        setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') }),
+        ...InitizalizationStage.flagsConfig,
         ...Utils.flagsCommonConfig(),
         ...Utils.flagScopeDefault(false),
-        ...{ }
+        ...{ 
+            setdefaultusername: flags.boolean({ char: 's', required: true, default: false, description: messages.getMessage('flagSetDefaultUsernameDescription') }),
+            setalias: flags.string({ char: 'a', required: true, description: messages.getMessage('flagSetAliasDescription') })
+        }
     };
 
     // Comment this out if your command does not require an org username

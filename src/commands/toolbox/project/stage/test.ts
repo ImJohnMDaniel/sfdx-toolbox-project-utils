@@ -18,6 +18,7 @@ export default class Test extends SfdxCommand {
     public static examples = [messages.getMessage('examplesDescription')];
 
     public static flagsConfig: FlagsConfig = {
+        ...TestStage.flagsConfig,
         ...Utils.flagsCommonConfig(),
         ...Utils.flagScopeDefault(false),
         ...{ }

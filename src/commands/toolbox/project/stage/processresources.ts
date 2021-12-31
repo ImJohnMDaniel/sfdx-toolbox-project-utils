@@ -20,7 +20,7 @@ export default class Processresources extends SfdxCommand {
     public static flagsConfig: FlagsConfig = {
         // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
 
-        ...ProcessResourcessStage.flagsFromCommand(),
+        ...ProcessResourcessStage.flagsConfig,
         ...Utils.flagsCommonConfig(),
         ...Utils.flagScopeDefault(false),
         ...{ }
