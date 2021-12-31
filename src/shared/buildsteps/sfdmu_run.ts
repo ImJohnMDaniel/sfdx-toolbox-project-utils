@@ -3,6 +3,7 @@ import { AnyJson } from '@salesforce/ts-types';
 // import Run from 'sfdmu/lib/commands/sfdmu/run';
 // import Run from 'sfdmu/src/commands/sfdmu/run';
 import { AbstractBuildStep } from '../../types/build_step';
+import Utils from '../utils';
 
 /*
     The Salesforce DX data migration tool.
@@ -53,11 +54,6 @@ export default class SfdmuRun extends AbstractBuildStep {
         this.ux.log('Data load to scratch org ' + this.orgAlias);
 
         const args = [];
-
-        // JSON
-        if (this.params.json) {
-            args.push('--json');
-        }
 
         // SOURCEUSERNAME
         if (this.params.sourceusername) {
@@ -112,10 +108,9 @@ export default class SfdmuRun extends AbstractBuildStep {
             args.push('--verbose');
         }
 
-        args.push('--targetusername');
-        args.push(`${this.orgAlias}`);
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
 
-        console.log(args);
+        // console.log(args);
         // console.log('~~~~~~~~~~~~~BEFORE');
 
         // disabled for now until I have time to work through issue seen when using

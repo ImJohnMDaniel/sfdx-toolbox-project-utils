@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import { tmpdir } from 'os';
 import { OrgCreateCommand } from 'salesforce-alm/dist/commands/force/org/create';
 import { AbstractBuildStep } from '../../types/build_step';
+import Utils from '../utils';
 
 /*
     create a scratch or sandbox org
@@ -85,14 +86,11 @@ export default class ForceOrgCreate extends AbstractBuildStep {
             args.push(`${definitionfile['definitionFile']}`);
         }
 
-        if (this.params.setalias) {
-            args.push('--setalias');
-            args.push(`${this.params.setalias}`);
-        }
-
-        // JSON
-        // force the inclusion of the JSON flag
-        // args.push('--json');
+        // Since this is an "org create" command, we specify "undefined" 
+        //  for the second parameter which would eventually designate
+        //  the "--targetusername" flag.  That flag is not supported on
+        //  the "org create" command
+        Utils.pushCommonFlagsConfigToArgs(this.params, undefined, args, true);
 
         const orgCreationResultJson = await OrgCreateCommand.run(args);
         // this.ux.log('breadcrumb A');

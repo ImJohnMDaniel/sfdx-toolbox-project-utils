@@ -2,6 +2,7 @@ import { FlagsConfig } from '@salesforce/command';
 import Update from '@salesforce/plugin-data/lib/commands/force/data/record/update';
 import { AnyJson } from '@salesforce/ts-types';
 import { AbstractBuildStep } from '../../types/build_step';
+import Utils from '../utils';
 
 /*
     updates a single record
@@ -43,12 +44,6 @@ export default class ForceDataRecordUpdate extends AbstractBuildStep {
 
         const args = [];
 
-        // ORG ALIAS
-        if (this.orgAlias) {
-            args.push('--targetusername');
-            args.push(`${this.orgAlias}`);
-        }
-
         if (this.params.sobjectid) {
             args.push('--sobjectid');
             args.push(`${this.params.sobjectid}`);
@@ -72,6 +67,8 @@ export default class ForceDataRecordUpdate extends AbstractBuildStep {
             args.push('--where');
             args.push(`${this.params.where}`);
         }
+
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
 
         const dataRecordUpdateResultJson = await Update.run(args);
 

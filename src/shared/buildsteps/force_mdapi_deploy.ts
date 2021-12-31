@@ -2,6 +2,7 @@ import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
 import { MdapiDeployCommand } from 'salesforce-alm/dist/commands/force/mdapi/deploy';
 import { AbstractBuildStep } from '../../types/build_step';
+import Utils from '../utils';
 
 /*
 
@@ -72,14 +73,8 @@ export default class ForceMdapiDeploy extends AbstractBuildStep {
             args.push('10');
         }
 
-        // JSON
-        if (this.params.json) {
-            args.push('--json');
-        }
-
-        args.push('--targetusername');
-        args.push(`${this.orgAlias}`);
-
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
+        
         await MdapiDeployCommand.run(args);
 
         return;

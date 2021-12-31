@@ -18,11 +18,13 @@ export default class Configure extends SfdxCommand {
     //   public static args = [{name: 'file'}];
 
     protected static flagsConfig: FlagsConfig = {
-        // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
+        
     };
 
     // Comment this out if your command does not require an org username
     protected static requiresUsername = false;
+
+    protected static supportsUsername = false;
 
     // Comment this out if your command does not require a hub org username
     protected static requiresDevhubUsername = false;

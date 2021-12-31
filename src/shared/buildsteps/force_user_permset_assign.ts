@@ -2,6 +2,7 @@ import { FlagsConfig } from '@salesforce/command';
 import { UserPermsetAssignCommand } from '@salesforce/plugin-user/lib/commands/force/user/permset/assign';
 import { AnyJson } from '@salesforce/ts-types';
 import { AbstractBuildStep } from '../../types/build_step';
+import Utils from '../utils';
 
 /*
     assign a permission set to one or more users of an org
@@ -40,11 +41,6 @@ export default class ForceUserPermsetAssign extends AbstractBuildStep {
 
         const args = [];
 
-        // JSON
-        if (this.params.json) {
-            args.push('--json');
-        }
-
         // PERMSETNAME
         if (this.params.permsetname) {
             args.push('--permsetname');
@@ -57,8 +53,7 @@ export default class ForceUserPermsetAssign extends AbstractBuildStep {
             args.push(`${this.params.onbehalfof}`);
         }
 
-        args.push('--targetusername');
-        args.push(`${this.orgAlias}`);
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
 
         await UserPermsetAssignCommand.run(args);
 

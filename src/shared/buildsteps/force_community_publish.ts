@@ -2,6 +2,7 @@ import { FlagsConfig } from '@salesforce/command';
 import { CommunityPublishCommand } from '@salesforce/plugin-community/lib/commands/force/community/publish';
 import { AnyJson } from '@salesforce/ts-types';
 import { AbstractBuildStep } from '../../types/build_step';
+import Utils from '../utils';
 
 /*
     publishes an Experience Builder site to make it live
@@ -49,19 +50,13 @@ export default class ForceCommunityPublish extends AbstractBuildStep {
 
         const args = [];
 
-        // JSON
-        if (this.params.json) {
-            args.push('--json');
-        }
-
         // NAME
         if (this.params.name) {
             args.push('--name');
             args.push(`${this.params.permsetname}`);
         }
 
-        args.push('--targetusername');
-        args.push(`${this.orgAlias}`);
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
 
         await CommunityPublishCommand.run(args);
 

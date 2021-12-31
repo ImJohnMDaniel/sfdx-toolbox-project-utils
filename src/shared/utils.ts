@@ -46,10 +46,13 @@ export default class Utils {
       buildStepConfig = {};
     }
     // loop through the flags
-    if ( theInputflags !== undefined ) {
+    if (theInputflags !== undefined) {
       Object.keys(theInputflags).forEach((flagSubmitted: string) => {
         // Is this flagSubmitted a flag included the currentFlagsConfig?
-        if (currentFlagsConfig[flagSubmitted]) {
+        if (currentFlagsConfig[flagSubmitted]
+          || flagSubmitted === 'targetdevhubusername'
+          || flagSubmitted === 'targetusername'
+          || flagSubmitted === 'loglevel') {
           // then add the flagSubmittedToStage to the list of step params
           buildStepConfig[flagSubmitted] = theInputflags[flagSubmitted];
         }
@@ -72,7 +75,7 @@ export default class Utils {
       args = [];
     }
     // loop through the flags
-    if ( theInputflags !== undefined ) {
+    if (theInputflags !== undefined) {
       Object.keys(theInputflags).forEach((flagSubmitted: string) => {
         // console.log('   flagSubmitted: ' + flagSubmitted);
         // Is this flagSubmitted a flag included the currentFlagsConfig?
@@ -91,6 +94,50 @@ export default class Utils {
     // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   }
 
+  /*
+  {
+    durationdays: 1,
+    env: 'sandbox',
+    loglevel: 'warn',
+    retry: 0
+    scope: 'COMPLETE',
+    setalias: 'foobarjenkins',
+    setdefaultusername: false,
+    targetdevhubusername: 'steampunkAsDevHubPipeline',
+    type: 'scratch',
+    wait: Duration { quantity: 6, unit: 0 },
+  }
+
+  loglevel
+  targetdevhubusername
+  */
+  public static pushCommonFlagsConfigToArgs(params: any, orgAlias: string, args: any[], includeTargetDevHubUsernameValue?: boolean) {
+
+    // TARGETDEVHUBUSERNAME
+    if (params.targetdevhubusername && includeTargetDevHubUsernameValue) {
+      args.push('--targetdevhubusername');
+      args.push(`${params.targetdevhubusername}`);
+    }
+
+    // TARGETUSERNAME
+    if (orgAlias) {
+      args.push('--targetusername');
+      args.push(`${orgAlias}`);
+    }
+
+    // LOGLEVEL
+    if (params.loglevel) {
+      args.push('--loglevel');
+      args.push(`${params.loglevel}`);
+    }
+
+    // JSON
+    if (params.json) {
+      args.push('--json');
+    }
+
+  }
+
   public static getCommonFlagMessages(): string {
     return Messages.loadMessages('@dx-cli-toolbox/sfdx-toolbox-project-utils', 'toolbox-project-flags-common').getMessage('flagBuildStepScopeDescription');
   }
@@ -102,11 +149,15 @@ export default class Utils {
   // }
 
   public static flagScope(theBuildStepScope: BuildStepScope, isHidden?: boolean): FlagsConfig {
-    return { scope: flags.enum({ default: BuildStepScope[theBuildStepScope]
-                                , hidden: isHidden !== undefined ? isHidden : true
-                                , required: false
-                                , description: Utils.getCommonFlagMessages()
-                                , options: BuildStepScopes.buildStepScopesAsStrings()}) };
+    return {
+      scope: flags.enum({
+        default: BuildStepScope[theBuildStepScope]
+        , hidden: isHidden !== undefined ? isHidden : true
+        , required: false
+        , description: Utils.getCommonFlagMessages()
+        , options: BuildStepScopes.buildStepScopesAsStrings()
+      })
+    };
   }
 
   public static flagScopeDefault(isHidden?: boolean): FlagsConfig {
@@ -114,7 +165,9 @@ export default class Utils {
   }
 
   public static flagsCommonConfig(): FlagsConfig {
-    return { ...Utils.flagScopeDefault(true)
-            , ...{ } };
+    return {
+      ...Utils.flagScopeDefault(true)
+      , ...{}
+    };
   }
 }

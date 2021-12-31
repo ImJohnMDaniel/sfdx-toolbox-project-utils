@@ -17,8 +17,6 @@ export default class Compilation extends SfdxCommand {
 
     public static examples = [messages.getMessage('examplesDescription')];
 
-    //   public static args = [{name: 'file'}];
-
     public static flagsConfig: FlagsConfig = {
         ...CompilationStage.flagsConfig,
         ...Utils.flagsCommonConfig(),
@@ -33,7 +31,7 @@ export default class Compilation extends SfdxCommand {
     protected static requiresDevhubUsername = false;
 
     // If true, then the command supported the parameter of specifying the hub org username
-    protected static supportsDevhubUsername = false;
+    protected static supportsDevhubUsername = true;
 
     // Set this to true if your command requires a project workspace; 'requiresProject' is false by default
     protected static requiresProject = true;

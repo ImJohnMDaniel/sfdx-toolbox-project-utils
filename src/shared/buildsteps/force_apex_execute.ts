@@ -2,6 +2,7 @@ import { FlagsConfig } from '@salesforce/command';
 import Execute from '@salesforce/plugin-apex/lib/commands/force/apex/execute';
 import { AnyJson } from '@salesforce/ts-types';
 import { AbstractBuildStep } from '../../types/build_step';
+import Utils from '../utils';
 
 export default class ForceApexExecute extends AbstractBuildStep {
 
@@ -9,12 +10,6 @@ export default class ForceApexExecute extends AbstractBuildStep {
 
         this.ux.log('Apex execution on scratch org ' + this.orgAlias);
         const args = [];
-
-        // ORG ALIAS
-        if (this.orgAlias) {
-            args.push('--targetusername');
-            args.push(`${this.orgAlias}`);
-        }
 
         // APEXCODEFILE
         if (this.params.apexcodefile) {
@@ -24,10 +19,7 @@ export default class ForceApexExecute extends AbstractBuildStep {
             throw Error(this.getBuildStepTypeToken() + " requires the 'apexcodefile' flag.");
         }
 
-        // JSON
-        if (this.params.json) {
-            args.push('--json');
-        }
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
 
         const apexExecuteResultJson = await Execute.run(args);
 

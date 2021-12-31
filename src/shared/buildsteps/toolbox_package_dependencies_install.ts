@@ -2,6 +2,7 @@ import Install from '@dx-cli-toolbox/sfdx-toolbox-package-utils/lib/commands/too
 import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
 import { AbstractBuildStep } from '../../types/build_step';
+import Utils from '../utils';
 
 /*
     Install dependent packages for a sfdx project
@@ -60,12 +61,6 @@ export default class ToolboxPackageDependenciesInstall extends AbstractBuildStep
 
         const args = [];
 
-        // ORG ALIAS
-        if (this.orgAlias) {
-            args.push('--targetusername');
-            args.push(`${this.orgAlias}`);
-        }
-
         // APEXCOMPILE
         if (this.params.apexcompile) {
             args.push('--apexcompile');
@@ -106,11 +101,6 @@ export default class ToolboxPackageDependenciesInstall extends AbstractBuildStep
             args.push('--dryrun');
         }
 
-        // JSON
-        if (this.params.json) {
-            args.push('--json');
-        }
-
         // NOPRECHECK
         if (this.params.noprecheck) {
             args.push('--noprecheck');
@@ -121,6 +111,8 @@ export default class ToolboxPackageDependenciesInstall extends AbstractBuildStep
             args.push('--wait');
             args.push(`${this.params.wait}`);
         }
+
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args, true);
 
         const toolboxPackageDependenciesInstallResultJson = await Install.run(args);
 

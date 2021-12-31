@@ -2,6 +2,7 @@ import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
 import { SourcePushCommand } from 'salesforce-alm/dist/commands/force/source/push';
 import { AbstractBuildStep } from '../../types/build_step';
+import Utils from '../utils';
 
 /*
     push source to a scratch org from the project
@@ -49,14 +50,8 @@ export default class ForceSourcePush extends AbstractBuildStep {
             args.push(`${this.params.wait}`);
         }
 
-        // JSON
-        if (this.params.json) {
-            args.push('--json');
-        }
-
-        args.push('--targetusername');
-        args.push(`${this.orgAlias}`);
-
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
+        
         await SourcePushCommand.run(args);
 
         return;

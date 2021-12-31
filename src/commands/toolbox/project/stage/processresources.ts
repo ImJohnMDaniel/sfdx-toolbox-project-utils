@@ -18,28 +18,11 @@ export default class Processresources extends SfdxCommand {
     public static examples = [messages.getMessage('examplesDescription')];
 
     public static flagsConfig: FlagsConfig = {
-        // prompt: flags.boolean({ char: 'p', default: false, required: false, description: messages.getMessage('flagPromptDescription') })
-
         ...ProcessResourcessStage.flagsConfig,
         ...Utils.flagsCommonConfig(),
         ...Utils.flagScopeDefault(false),
         ...{ }
-        /*
-            this is simply the corresponding ProcessResourcessStage class quickly accessing all of the build steps in that 
-            stage and then finding those build step classes to add the contents from the getFlagsConfig() method.
-        */
     };
-
-    /*
-    protected static flagsConfig: FlagsConfig = {
-            ...Validation.flagsConfig
-            , ...Initialization.flagsConfig
-            , ...Processresources.flagsConfig
-            , ...Compilation.flagsConfig
-            , ...Testing.flagsConfig
-            , ...{ scope: flags.enum({ default: Utils.buildStepScopesDefault(), required: false, description: Utils.getCommonFlagMessages(), options: Utils.buildStepScopes() })}
-        };
-    */
 
     // Comment this out if your command does not require an org username
     protected static requiresUsername = true;

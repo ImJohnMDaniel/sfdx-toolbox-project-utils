@@ -41,9 +41,14 @@ export default class Initialization extends SfdxCommand {
 
     public async run(): Promise<AnyJson> {
 
-        // console.log('initialization area');
-        // console.log(this.flags);
-        // console.log('blue');
+        if ( !this.flags.targetusername 
+            && this.flags.setalias )
+        {
+            this.flags.targetusername = this.flags.setalias;
+        }
+
+        console.log(this.flags);
+
         await new InitizalizationStage(this.ux, this.flags).run();
 
         return;

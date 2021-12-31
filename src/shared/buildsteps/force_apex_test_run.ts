@@ -2,6 +2,7 @@ import { FlagsConfig } from '@salesforce/command';
 import Run from '@salesforce/plugin-apex/lib/commands/force/apex/test/run';
 import { AnyJson } from '@salesforce/ts-types';
 import { AbstractBuildStep } from '../../types/build_step';
+import Utils from '../utils';
 
 /*
     invoke Apex tests
@@ -85,12 +86,6 @@ export default class ForceApexTestRun extends AbstractBuildStep {
         this.ux.log('Apex test run on scratch org ' + this.orgAlias);
         const args = [];
 
-        // ORG ALIAS
-        if (this.orgAlias) {
-            args.push('--targetusername');
-            args.push(`${this.orgAlias}`);
-        }
-
         // CODECOVERAGE
         if (this.params.codecoverage) {
             args.push('--codecoverage');
@@ -154,10 +149,7 @@ export default class ForceApexTestRun extends AbstractBuildStep {
             args.push('--verbose');
         }
 
-        // JSON
-        if (this.params.json) {
-            args.push('--json');
-        }
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
 
         const apexTestRunResultJson = await Run.run(args);
 

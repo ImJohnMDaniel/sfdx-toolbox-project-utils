@@ -2,6 +2,7 @@ import { FlagsConfig } from '@salesforce/command';
 import { AnyJson } from '@salesforce/ts-types';
 import { Delete } from '@salesforce/plugin-org/lib/commands/force/org/delete'
 import { AbstractBuildStep } from '../../types/build_step';
+import Utils from '../utils';
 
 /*
     mark a scratch or sandbox org for deletion
@@ -34,14 +35,8 @@ export default class ForceOrgDelete extends AbstractBuildStep {
 
         args.push('--noprompt');
 
-        // JSON
-        if (this.params.json) {
-            args.push('--json');
-        }
-
-        args.push('--targetusername');
-        args.push(`${this.orgAlias}`);
-
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args, true);
+        
         await Delete.run(args);
 
         return;
