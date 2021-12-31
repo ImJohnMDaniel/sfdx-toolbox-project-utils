@@ -1,7 +1,7 @@
 {
   "name": "@dx-cli-toolbox/sfdx-toolbox-project-utils",
   "description": "Various commands to aid with building of SFDX projects",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "author": "John M. Daniel",
   "bugs": "https://github.com/ImJohnMDaniel/sfdx-toolbox-project-utils/issues",
   "dependencies": {
