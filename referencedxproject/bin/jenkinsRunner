@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# exit script when any command fails
+set -e 
+
+# validation stage
+sfdx toolbox:project:stage:validation --scope COMPLETE --json
+
+# initializeStage
+sfdx toolbox:project:stage:initialization --scope COMPLETE --json --durationdays 1 --setalias foobarjenkins --targetdevhubusername steampunk
+
+# processResoucesStage
+sfdx toolbox:project:stage:processresources --scope COMPLETE --targetusername foobarjenkins --json
+
+# compilationStage
+sfdx toolbox:project:stage:compilation --scope COMPLETE --targetusername foobarjenkins --json
+
+# testingStage
+sfdx toolbox:project:stage:test --scope COMPLETE --targetusername foobarjenkins --json
