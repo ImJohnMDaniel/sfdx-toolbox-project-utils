@@ -9,6 +9,8 @@ export default class BuildStepExecutor {
     // tslint:disable-next-line: no-any
     public static async run(stage: IBuildStage, step: IBuildStep, buildStepConfig: any, currentScope: BuildStepScope) {
         
+        let buildStepExecutionResponseJson;
+
         // if the build type token is threaded, in which case, automatically let that pass.
         if (Constants.THREADED_BUILD_STEP_TYPE_TOKEN === step.getBuildStepTypeToken()
             // otherwise, check to see if the build step should be executed
@@ -30,11 +32,16 @@ export default class BuildStepExecutor {
                     step.setCurrentStage(stage);
                 }
 
-                await step?.run();
+                buildStepExecutionResponseJson = await step?.run();
+                // console.log('buildStepExecutionResponseJson ===============');
+                // console.log(buildStepExecutionResponseJson);
+                // console.log('buildStepExecutionResponseJson ===============');
             } catch (e) {
                 throw e;
             }
         }
+
+        return buildStepExecutionResponseJson;
     }
 
     private static buildStepShouldBeExecuted(scopeRequested: BuildStepScope, buildStepConfigScope: BuildStepScope): boolean {

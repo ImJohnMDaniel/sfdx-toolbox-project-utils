@@ -47,10 +47,6 @@ export default class Initialization extends SfdxCommand {
             this.flags.targetusername = this.flags.setalias;
         }
 
-        console.log(this.flags);
-
-        await new InitizalizationStage(this.ux, this.flags).run();
-
-        return;
+        return await new InitizalizationStage(this.ux, this.flags).run();
     }
 }

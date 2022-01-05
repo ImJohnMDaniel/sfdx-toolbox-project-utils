@@ -1,5 +1,5 @@
 import { OutputFlags } from '@oclif/parser';
-import { flags, FlagsConfig } from '@salesforce/command';
+import { flags, FlagsConfig, SfdxCommand } from '@salesforce/command';
 import { ConfigFile, Messages, SfdxProjectJson } from '@salesforce/core';
 import BuildStepScopes, { BuildStepScope } from './build_step_scopes';
 export default class Utils {
@@ -79,12 +79,23 @@ export default class Utils {
       Object.keys(theInputflags).forEach((flagSubmitted: string) => {
         // console.log('   flagSubmitted: ' + flagSubmitted);
         // Is this flagSubmitted a flag included the currentFlagsConfig?
-        if (currentFlagsConfig[flagSubmitted]) {
-          // console.log('   adding flagSubmitted to args');
-          // then add the flagSubmittedToStage to the list of step params
-          args.push('--' + flagSubmitted);
-          if (theInputflags[flagSubmitted] !== undefined && theInputflags[flagSubmitted] !== true) {
-            args.push(theInputflags[flagSubmitted]);
+        if (currentFlagsConfig[flagSubmitted]
+          && flagSubmitted !== 'env') 
+        {
+          if (typeof theInputflags[flagSubmitted] !== "boolean") {
+            // console.log('   adding flagSubmitted to args');
+            // then add the flagSubmittedToStage to the list of step params
+            args.push('--' + flagSubmitted);
+            if (theInputflags[flagSubmitted] !== undefined ) 
+            {
+              args.push((theInputflags[flagSubmitted]).toString());
+            }  
+          } else {
+            // if the flag is true then the flag should simply be pushed on the stack
+            //  if the value were false, then simply don't push the flag on the stack
+            if ( theInputflags[flagSubmitted] === true ) {
+              args.push('--' + flagSubmitted);
+            }
           }
         }
       });
@@ -169,5 +180,32 @@ export default class Utils {
       ...Utils.flagScopeDefault(true)
       , ...{}
     };
+  }
+
+  public static async controlConsoleMessages( sfdxcmd: any, args: any ): Promise<any>
+  {
+    console.log('Just before the intercept call');
+    let capturedText = 'not yet set';
+    const intercept = require('intercept-stdout');
+    console.log('BLUEFISH on the menu today');
+    // setup the intercept function to silence the output of SfdxCommand call
+    // tslint:disable-next-line: only-arrow-functions
+    const unhookIntercept = intercept(function(text) {
+      // In a "--json" scenario, the output does not need to be captured.  It just needs to be silenced.
+      capturedText = text;
+      console.log('text ========');
+      console.log(text);
+      console.log('text ========');
+      return '';
+    });
+    const responseJson = await sfdxcmd.run(args);
+
+    // reactivate the output to console.
+    unhookIntercept();
+    console.log('Just after the intercept call');
+    console.log('capturedText ========');
+    console.log(capturedText);
+    console.log('capturedText ========');
+    return responseJson;
   }
 }

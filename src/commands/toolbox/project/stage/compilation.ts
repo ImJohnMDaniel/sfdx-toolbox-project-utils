@@ -37,8 +37,6 @@ export default class Compilation extends SfdxCommand {
     protected static requiresProject = true;
 
     public async run(): Promise<AnyJson> {
-        await new CompilationStage(this.ux, this.flags).run();
-
-        return;
+        return await new CompilationStage(this.ux, this.flags).run();
     }
 }

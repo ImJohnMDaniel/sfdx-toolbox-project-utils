@@ -103,6 +103,8 @@ export abstract class AbstractBuildStage implements IBuildStage {
 
         const bsm: BuildStepMarker = await BuildStepMarker.getInstance();
 
+        let buildStepExecutionResponseJson;
+
         if ( buildStepsConfigurations ) {
 
             const currentMarking: BuildMarking = await bsm.getMarkering(this.orgAlias);
@@ -121,7 +123,7 @@ export abstract class AbstractBuildStage implements IBuildStage {
 
                     await bsm.mark(this, index, step, this.orgAlias);
 
-                    await BuildStepExecutor.run(this, step, buildStepConfig, this.getFlagsSubmitted().scope);
+                    buildStepExecutionResponseJson = await BuildStepExecutor.run(this, step, buildStepConfig, this.getFlagsSubmitted().scope);
                 } catch (e) {
                     throw e;
                 }
@@ -132,7 +134,7 @@ export abstract class AbstractBuildStage implements IBuildStage {
             await bsm.removeMarking(this.orgAlias);
         }
 
-        return;
+        return buildStepExecutionResponseJson;
     }
     public getBuildSteps(): IBuildStep[] {
         throw new Error('Method not implemented.');

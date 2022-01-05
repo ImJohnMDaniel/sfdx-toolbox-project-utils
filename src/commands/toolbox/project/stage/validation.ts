@@ -1,6 +1,7 @@
 import { FlagsConfig, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
+import ValidationStage from '../../../../shared/buildstages/validation';
 import Utils from '../../../../shared/utils';
 
 // Initialize Messages with the current plugin directory
@@ -40,10 +41,6 @@ export default class Validation extends SfdxCommand {
     protected static requiresProject = true;
 
     public async run(): Promise<AnyJson> {
-        this.ux.log('TODO Need to implement toolbox:project:stage:validation command');
-
-        // TODO - Need to implement validation of "toolbox.project.*" JSON section of sfdx-project.json
-
-        return;
+        return await new ValidationStage(this.ux, this.flags).run();
     }
 }

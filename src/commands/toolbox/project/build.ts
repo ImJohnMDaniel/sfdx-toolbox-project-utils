@@ -52,33 +52,54 @@ export default class Build extends SfdxCommand {
         // call the validation stage
         const validationArgs = [];
         Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Validation.flagsConfig, validationArgs);
-        await Validation.run(validationArgs);
+        validationArgs.push('--json');
+        const validationResponse = await Validation.run(validationArgs);
+        if (validationResponse?.exitCode && validationResponse?.exitCode == 1) {
+            this.error('',{ code: '',message: '', exit: 1 });
+        }
 
         // call the initialization stage
         const initializationStageArgs = [];
         Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Initialization.flagsConfig, initializationStageArgs);
-        await Initialization.run(initializationStageArgs);
+        initializationStageArgs.push('--json');
+        const initializationResponse = await Initialization.run(initializationStageArgs);
+        if (initializationResponse?.exitCode && initializationResponse?.exitCode == 1) {
+            this.error('',{ code: '',message: '', exit: 1 });
+        }
 
         // call the Processresources stage
         const processresourcesStageArgs = [];
         processresourcesStageArgs.push('--targetusername');
         processresourcesStageArgs.push(`${this.flags.setalias}`);
         Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Processresources.flagsConfig, processresourcesStageArgs);
-        await Processresources.run(processresourcesStageArgs);
-
+        processresourcesStageArgs.push('--json');
+        const processResourcesResponse = await Processresources.run(processresourcesStageArgs);
+        // const processResourcesResponse = await Utils.controlConsoleMessages(Processresources, processresourcesStageArgs);
+        if (processResourcesResponse?.exitCode && processResourcesResponse?.exitCode == 1) {
+            this.error('',{ code: '',message: '', exit: 1 });
+        }
+        
         // call the Compilation stage
         const compilationArgs = [];
         compilationArgs.push('--targetusername');
         compilationArgs.push(`${this.flags.setalias}`);
         Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Compilation.flagsConfig, compilationArgs);
-        await Compilation.run(compilationArgs);
+        compilationArgs.push('--json');
+        const compilationResponse =await Compilation.run(compilationArgs);
+        if (compilationResponse?.exitCode && compilationResponse?.exitCode == 1) {
+            this.error('',{ code: '',message: '', exit: 1 });
+        }
 
         // call the Testing stage
         const testingStageArgs = [];
         testingStageArgs.push('--targetusername');
         testingStageArgs.push(`${this.flags.setalias}`);
         Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Testing.flagsConfig, testingStageArgs);
-        await Testing.run(testingStageArgs);
+        testingStageArgs.push('--json');
+        const testingResponse = await Testing.run(testingStageArgs);
+        if (testingResponse?.exitCode && testingResponse?.exitCode == 1) {
+            this.error('',{ code: '',message: '', exit: 1 });
+        }
 
         return;
     }

@@ -37,8 +37,6 @@ export default class Processresources extends SfdxCommand {
     protected static requiresProject = true;
 
     public async run(): Promise<AnyJson> {
-        await new ProcessResourcessStage(this.ux, this.flags).run();
-
-        return;
+        return await new ProcessResourcessStage(this.ux, this.flags).run();
     }
 }
