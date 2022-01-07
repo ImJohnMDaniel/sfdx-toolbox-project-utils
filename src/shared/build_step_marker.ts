@@ -49,9 +49,11 @@ export default class BuildStepMarker {
         if ( !existsSync(this.getMarkerFilename(orgAlias)) ) {
             return null;
         }
-
-        const marking: BuildMarking = JSON.parse(readFileSync(this.getMarkerFilename(orgAlias), 'utf8'));
-        return marking;
+        try {
+            return JSON.parse(readFileSync(this.getMarkerFilename(orgAlias), 'utf8')) as BuildMarking;
+        } catch (e) {
+            return null;
+        }
     }
 
     public async removeMarking(orgAlias: string) {

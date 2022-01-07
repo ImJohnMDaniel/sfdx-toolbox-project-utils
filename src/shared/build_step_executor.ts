@@ -33,10 +33,12 @@ export default class BuildStepExecutor {
                 }
 
                 buildStepExecutionResponseJson = await step?.run();
-                // console.log('buildStepExecutionResponseJson ===============');
-                // console.log(buildStepExecutionResponseJson);
-                // console.log('buildStepExecutionResponseJson ===============');
+                console.log(`buildStepExecutionResponseJson for build step ${step.getBuildStepTypeToken()} ===============`);
+                console.log(buildStepExecutionResponseJson);
+                console.log(`buildStepExecutionResponseJson for build step ${step.getBuildStepTypeToken()} ===============`);
             } catch (e) {
+                console.error(`there was an error executing build step ${step.getBuildStepTypeToken()}`);
+                console.error(e);
                 throw e;
             }
         }
