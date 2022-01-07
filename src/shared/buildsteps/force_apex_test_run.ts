@@ -154,11 +154,11 @@ export default class ForceApexTestRun extends AbstractBuildStep {
         const apexTestRunResultJson = await Run.run(args);
 
         if ( apexTestRunResultJson === undefined ) {
-            // there was a problem with the apex execute step
+            // there was a problem
             throw Error('Apex Test Run attempt was unsuccessful.');
         }
 
-        return;
+        return apexTestRunResultJson;
     }
     public getBuildStepTypeToken(): string {
         return 'ForceApexTestRun';

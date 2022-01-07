@@ -115,12 +115,18 @@ export default class SfdmuRun extends AbstractBuildStep {
 
         // disabled for now until I have time to work through issue seen when using
         console.log('         *********** THE "sfdmu.run" COMMAND WOULD NORMALLY EXECUTE HERE, BUT IT IS DISABLED FOR NOW. *********** ');
-        // await Run.run(args);
-        // await Run.run(args, config);
+        const runResultJson = { };
+        // const runResultJson = await Run.run(args);
+        // const runResultJson = await Run.run(args, config);
 
+        // if (runResultJson === undefined) {
+        //     // there was a problem
+        //     throw Error('SFDMU Run Command attempt was unsuccessful.');
+        // }
         // console.log('~~~~~~~~~~~~~AFTER');
 
-        return;
+
+        return runResultJson;
     }
 
     public getBuildStepTypeToken(): string {

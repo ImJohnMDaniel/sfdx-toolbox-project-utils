@@ -75,9 +75,14 @@ export default class ForceMdapiDeploy extends AbstractBuildStep {
 
         Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
         
-        await MdapiDeployCommand.run(args);
+        const mdapiDeployResultJson = await MdapiDeployCommand.run(args);
 
-        return;
+        if (mdapiDeployResultJson === undefined) {
+            // there was a problem
+            throw Error('MDAPI Deploy Command attempt was unsuccessful.');
+        }
+
+        return mdapiDeployResultJson;
     }
 
     public getBuildStepTypeToken(): string {

@@ -58,9 +58,14 @@ export default class ForceCommunityPublish extends AbstractBuildStep {
 
         Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
 
-        await CommunityPublishCommand.run(args);
+        const communityPublishResultJson = await CommunityPublishCommand.run(args);
 
-        return;
+        if (communityPublishResultJson === undefined) {
+            // there was a problem
+            throw Error('Community Publish Command attempt was unsuccessful.');
+        }
+
+        return communityPublishResultJson;
     }
 
     public getBuildStepTypeToken(): string {

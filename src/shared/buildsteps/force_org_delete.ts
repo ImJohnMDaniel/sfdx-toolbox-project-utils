@@ -37,9 +37,14 @@ export default class ForceOrgDelete extends AbstractBuildStep {
 
         Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args, true);
         
-        await Delete.run(args);
+        const deleteResultJson = await Delete.run(args);
 
-        return;
+        if (deleteResultJson === undefined) {
+            // there was a problem
+            throw Error('Delete Command attempt was unsuccessful.');
+        }
+
+        return deleteResultJson;
     }
 
     public getBuildStepTypeToken(): string {

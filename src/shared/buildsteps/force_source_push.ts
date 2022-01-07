@@ -51,10 +51,15 @@ export default class ForceSourcePush extends AbstractBuildStep {
         }
 
         Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
-        
-        await SourcePushCommand.run(args);
 
-        return;
+        const sourcePushResultJson = await SourcePushCommand.run(args);
+
+        if (sourcePushResultJson === undefined) {
+            // there was a problem
+            throw Error('Source Push Command attempt was unsuccessful.');
+        }
+
+        return sourcePushResultJson;
     }
 
     public getBuildStepTypeToken(): string {

@@ -55,9 +55,14 @@ export default class ForceUserPermsetAssign extends AbstractBuildStep {
 
         Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
 
-        await UserPermsetAssignCommand.run(args);
+        const userPermsetAssignResultJson = await UserPermsetAssignCommand.run(args);
 
-        return;
+        if (userPermsetAssignResultJson === undefined) {
+            // there was a problem
+            throw Error('User Permset Assign Command attempt was unsuccessful.');
+        }
+
+        return userPermsetAssignResultJson;
     }
 
     public getBuildStepTypeToken(): string {

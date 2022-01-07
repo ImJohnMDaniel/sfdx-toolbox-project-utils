@@ -116,12 +116,8 @@ export default class ToolboxPackageDependenciesInstall extends AbstractBuildStep
 
         const toolboxPackageDependenciesInstallResultJson = await Install.run(args);
 
-        // console.log('toolboxPackageDependenciesInstallResultJson =============');
-        // console.log(toolboxPackageDependenciesInstallResultJson);
-        // console.log('toolboxPackageDependenciesInstallResultJson =============');
-
         if ( toolboxPackageDependenciesInstallResultJson === undefined ) {
-            // there was a problem with the toolbox package dependencies install step
+            // there was a problem
             throw Error('Package dependencies install attempt was unsuccessful.');
         }
 

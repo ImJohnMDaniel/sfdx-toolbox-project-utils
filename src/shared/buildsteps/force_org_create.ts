@@ -93,16 +93,13 @@ export default class ForceOrgCreate extends AbstractBuildStep {
         Utils.pushCommonFlagsConfigToArgs(this.params, undefined, args, true);
 
         const orgCreationResultJson = await OrgCreateCommand.run(args);
-        // this.ux.log('breadcrumb A');
-        // this.ux.log(orgCreationResultJson?.orgId);
-        // this.ux.log(orgCreationResultJson?.username);
-        // this.ux.log('breadcrumb B');
+
         if (orgCreationResultJson === undefined) {
-            // there was a problem with the org creation step
+            // there was a problem
             throw Error('Org Create Command attempt was unsuccessful.');
         }
 
-        return;
+        return orgCreationResultJson;
     }
 
     public getBuildStepTypeToken(): string {
