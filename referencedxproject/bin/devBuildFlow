@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# exit script when any command fails
+set -e 
+echo logging to temp/output.log
+sfdx toolbox:project:build -s -a bluefish &> temp/output.log

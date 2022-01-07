@@ -26,7 +26,7 @@ export default class BuildStepMarker {
 
     }
 
-    public async mark( stage: IBuildStage, stageIndex: number, step: IBuildStep, orgAlias: string) {
+    public async mark( stage: IBuildStage, stageIndex: number, step: IBuildStep, orgAlias: string): Promise<BuildMarking> {
         const markerInfo: BuildMarking = {
             stage: stage.getStageToken(),
             // tslint:disable-next-line: object-literal-shorthand
@@ -41,6 +41,8 @@ export default class BuildStepMarker {
         }
 
         await writeFileSync( this.getMarkerFilename(orgAlias), JSON.stringify(markerInfo));
+
+        return markerInfo;
     }
 
     public async getMarkering(orgAlias: string): Promise<BuildMarking> {

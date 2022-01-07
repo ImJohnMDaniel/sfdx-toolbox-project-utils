@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# exit script when any command fails
+set -e 
+
+jwt_key_file="temp/_ci/server.key"
+
+# call the custom envvars script to set values for the following env vars:
+#   SFDX_DEV_HUB_HOST
+#   CONNECTED_APP_CONSUMER_KEY_DH
+#   SFDX_DEV_HUB_USERNAME
+. temp/_ci/envvars
+
+# echo "Authenticate To Dev Hub..."
+sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY_DH} --username ${SFDX_DEV_HUB_USERNAME} --jwtkeyfile ${jwt_key_file} --instanceurl ${SFDX_DEV_HUB_HOST}
+
+# validation stage
+sfdx toolbox:project:stage:validation --scope COMPLETE --json
+
+# initializeStage
+sfdx toolbox:project:stage:initialization --scope COMPLETE --durationdays 1 --setalias foobarjenkins --targetdevhubusername ${SFDX_DEV_HUB_USERNAME} --json
+
+# processResoucesStage
+sfdx toolbox:project:stage:processresources --scope COMPLETE --targetusername foobarjenkins --targetdevhubusername ${SFDX_DEV_HUB_USERNAME} --json
+
+# compilationStage
+sfdx toolbox:project:stage:compilation --scope COMPLETE --targetusername foobarjenkins --targetdevhubusername ${SFDX_DEV_HUB_USERNAME} --json
+
+# testingStage
+sfdx toolbox:project:stage:test --scope COMPLETE --targetusername foobarjenkins --targetdevhubusername ${SFDX_DEV_HUB_USERNAME} --json
+

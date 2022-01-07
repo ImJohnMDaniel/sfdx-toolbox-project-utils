@@ -107,13 +107,25 @@ export abstract class AbstractBuildStage implements IBuildStage {
 
         if ( buildStepsConfigurations ) {
 
-            const currentMarking: BuildMarking = await bsm.getMarkering(this.orgAlias);
+            let currentMarking: BuildMarking = await bsm.getMarkering(this.orgAlias);
+            console.log('orgAlias 1=============================');
+            console.log(this.orgAlias);
+            console.log('currentMarking 1=============================');
+            console.log(currentMarking);
 
             const stepCreateAndRun = async (buildStepConfig, index: number) => {
 
+                console.log('currentMarking 2=============================');
+                console.log(currentMarking);
+                console.log('currentMarking 3=============================');
+
                 if ( currentMarking
-                        && currentMarking.stage === this.getStageToken()
-                        && currentMarking.stageIndex > index ) {
+                        && ( ( currentMarking.stage === this.getStageToken()
+                                && currentMarking.stageIndex > index )
+                            || currentMarking.stage !== this.getStageToken()
+                        )
+                    ) 
+                {
                     return;
                 }
 
@@ -121,7 +133,7 @@ export abstract class AbstractBuildStage implements IBuildStage {
                     // console.log(buildStepConfig);
                     const step = await bsf.create(buildStepConfig.buildStepType);
 
-                    await bsm.mark(this, index, step, this.orgAlias);
+                    currentMarking = await bsm.mark(this, index, step, this.orgAlias);
 
                     buildStepExecutionResponseJson = await BuildStepExecutor.run(this, step, buildStepConfig, this.getFlagsSubmitted().scope);
                 } catch (e) {

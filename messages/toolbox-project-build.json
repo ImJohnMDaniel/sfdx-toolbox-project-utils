@@ -2,5 +2,6 @@
   "commandDescription": "TODO: toolbox project build command description",
   "examplesDescription": "TODO toolbox project build examples description",
   "flagSetAliasDescription": "alias for the created org",
-  "flagSetDefaultUsernameDescription": "set the created org as the default username"
+  "flagSetDefaultUsernameDescription": "set the created org as the default username",
+  "flagResetFromStart": "start build from the beginning verses the default behavior of resuming from the latest build marker"
 }

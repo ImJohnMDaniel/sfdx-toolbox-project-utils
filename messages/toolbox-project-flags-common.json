@@ -1,3 +1,4 @@
 {
-    "flagBuildStepScopeDescription": "Which scope the command will execute under."
+    "flagBuildStepScopeDescription": "Which scope the command will execute under.",
+    "flagResetFromStart": "Used to force reset of build from beginning - ignoring any previous build markers"
   }

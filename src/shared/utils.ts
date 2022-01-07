@@ -149,15 +149,9 @@ export default class Utils {
 
   }
 
-  public static getCommonFlagMessages(): string {
-    return Messages.loadMessages('@dx-cli-toolbox/sfdx-toolbox-project-utils', 'toolbox-project-flags-common').getMessage('flagBuildStepScopeDescription');
+  public static getCommonFlagMessages(): Messages {
+    return Messages.loadMessages('@dx-cli-toolbox/sfdx-toolbox-project-utils', 'toolbox-project-flags-common');
   }
-
-  // public static getCommonFlags(): any {
-  //   return {
-  //     scope: flags.enum({ default: this.buildStepScopesDefault(), required: false, description: this.getCommonFlagMessages(), options: this.buildStepScopes() })
-  //   };
-  // }
 
   public static flagScope(theBuildStepScope: BuildStepScope, isHidden?: boolean): FlagsConfig {
     return {
@@ -165,7 +159,7 @@ export default class Utils {
         default: BuildStepScope[theBuildStepScope]
         , hidden: isHidden !== undefined ? isHidden : true
         , required: false
-        , description: Utils.getCommonFlagMessages()
+        , description: Utils.getCommonFlagMessages().getMessage('flagBuildStepScopeDescription')
         , options: BuildStepScopes.buildStepScopesAsStrings()
       })
     };
@@ -178,7 +172,9 @@ export default class Utils {
   public static flagsCommonConfig(): FlagsConfig {
     return {
       ...Utils.flagScopeDefault(true)
-      , ...{}
+      , ...{
+        resetfromstart: flags.boolean({ default: false, required: false, description: Utils.getCommonFlagMessages().getMessage('flagResetFromStart') })
+      }
     };
   }
 
