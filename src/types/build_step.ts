@@ -22,7 +22,8 @@ export abstract class AbstractBuildStep implements IBuildStep {
     // tslint:disable-next-line: no-any
     protected params: any;
     protected orgAlias: string;
-    protected jsonOutput: boolean;
+    // protected jsonOutput: boolean;
+    protected args = [];
     public abstract run(): Promise<AnyJson>;
     public abstract getBuildStepTypeToken(): string;
     public abstract getSFDXProjectConfigureExample(): string;
@@ -42,7 +43,8 @@ export abstract class AbstractBuildStep implements IBuildStep {
     }
 
     public setJsonOutputActive(): void {
-        this.jsonOutput = true;
+        // this.jsonOutput = true;
+        this.args.push('--json');
     }
 
     public setOrgAlias(orgAlias: string): void {

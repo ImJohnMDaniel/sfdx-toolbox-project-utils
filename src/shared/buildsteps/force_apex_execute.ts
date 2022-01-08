@@ -9,19 +9,18 @@ export default class ForceApexExecute extends AbstractBuildStep {
     public async run(): Promise<AnyJson> {
 
         this.ux.log('Apex execution on scratch org ' + this.orgAlias);
-        const args = [];
 
         // APEXCODEFILE
         if (this.params.apexcodefile) {
-            args.push('--apexcodefile');
-            args.push(`${this.params.apexcodefile}`);
+            this.args.push('--apexcodefile');
+            this.args.push(`${this.params.apexcodefile}`);
         } else {
             throw Error(this.getBuildStepTypeToken() + " requires the 'apexcodefile' flag.");
         }
 
-        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, this.args);
 
-        const apexExecuteResultJson = await Execute.run(args);
+        const apexExecuteResultJson = await Execute.run(this.args);
 
         if ( apexExecuteResultJson === undefined ) {
             // there was a problem

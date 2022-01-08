@@ -31,20 +31,19 @@ export default class ForceOrgDelete extends AbstractBuildStep {
 
         this.ux.log('Deleting existing scratch org ' + this.orgAlias);
 
-        const args = [];
+        this.args.push('--noprompt');
 
-        args.push('--noprompt');
-
-        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args, true);
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, this.args, true);
         
-        const deleteResultJson = await Delete.run(args);
+        const orgDeleteResultJson = await Delete.run(this.args);
 
-        if (deleteResultJson === undefined) {
-            // there was a problem
-            throw Error('Delete Command attempt was unsuccessful.');
+        if (orgDeleteResultJson !== undefined && !orgDeleteResultJson.success) {
+            // Currently the Delete command JSON output does not provide the "success" attribute.
+            // Manually adding it here to make this output more consistent with the rest of the SFDX Commands.
+            orgDeleteResultJson.success = true;
         }
 
-        return deleteResultJson;
+        return orgDeleteResultJson;
     }
 
     public getBuildStepTypeToken(): string {

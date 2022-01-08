@@ -84,74 +84,73 @@ export default class ForceApexTestRun extends AbstractBuildStep {
     public async run(): Promise<AnyJson> {
 
         this.ux.log('Apex test run on scratch org ' + this.orgAlias);
-        const args = [];
 
         // CODECOVERAGE
         if (this.params.codecoverage) {
-            args.push('--codecoverage');
-            args.push(`${this.params.codecoverage}`);
+            this.args.push('--codecoverage');
+            this.args.push(`${this.params.codecoverage}`);
         }
 
         // OUTPUTDIR
         if (this.params.outputdir) {
-            args.push('--outputdir');
-            args.push(`${this.params.outputdir}`);
+            this.args.push('--outputdir');
+            this.args.push(`${this.params.outputdir}`);
         }
 
         // TESTLEVEL
         if (this.params.testlevel) {
-            args.push('--testlevel');
-            args.push(`${this.params.testlevel}`);
+            this.args.push('--testlevel');
+            this.args.push(`${this.params.testlevel}`);
         }
 
         // CLASSNAMES
         if (this.params.classnames) {
-            args.push('--classnames');
-            args.push(`${this.params.classnames}`);
+            this.args.push('--classnames');
+            this.args.push(`${this.params.classnames}`);
         }
 
         // RESULTFORMAT
         if (this.params.resultformat) {
-            args.push('--resultformat');
-            args.push(`${this.params.resultformat}`);
+            this.args.push('--resultformat');
+            this.args.push(`${this.params.resultformat}`);
         }
 
         // SUITENAMES
         if (this.params.suitenames) {
-            args.push('--suitenames');
-            args.push(`${this.params.suitenames}`);
+            this.args.push('--suitenames');
+            this.args.push(`${this.params.suitenames}`);
         }
 
         // TESTS
         if (this.params.tests) {
-            args.push('--tests');
-            args.push(`${this.params.tests}`);
+            this.args.push('--tests');
+            this.args.push(`${this.params.tests}`);
         }
 
         // DETAILEDCOVERAGE
         if (this.params.detailedcoverage) {
-            args.push('--detailedcoverage');
+            this.args.push('--detailedcoverage');
         }
 
         // WAIT
         if (this.params.wait) {
-            args.push('--wait');
-            args.push(`${this.params.wait}`);
+            this.args.push('--wait');
+            this.args.push(`${this.params.wait}`);
         }
 
         // SYNCHRONOUS
         if (this.params.synchronous) {
-            args.push('--synchronous');
+            this.args.push('--synchronous');
         }
 
         // VERBOSE
         if (this.params.verbose) {
-            args.push('--verbose');
+            this.args.push('--verbose');
         }
 
-        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, this.args);
 
-        const apexTestRunResultJson = await Run.run(args);
+        const apexTestRunResultJson = await Run.run(this.args);
 
         if ( apexTestRunResultJson === undefined ) {
             // there was a problem

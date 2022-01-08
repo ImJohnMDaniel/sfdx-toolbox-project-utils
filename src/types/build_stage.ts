@@ -36,6 +36,7 @@ export abstract class AbstractBuildStage implements IBuildStage {
     private orgAlias: string;
     // tslint:disable-next-line: no-any
     private readonly flagsSubmitted: OutputFlags<any>;
+    private currentMarking: BuildMarking;
 
     // public static flagsFromCommand: FlagsConfig = { };
 
@@ -56,6 +57,40 @@ export abstract class AbstractBuildStage implements IBuildStage {
 
     private getBuildStepConfigurations( stageToken: string ): any {
         return _.get(Utils.getSfdxProjectJson()['contents'], 'plugins.toolbox.project.builder.stages.' + stageToken, false);
+    }
+
+    private async shouldBuildMarkerBeRemoved( ) {
+        const output = this.getFlagsSubmitted().resetfromstart
+                && this.currentMarking
+                && ( this.currentMarking.stage !== this.getStageToken()
+                    || (this.currentMarking.stage === this.getStageToken()
+                        && this.currentMarking.stageIndex > 0
+                        )
+                    );
+        // console.log('\n==========================');
+        // console.log(this.getFlagsSubmitted().resetfromstart);
+        // console.log(this.currentMarking);
+        // console.log(this.getStageToken());
+        // console.log(`output == ${output}`);
+        // console.log('==========================\n');            
+        return output;
+    }
+    private shouldBuildStepExecute( index: number ): boolean {
+        // console.log('TRACKING 1=============================');
+        // console.log(this.currentMarking);
+        // console.log(this.getStageToken());
+        // console.log(index);
+        // console.log(this.getFlagsSubmitted().resetfromstart);
+        // console.log('TRACKING 2=============================\n');
+
+        return (( this.currentMarking                                       // there is a currentMarking file
+                  && (( this.currentMarking.stage === this.getStageToken()  // and the currentMarking.stage === the current stage
+                            && this.currentMarking.stageIndex <= index )    // and the currentMarking.stageIndex <= current index
+                        && !this.getFlagsSubmitted().resetfromstart         // resetfromstart flag was not set
+                      ))
+                || ( !this.currentMarking                                   // there is no currentMarking file
+                        && index === 0                                      // and the index is 0
+                    ));
     }
 
     public async getFlagsConfig(): Promise<FlagsConfig> {
@@ -107,33 +142,22 @@ export abstract class AbstractBuildStage implements IBuildStage {
 
         if ( buildStepsConfigurations ) {
 
-            let currentMarking: BuildMarking = await bsm.getMarkering(this.orgAlias);
-            // console.log('orgAlias 1=============================');
-            // console.log(this.orgAlias);
-            // console.log('currentMarking 1=============================');
-            // console.log(currentMarking);
+            this.currentMarking = await bsm.getMarking(this.orgAlias);
 
+            if (await this.shouldBuildMarkerBeRemoved()) {
+                await bsm.removeMarking(this.orgAlias);
+            }
+            
             const stepCreateAndRun = async (buildStepConfig, index: number) => {
-
-                // console.log('currentMarking 2=============================');
-                // console.log(currentMarking);
-                // console.log('currentMarking 3=============================');
-
-                if ( currentMarking
-                        && ( ( currentMarking.stage === this.getStageToken()
-                                && currentMarking.stageIndex > index )
-                            || currentMarking.stage !== this.getStageToken()
-                        )
-                    ) 
-                {
+            
+                if ( !this.shouldBuildStepExecute(index) ) {
                     return;
                 }
 
                 try {
-                    // console.log(buildStepConfig);
                     const step = await bsf.create(buildStepConfig.buildStepType);
 
-                    currentMarking = await bsm.mark(this, index, step, this.orgAlias);
+                    this.currentMarking = await bsm.mark(this, index, step, this.orgAlias);
 
                     buildStepExecutionResponseJson = await BuildStepExecutor.run(this, step, buildStepConfig, this.getFlagsSubmitted().scope);
                 } catch (e) {
@@ -143,7 +167,16 @@ export abstract class AbstractBuildStage implements IBuildStage {
 
             await Utils.asyncForEach( buildStepsConfigurations, stepCreateAndRun );
 
-            await bsm.removeMarking(this.orgAlias);
+            // remove the build marker if the current stage is completed.
+            //      The currentMarking.stage may not be the current stage's token
+            //      when the previous build did not complete and the builder is 
+            //      cycling through the various build stages and steps until it 
+            //      gets to the build step specified in the build marker.  In that
+            //      scenario, the current stage could be a previous stage from the
+            //      currentMarking.stage.
+            if ( this.currentMarking.stage === this.getStageToken() ) {
+                await bsm.removeMarking(this.orgAlias);
+            }
         }
 
         return buildStepExecutionResponseJson;
@@ -151,10 +184,6 @@ export abstract class AbstractBuildStage implements IBuildStage {
     public getBuildSteps(): IBuildStep[] {
         throw new Error('Method not implemented.');
     }
-
-    // public getProjectJson(): SfdxProjectJson {
-    //     return this.projectJson;
-    // }
 
     public getUX(): UX {
         return this.ux;

@@ -55,25 +55,21 @@ export default class ForceOrgCreate extends AbstractBuildStep {
             // noopt
         }
 
-        const args = [];
-
-        // this.ux.log(this.params);
-
         // ORG ALIAS
         if (this.orgAlias) {
-            args.push('--setalias');
-            args.push(`${this.orgAlias}`);
+            this.args.push('--setalias');
+            this.args.push(`${this.orgAlias}`);
         }
 
         if (this.params.durationdays) {
-            args.push('--durationdays');
-            args.push(`${this.params.durationdays}`);
+            this.args.push('--durationdays');
+            this.args.push(`${this.params.durationdays}`);
         }
 
         // DEFINITIONFILE
         if (this.params.definitionfile) {
-            args.push('--definitionfile');
-            args.push(`${this.params.definitionfile}`);
+            this.args.push('--definitionfile');
+            this.args.push(`${this.params.definitionfile}`);
         } else {
             // this.ux.log('hello');
             // const definitionfile = _.get(this.projectJson['contents'], 'packageDirectories.definitionFile', false);
@@ -82,22 +78,26 @@ export default class ForceOrgCreate extends AbstractBuildStep {
             const definitionfile = _.find(this.projectJson['contents']['packageDirectories'], function(o) { return o.definitionFile != null; });
             // this.ux.log('hello');
             // this.ux.log(definitionfile['definitionFile']);
-            args.push('--definitionfile');
-            args.push(`${definitionfile['definitionFile']}`);
+            this.args.push('--definitionfile');
+            this.args.push(`${definitionfile['definitionFile']}`);
         }
 
         // Since this is an "org create" command, we specify "undefined" 
         //  for the second parameter which would eventually designate
         //  the "--targetusername" flag.  That flag is not supported on
         //  the "org create" command
-        Utils.pushCommonFlagsConfigToArgs(this.params, undefined, args, true);
+        Utils.pushCommonFlagsConfigToArgs(this.params, undefined, this.args, true);
 
-        const orgCreationResultJson = await OrgCreateCommand.run(args);
+        const orgCreationResultJson = await OrgCreateCommand.run(this.args);
 
         if (orgCreationResultJson === undefined) {
             // there was a problem
             throw Error('Org Create Command attempt was unsuccessful.');
         }
+        
+        // Currently the Delete command JSON output does not provide the "success" attribute.
+        // Manually adding it here to make this output more consistent with the rest of the SFDX Commands.
+        orgCreationResultJson.success = true;
 
         return orgCreationResultJson;
     }

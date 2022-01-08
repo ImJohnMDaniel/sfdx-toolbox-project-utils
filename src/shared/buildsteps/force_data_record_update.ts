@@ -42,35 +42,33 @@ export default class ForceDataRecordUpdate extends AbstractBuildStep {
 
         this.ux.log('Performing data record update on ' + this.params.sobjecttype + ' SObject');
 
-        const args = [];
-
         if (this.params.sobjectid) {
-            args.push('--sobjectid');
-            args.push(`${this.params.sobjectid}`);
+            this.args.push('--sobjectid');
+            this.args.push(`${this.params.sobjectid}`);
         }
 
         if (this.params.sobjecttype) {
-            args.push('--sobjecttype');
-            args.push(`${this.params.sobjecttype}`);
+            this.args.push('--sobjecttype');
+            this.args.push(`${this.params.sobjecttype}`);
         }
 
         if (this.params.usetoolingapi) {
-            args.push('--usetoolingapi');
+            this.args.push('--usetoolingapi');
         }
 
         if (this.params.values) {
-            args.push('--values');
-            args.push(`${this.params.values}`);
+            this.args.push('--values');
+            this.args.push(`${this.params.values}`);
         }
 
         if (this.params.where) {
-            args.push('--where');
-            args.push(`${this.params.where}`);
+            this.args.push('--where');
+            this.args.push(`${this.params.where}`);
         }
 
-        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, this.args);
 
-        const dataRecordUpdateResultJson = await Update.run(args);
+        const dataRecordUpdateResultJson = await Update.run(this.args);
 
         if (dataRecordUpdateResultJson === undefined) {
             // there was a problem

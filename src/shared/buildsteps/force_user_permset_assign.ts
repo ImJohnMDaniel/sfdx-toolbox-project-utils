@@ -39,23 +39,21 @@ export default class ForceUserPermsetAssign extends AbstractBuildStep {
 
         this.ux.log('Permset assignment to scratch org ' + this.orgAlias);
 
-        const args = [];
-
         // PERMSETNAME
         if (this.params.permsetname) {
-            args.push('--permsetname');
-            args.push(`${this.params.permsetname}`);
+            this.args.push('--permsetname');
+            this.args.push(`${this.params.permsetname}`);
         }
 
         // ONBEHALFOF
         if (this.params.onbehalfof) {
-            args.push('--onbehalfof');
-            args.push(`${this.params.onbehalfof}`);
+            this.args.push('--onbehalfof');
+            this.args.push(`${this.params.onbehalfof}`);
         }
 
-        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, this.args);
 
-        const userPermsetAssignResultJson = await UserPermsetAssignCommand.run(args);
+        const userPermsetAssignResultJson = await UserPermsetAssignCommand.run(this.args);
 
         if (userPermsetAssignResultJson === undefined) {
             // there was a problem

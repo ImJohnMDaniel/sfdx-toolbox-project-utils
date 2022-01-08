@@ -45,7 +45,7 @@ export default class BuildStepMarker {
         return markerInfo;
     }
 
-    public async getMarkering(orgAlias: string): Promise<BuildMarking> {
+    public async getMarking(orgAlias: string): Promise<BuildMarking> {
         if ( !existsSync(this.getMarkerFilename(orgAlias)) ) {
             return null;
         }

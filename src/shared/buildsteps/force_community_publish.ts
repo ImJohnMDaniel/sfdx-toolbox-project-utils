@@ -48,17 +48,15 @@ export default class ForceCommunityPublish extends AbstractBuildStep {
 
         this.ux.log('Publishing community to scratch org ' + this.orgAlias);
 
-        const args = [];
-
         // NAME
         if (this.params.name) {
-            args.push('--name');
-            args.push(`${this.params.permsetname}`);
+            this.args.push('--name');
+            this.args.push(`${this.params.permsetname}`);
         }
 
-        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, this.args);
 
-        const communityPublishResultJson = await CommunityPublishCommand.run(args);
+        const communityPublishResultJson = await CommunityPublishCommand.run(this.args);
 
         if (communityPublishResultJson === undefined) {
             // there was a problem

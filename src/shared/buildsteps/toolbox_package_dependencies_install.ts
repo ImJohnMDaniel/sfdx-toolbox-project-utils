@@ -59,62 +59,60 @@ export default class ToolboxPackageDependenciesInstall extends AbstractBuildStep
 
         this.ux.log('deployment of all package dependencies to scratch org ' + this.orgAlias);
 
-        const args = [];
-
         // APEXCOMPILE
         if (this.params.apexcompile) {
-            args.push('--apexcompile');
-            args.push(`${this.params.apexcompile}`);
+            this.args.push('--apexcompile');
+            this.args.push(`${this.params.apexcompile}`);
         }
 
         // BRANCH
         if (this.params.branch) {
-            args.push('--branch');
-            args.push(`${this.params.branch}`);
+            this.args.push('--branch');
+            this.args.push(`${this.params.branch}`);
         }
 
         // INSTALLATIONKEYS
         if (this.params.installationkeys) {
-            args.push('--installationkeys');
-            args.push(`${this.params.installationkeys}`);
+            this.args.push('--installationkeys');
+            this.args.push(`${this.params.installationkeys}`);
         }
 
         // PROMPT
         if (this.params.prompt) {
-            args.push('--prompt');
+            this.args.push('--prompt');
         }
 
         // SECURITYTYPE
         if (this.params.securitytype) {
-            args.push('--securitytype');
-            args.push(`${this.params.securitytype}`);
+            this.args.push('--securitytype');
+            this.args.push(`${this.params.securitytype}`);
         }
 
         // UPGRADETYPE
         if (this.params.upgradetype) {
-            args.push('--upgradetype');
-            args.push(`${this.params.upgradetype}`);
+            this.args.push('--upgradetype');
+            this.args.push(`${this.params.upgradetype}`);
         }
 
         // DRYRUN
         if (this.params.dryrun) {
-            args.push('--dryrun');
+            this.args.push('--dryrun');
         }
 
         // NOPRECHECK
         if (this.params.noprecheck) {
-            args.push('--noprecheck');
+            this.args.push('--noprecheck');
         }
 
         // WAIT
         if (this.params.wait) {
-            args.push('--wait');
-            args.push(`${this.params.wait}`);
+            this.args.push('--wait');
+            this.args.push(`${this.params.wait}`);
         }
 
-        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args, true);
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, this.args, true);
 
-        const toolboxPackageDependenciesInstallResultJson = await Install.run(args);
+        const toolboxPackageDependenciesInstallResultJson = await Install.run(this.args);
 
         if ( toolboxPackageDependenciesInstallResultJson === undefined ) {
             // there was a problem

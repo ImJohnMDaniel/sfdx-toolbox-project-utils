@@ -32,27 +32,25 @@ export default class ForceSourcePush extends AbstractBuildStep {
 
         this.ux.log('Source push to scratch org ' + this.orgAlias);
 
-        const args = [];
-
         // FORCEOVERWRITE
         // if (this.params.forceoverwrite) {
-        args.push('--forceoverwrite');
+        this.args.push('--forceoverwrite');
         // }
 
         // IGNOREWARNINGS
         if (this.params.ignorewarnings) {
-            args.push('--ignorewarnings');
+            this.args.push('--ignorewarnings');
         }
 
         // WAIT
         if (this.params.wait) {
-            args.push('--wait');
-            args.push(`${this.params.wait}`);
+            this.args.push('--wait');
+            this.args.push(`${this.params.wait}`);
         }
 
-        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, this.args);
 
-        const sourcePushResultJson = await SourcePushCommand.run(args);
+        const sourcePushResultJson = await SourcePushCommand.run(this.args);
 
         if (sourcePushResultJson === undefined) {
             // there was a problem

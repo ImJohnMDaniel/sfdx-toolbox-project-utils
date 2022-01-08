@@ -32,7 +32,8 @@ export default class ThreadedBuildStep extends AbstractBuildStep
 
         // wait for all of the substeps to complete and this finish this threaded step
 
-        return;
+        // TODO: Figure out a way to combine all of the result JSONs 
+        return { }
     }
     public getBuildStepTypeToken(): string {
         return Constants.THREADED_BUILD_STEP_TYPE_TOKEN;

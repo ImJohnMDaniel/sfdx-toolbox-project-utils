@@ -53,71 +53,69 @@ export default class SfdmuRun extends AbstractBuildStep {
 
         this.ux.log('Data load to scratch org ' + this.orgAlias);
 
-        const args = [];
-
         // SOURCEUSERNAME
         if (this.params.sourceusername) {
-            args.push('--sourceusername');
-            args.push(`${this.params.sourceusername}`);
+            this.args.push('--sourceusername');
+            this.args.push(`${this.params.sourceusername}`);
         }
 
         // PATH
         if (this.params.path) {
-            args.push('--path');
-            args.push(`${this.params.path}`);
+            this.args.push('--path');
+            this.args.push(`${this.params.path}`);
         }
 
         // CANMODIFY
         if (this.params.canmodify) {
-            args.push('--canmodify');
-            args.push(`${this.params.canmodify}`);
+            this.args.push('--canmodify');
+            this.args.push(`${this.params.canmodify}`);
         }
 
         // CONCISE
         if (this.params.concise) {
-            args.push('--concise');
+            this.args.push('--concise');
         }
 
         // FILELOG
         if (this.params.filelog) {
-            args.push('--filelog');
+            this.args.push('--filelog');
         }
 
         // NOPROMPT
         if (this.params.noprompt) {
-            args.push('--noprompt');
+            this.args.push('--noprompt');
         }
 
         // NOWARNINGS
         if (this.params.nowarnings) {
-            args.push('--nowarnings');
+            this.args.push('--nowarnings');
         }
 
         // QUIET
         if (this.params.quiet) {
-            args.push('--quiet');
+            this.args.push('--quiet');
         }
 
         // SILENT
         if (this.params.silent) {
-            args.push('--silent');
+            this.args.push('--silent');
         }
 
         // VERBOSE
         if (this.params.verbose) {
-            args.push('--verbose');
+            this.args.push('--verbose');
         }
 
-        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, this.args);
 
-        // console.log(args);
+        // console.log(this.args);
         // console.log('~~~~~~~~~~~~~BEFORE');
 
         // disabled for now until I have time to work through issue seen when using
         console.log('         *********** THE "sfdmu.run" COMMAND WOULD NORMALLY EXECUTE HERE, BUT IT IS DISABLED FOR NOW. *********** ');
         const runResultJson = { };
-        // const runResultJson = await Run.run(args);
-        // const runResultJson = await Run.run(args, config);
+        // const runResultJson = await Run.run(this.args);
+        // const runResultJson = await Run.run(this.args, config);
 
         // if (runResultJson === undefined) {
         //     // there was a problem

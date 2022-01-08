@@ -1,4 +1,4 @@
-import { FlagsConfig, SfdxCommand } from '@salesforce/command';
+import { flags, FlagsConfig, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 import Utils from '../../../shared/utils';
@@ -52,7 +52,6 @@ export default class Build extends SfdxCommand {
         // call the validation stage
         const validationArgs = [];
         Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Validation.flagsConfig, validationArgs);
-        validationArgs.push('--json');
         const validationResponse = await Validation.run(validationArgs);
         if (validationResponse?.exitCode && validationResponse?.exitCode == 1) {
             this.error('',{ code: '',message: '', exit: 1 });
@@ -61,7 +60,6 @@ export default class Build extends SfdxCommand {
         // call the initialization stage
         const initializationStageArgs = [];
         Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Initialization.flagsConfig, initializationStageArgs);
-        initializationStageArgs.push('--json');
         const initializationResponse = await Initialization.run(initializationStageArgs);
         if (initializationResponse?.exitCode && initializationResponse?.exitCode == 1) {
             this.error('',{ code: '',message: '', exit: 1 });
@@ -72,7 +70,6 @@ export default class Build extends SfdxCommand {
         processresourcesStageArgs.push('--targetusername');
         processresourcesStageArgs.push(`${this.flags.setalias}`);
         Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Processresources.flagsConfig, processresourcesStageArgs);
-        processresourcesStageArgs.push('--json');
         const processResourcesResponse = await Processresources.run(processresourcesStageArgs);
         // const processResourcesResponse = await Utils.controlConsoleMessages(Processresources, processresourcesStageArgs);
         if (processResourcesResponse?.exitCode && processResourcesResponse?.exitCode == 1) {
@@ -84,22 +81,21 @@ export default class Build extends SfdxCommand {
         compilationArgs.push('--targetusername');
         compilationArgs.push(`${this.flags.setalias}`);
         Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Compilation.flagsConfig, compilationArgs);
-        compilationArgs.push('--json');
         const compilationResponse =await Compilation.run(compilationArgs);
         if (compilationResponse?.exitCode && compilationResponse?.exitCode == 1) {
             this.error('',{ code: '',message: '', exit: 1 });
         }
+        console.log('STARTING CALL TO TESTING STAGE');
 
         // call the Testing stage
-        const testingStageArgs = [];
-        testingStageArgs.push('--targetusername');
-        testingStageArgs.push(`${this.flags.setalias}`);
-        Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Testing.flagsConfig, testingStageArgs);
-        testingStageArgs.push('--json');
-        const testingResponse = await Testing.run(testingStageArgs);
-        if (testingResponse?.exitCode && testingResponse?.exitCode == 1) {
-            this.error('',{ code: '',message: '', exit: 1 });
-        }
+        // const testingStageArgs = [];
+        // testingStageArgs.push('--targetusername');
+        // testingStageArgs.push(`${this.flags.setalias}`);
+        // Utils.filterAndPrepareArgsFromFlagsBasedOnFlagsConfig(this.flags, Testing.flagsConfig, testingStageArgs);
+        // const testingResponse = await Testing.run(testingStageArgs);
+        // if (testingResponse?.exitCode && testingResponse?.exitCode == 1) {
+        //     this.error('',{ code: '',message: '', exit: 1 });
+        // }
 
         return;
     }

@@ -13,69 +13,67 @@ export default class ForceMdapiDeploy extends AbstractBuildStep {
 
         this.ux.log('MDAPI deploy to scratch org ' + this.orgAlias);
 
-        const args = [];
-
         // CHECKONLY
         if (this.params.checkonly) {
-            args.push('--checkonly');
+            this.args.push('--checkonly');
         }
 
         // DEPLOYDIR
         if (this.params.deploydir) {
-            args.push('--deploydir');
-            args.push(`${this.params.deploydir}`);
+            this.args.push('--deploydir');
+            this.args.push(`${this.params.deploydir}`);
         }
 
         // ZIPFILE
         if (this.params.zipfile) {
-            args.push('--zipfile');
-            args.push(`${this.params.zipfile}`);
+            this.args.push('--zipfile');
+            this.args.push(`${this.params.zipfile}`);
         }
 
         // IGNOREWARNINGS
         if (this.params.ignorewarnings) {
-            args.push('--ignorewarnings');
+            this.args.push('--ignorewarnings');
         }
 
         // TESTLEVEL
         if (this.params.testlevel) {
-            args.push('--testlevel');
-            args.push(`${this.params.testlevel}`);
+            this.args.push('--testlevel');
+            this.args.push(`${this.params.testlevel}`);
         }
 
         // IGNOREERRORS
         if (this.params.ignoreerrors) {
-            args.push('--ignoreerrors');
+            this.args.push('--ignoreerrors');
         }
 
         // VALIDATEDDEPLOYREQUESTID
         if (this.params.validateddeployrequestid) {
-            args.push('--validateddeployrequestid');
-            args.push(`${this.params.validateddeployrequestid}`);
+            this.args.push('--validateddeployrequestid');
+            this.args.push(`${this.params.validateddeployrequestid}`);
         }
 
         // RUNTESTS
         if (this.params.runtests) {
-            args.push('--runtests');
-            args.push(`${this.params.runtests}`);
+            this.args.push('--runtests');
+            this.args.push(`${this.params.runtests}`);
         }
 
         // SINGLEPACKAGE
         if (this.params.singlepackage) {
-            args.push('--singlepackage');
+            this.args.push('--singlepackage');
         }
 
         // WAIT
-        args.push('--wait');
+        this.args.push('--wait');
         if (this.params.wait) {
-            args.push(`${this.params.wait}`);
+            this.args.push(`${this.params.wait}`);
         } else {
-            args.push('10');
+            this.args.push('10');
         }
 
-        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, args);
+        Utils.pushCommonFlagsConfigToArgs(this.params, this.orgAlias, this.args);
         
-        const mdapiDeployResultJson = await MdapiDeployCommand.run(args);
+        const mdapiDeployResultJson = await MdapiDeployCommand.run(this.args);
 
         if (mdapiDeployResultJson === undefined) {
             // there was a problem
